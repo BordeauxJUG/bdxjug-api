@@ -1,0 +1,32 @@
+= Bordeaux JUG Dashboard
+
+== Description
+
+This project is a dashboard to gather all data of Bordeaux JUG.
+
+...and a opportunity to test a technical stack :-)
+
+== Technical Stack
+
+=== BackEnd
+
+* JDK 8
+* http://sparkjava.com/[Spark] as web server
+
+=== FrontEnd
+
+TODO
+
+== System Property
+
+PROD_MODE:: set to true for production mode of fluent-http
+
+== Environment Variable
+
+MEETUP_API_KEY:: the api key for https://www.meetup.com/
+
+GOOGLE_SHEET_API_KEY:: the api key for https://docs.google.com/spreadsheets/
+
+== Demo
+
+On Heroku:: https://bdxjug-dash.herokuapp.com/
