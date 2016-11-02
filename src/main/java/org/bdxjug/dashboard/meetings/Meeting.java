@@ -20,7 +20,7 @@ public class Meeting {
     private final String id;
     private final String name;
     private final long date;
-    private int nbParticipants;
+    private int nbAttendees;
 
     public Meeting(String id, String name, long date) {
         this.id = id;
@@ -40,11 +40,11 @@ public class Meeting {
         return date;
     }
 
-    public int nbParticipants() {
-        return nbParticipants;
+    public int nbAttendees() {
+        return nbAttendees;
     }
 
-    public void setNbParticipants(int nbParticipants) {
-        this.nbParticipants = nbParticipants;
+    public void setAttendance(int nbAttendees) {
+        this.nbAttendees = nbAttendees;
     }
 }

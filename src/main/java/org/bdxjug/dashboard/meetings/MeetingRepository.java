@@ -24,12 +24,15 @@ public class MeetingRepository {
     private static final String JUG_GROUP = "BordeauxJUG";
 
     public List<Meeting> all() {
-        return API.pastEvents(JUG_GROUP).stream().map(MeetingRepository::toMeeting).collect(Collectors.toList());
+        return API.pastEvents(JUG_GROUP).stream()
+                .filter(e -> e.yes_rsvp_count > 17) // Filter JugOff
+                .map(MeetingRepository::toMeeting)
+                .collect(Collectors.toList());
     }
 
     private static Meeting toMeeting(MeetupAPI.Event e) {
         Meeting meeting = new Meeting(e.id, e.name, e.time);
-        meeting.setNbParticipants(e.yes_rsvp_count);
+        meeting.setAttendance(e.yes_rsvp_count);
         return meeting;
     }
 }

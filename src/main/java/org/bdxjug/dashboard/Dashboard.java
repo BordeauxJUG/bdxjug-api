@@ -16,8 +16,11 @@
 package org.bdxjug.dashboard;
 
 import com.google.gson.Gson;
+import org.bdxjug.dashboard.meetings.Meeting;
 import org.bdxjug.dashboard.meetings.MeetingRepository;
-import spark.Spark;
+import spark.*;
+
+import java.util.List;
 
 import static java.util.Optional.ofNullable;
 import static spark.Spark.*;
@@ -26,14 +29,17 @@ public class Dashboard {
 
     public static void main(String[] args) {
         MeetingRepository meetingRepository = new MeetingRepository();
-        Gson gson = new Gson();
 
         setPort();
 
         get("/api/meetings", (req, res) -> {
+            List<Meeting> allMeetings = meetingRepository.all();
+            res.header("X-Count", String.valueOf(allMeetings.size()));
+            res.header("X-AverageAttendees", String.valueOf(allMeetings.stream().mapToInt(Meeting::nbAttendees).average().orElse(0d)));
             res.type("application/json");
-            return meetingRepository.all();
-        }, gson::toJson);
+            return allMeetings;
+        }, new Gson()::toJson);
+
     }
 
     private static void setPort() {
