@@ -15,17 +15,14 @@
  */
 package org.bdxjug.dashboard.meetings;
 
-public class Meeting {
+public class MeetingAttendee {
 
     private final String id;
     private final String name;
-    private final long date;
-    private int nbAttendees;
 
-    public Meeting(String id, String name, long date) {
+    public MeetingAttendee(String id, String name) {
         this.id = id;
         this.name = name;
-        this.date = date;
     }
 
     public String id() {
@@ -36,26 +33,14 @@ public class Meeting {
         return name;
     }
 
-    public long date() {
-        return date;
-    }
-
-    public int nbAttendees() {
-        return nbAttendees;
-    }
-
-    public void setAttendance(int nbAttendees) {
-        this.nbAttendees = nbAttendees;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Meeting meeting = (Meeting) o;
+        MeetingAttendee attendee = (MeetingAttendee) o;
 
-        return id.equals(meeting.id);
+        return id.equals(attendee.id);
 
     }
 

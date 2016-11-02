@@ -40,10 +40,28 @@ interface MeetupAPI {
     @RequestLine("GET /{group}/events?status=past")
     List<Event> pastEvents(@Param("group") String group);
 
+    @RequestLine("GET /{group}/events/{event}/attendance")
+    List<Attendee> eventAttendance(@Param("group") String group, @Param("event") String event);
+
     class Event {
         String id;
         String name;
         long time;
         int yes_rsvp_count;
+    }
+
+    class Member {
+        String id;
+        String name;
+    }
+
+    class MemberResponse {
+        String response;
+    }
+
+    class Attendee {
+        String status;
+        Member member;
+        MemberResponse rsvp;
     }
 }

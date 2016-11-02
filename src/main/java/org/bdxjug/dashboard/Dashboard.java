@@ -17,10 +17,16 @@ package org.bdxjug.dashboard;
 
 import com.google.gson.Gson;
 import org.bdxjug.dashboard.meetings.Meeting;
+import org.bdxjug.dashboard.meetings.MeetingAttendee;
 import org.bdxjug.dashboard.meetings.MeetingRepository;
 import spark.*;
 
+import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static java.util.Optional.ofNullable;
 import static spark.Spark.*;
@@ -32,12 +38,28 @@ public class Dashboard {
 
         setPort();
 
+        List<Meeting> allMeetings = meetingRepository.all();
         get("/api/meetings", (req, res) -> {
-            List<Meeting> allMeetings = meetingRepository.all();
             res.header("X-Count", String.valueOf(allMeetings.size()));
             res.header("X-AverageAttendees", String.valueOf(allMeetings.stream().mapToInt(Meeting::nbAttendees).average().orElse(0d)));
             res.type("application/json");
             return allMeetings;
+        }, new Gson()::toJson);
+
+        get("/api/attendees/top", (req, res) -> {
+            Map<String, Long> countByAttendee = allMeetings.stream()
+                    .map(meetingRepository::attendees)
+                    .flatMap(Collection::stream)
+                    .collect(Collectors.groupingBy(
+                            MeetingAttendee::name, Collectors.counting()
+                    ));
+            Map<String, Long> finalMap = new LinkedHashMap<>();
+            countByAttendee.entrySet().stream()
+                    .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+                    .limit(10)
+                    .forEachOrdered(e -> finalMap.put(e.getKey(), e.getValue()));
+            res.type("application/json");
+            return finalMap;
         }, new Gson()::toJson);
 
     }

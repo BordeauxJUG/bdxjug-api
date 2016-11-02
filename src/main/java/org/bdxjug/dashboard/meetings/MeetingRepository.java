@@ -30,6 +30,15 @@ public class MeetingRepository {
                 .collect(Collectors.toList());
     }
 
+    public List<MeetingAttendee> attendees(Meeting meeting) {
+        return API.eventAttendance(JUG_GROUP, meeting.id()).stream()
+                .filter(a -> !a.member.id.equals("0"))
+                .filter(a -> a.rsvp.response.equals("yes"))
+                .filter(a -> !a.member.name.equals("Bordeaux JUG"))
+                .map(a -> new MeetingAttendee(a.member.id, a.member.name))
+                .collect(Collectors.toList());
+    }
+
     private static Meeting toMeeting(MeetupAPI.Event e) {
         Meeting meeting = new Meeting(e.id, e.name, e.time);
         meeting.setAttendance(e.yes_rsvp_count);
