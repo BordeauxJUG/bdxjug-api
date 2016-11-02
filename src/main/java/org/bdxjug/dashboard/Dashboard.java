@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import org.bdxjug.dashboard.meetings.Meeting;
 import org.bdxjug.dashboard.meetings.MeetingAttendee;
 import org.bdxjug.dashboard.meetings.MeetingRepository;
+import org.bdxjug.dashboard.members.MemberRepository;
 import spark.*;
 
 import java.util.Collection;
@@ -32,39 +33,57 @@ import static spark.Spark.*;
 
 public class Dashboard {
 
+    private static final String PROD_MODE = "PROD_MODE";
+    private static final String ENV_PORT = "PORT";
+
     public static void main(String[] args) {
         setPort();
+        setStaticFiles();
 
         MeetingRepository meetingRepository = new MeetingRepository();
+        MemberRepository memberRepository = new MemberRepository();
 
-        get("/api/meetings", (req, res) -> {
-            List<Meeting> allMeetings = meetingRepository.all();
-            res.header("X-Count", String.valueOf(allMeetings.size()));
-            res.header("X-AverageAttendees", String.valueOf(allMeetings.stream().mapToInt(Meeting::nbAttendees).average().orElse(0d)));
-            res.type("application/json");
-            return allMeetings;
-        }, new Gson()::toJson);
+        get("/api/meetings", (req, res) -> meetings(meetingRepository, res), new Gson()::toJson);
+        get("/api/attendees/top", (req, res) -> topAttendees(meetingRepository), new Gson()::toJson);
+        get("/api/members", (req, res) -> memberRepository.all(), new Gson()::toJson);
 
-        get("/api/attendees/top", (req, res) -> {
-            List<Meeting> allMeetings = meetingRepository.all();
-            Map<String, Long> countByAttendee = allMeetings.stream()
-                    .map(meetingRepository::attendees)
-                    .flatMap(Collection::stream)
-                    .collect(Collectors.groupingBy(
-                            MeetingAttendee::name, Collectors.counting()
-                    ));
-            Map<String, Long> finalMap = new LinkedHashMap<>();
-            countByAttendee.entrySet().stream()
-                    .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
-                    .limit(10)
-                    .forEachOrdered(e -> finalMap.put(e.getKey(), e.getValue()));
-            res.type("application/json");
-            return finalMap;
-        }, new Gson()::toJson);
+        after((request, res) -> res.type("application/json"));
+    }
 
+    private static List<Meeting> meetings(MeetingRepository meetingRepository, Response res) {
+        List<Meeting> allMeetings = meetingRepository.all();
+        res.header("X-Count", String.valueOf(allMeetings.size()));
+        res.header("X-AverageAttendees", String.valueOf(allMeetings.stream().mapToInt(Meeting::nbAttendees).average().orElse(0d)));
+        return allMeetings;
+    }
+
+    private static Map<String, Long> topAttendees(MeetingRepository meetingRepository) {
+        List<Meeting> allMeetings = meetingRepository.all();
+        Map<String, Long> countByAttendee = allMeetings.stream()
+                .map(meetingRepository::attendees)
+                .flatMap(Collection::stream)
+                .collect(Collectors.groupingBy(
+                        MeetingAttendee::name, Collectors.counting()
+                ));
+        Map<String, Long> finalMap = new LinkedHashMap<>();
+        countByAttendee.entrySet().stream()
+                .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+                .limit(10)
+                .forEachOrdered(e -> finalMap.put(e.getKey(), e.getValue()));
+        return finalMap;
+    }
+
+    private static void setStaticFiles() {
+        if (Boolean.valueOf(System.getProperty(PROD_MODE))) {
+            staticFiles.location("/public");
+        } else {
+            String projectDir = System.getProperty("user.dir");
+            String staticDir = "/src/main/resources/public";
+            staticFiles.externalLocation(projectDir + staticDir);
+        }
     }
 
     private static void setPort() {
-        ofNullable(System.getenv("PORT")).map(Integer::parseInt).ifPresent(Spark::port);
+        ofNullable(System.getenv(ENV_PORT)).map(Integer::parseInt).ifPresent(Spark::port);
     }
 }
