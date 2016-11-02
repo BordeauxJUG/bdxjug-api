@@ -25,7 +25,6 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.util.Optional.ofNullable;
@@ -34,12 +33,12 @@ import static spark.Spark.*;
 public class Dashboard {
 
     public static void main(String[] args) {
-        MeetingRepository meetingRepository = new MeetingRepository();
-
         setPort();
 
-        List<Meeting> allMeetings = meetingRepository.all();
+        MeetingRepository meetingRepository = new MeetingRepository();
+
         get("/api/meetings", (req, res) -> {
+            List<Meeting> allMeetings = meetingRepository.all();
             res.header("X-Count", String.valueOf(allMeetings.size()));
             res.header("X-AverageAttendees", String.valueOf(allMeetings.stream().mapToInt(Meeting::nbAttendees).average().orElse(0d)));
             res.type("application/json");
@@ -47,6 +46,7 @@ public class Dashboard {
         }, new Gson()::toJson);
 
         get("/api/attendees/top", (req, res) -> {
+            List<Meeting> allMeetings = meetingRepository.all();
             Map<String, Long> countByAttendee = allMeetings.stream()
                     .map(meetingRepository::attendees)
                     .flatMap(Collection::stream)
