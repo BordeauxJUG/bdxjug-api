@@ -18,6 +18,8 @@ package org.bdxjug.dashboard.meetings;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -57,7 +59,7 @@ public class MeetingRepository {
     }
 
     private static Meeting toMeeting(MeetupAPI.Event e) {
-        Meeting meeting = new Meeting(e.id, e.name, e.time);
+        Meeting meeting = new Meeting(e.id, e.name, Instant.ofEpochMilli(e.time).atZone(ZoneId.systemDefault()).toLocalDate());
         meeting.setAttendance(e.yes_rsvp_count);
         return meeting;
     }

@@ -15,14 +15,16 @@
  */
 package org.bdxjug.dashboard.meetings;
 
+import java.time.LocalDate;
+
 public class Meeting {
 
     private final String id;
     private final String name;
-    private final long date;
+    private final LocalDate date;
     private int nbAttendees;
 
-    public Meeting(String id, String name, long date) {
+    public Meeting(String id, String name, LocalDate date) {
         this.id = id;
         this.name = name;
         this.date = date;
@@ -36,7 +38,7 @@ public class Meeting {
         return name;
     }
 
-    public long date() {
+    public LocalDate date() {
         return date;
     }
 
