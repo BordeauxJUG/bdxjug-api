@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class DocumentationTest {
@@ -36,7 +37,7 @@ public class DocumentationTest {
     public void meetings() throws IOException, InterruptedException {
         Meeting meeting1 = new Meeting("228184140", "Quickie Party", LocalDate.of(2016, 1, 21));
         meeting1.setAttendance(36);
-        Meeting meeting2 = new Meeting("228464263", "Let's React", LocalDate.of(2016, 2, 10));
+        Meeting meeting2 = new Meeting("228464263", "De Zéro à Héros avec Spring Boot", LocalDate.of(2016, 2, 10));
         meeting2.setAttendance(52);
 
         writeJson("meetings.json", gson.toJson(Arrays.asList(meeting1, meeting2)));
@@ -56,7 +57,7 @@ public class DocumentationTest {
 
     @Test
     public void attendees() throws IOException, InterruptedException {
-        Map<String, Long> map = new HashMap<>();
+        Map<String, Long> map = new LinkedHashMap<>();
         map.put("John Doe", 23L);
         map.put("Jean Dupont", 15L);
         map.put("Michel Durand", 10L);
