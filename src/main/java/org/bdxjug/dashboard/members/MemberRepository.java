@@ -15,6 +15,8 @@
  */
 package org.bdxjug.dashboard.members;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,25 +24,36 @@ import java.util.Optional;
 public class MemberRepository {
 
     private static final GoogleSheetAPI API = GoogleSheetAPI.api();
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final String IS_ACTIVE = "1";
+    private static final String SHEET_ID = "19Kj1ltJzW0k_Y9PHnQsmyMrPONVIhDyeP-y5W7o8Ons";
 
     public List<Member> all() {
         List<Member> members = new ArrayList<>();
-        GoogleSheetAPI.SpreadSheet sheet = API.batchGet("19Kj1ltJzW0k_Y9PHnQsmyMrPONVIhDyeP-y5W7o8Ons", "ROWS", "A2:B");
-        Optional<String[][]> values = sheet.valueRanges.stream().findFirst().map(r -> r.values);
-        if (values.isPresent()) {
-            for (String[] value : values.get()) {
-                final String firstName;
-                final String lastName;
-                if (value.length == 2) {
-                    firstName = value[0];
-                    lastName = value[1];
-                } else {
-                    firstName = "";
-                    lastName = value[0];
-                }
-                members.add(new Member(firstName, lastName));
+        GoogleSheetAPI.SpreadSheet sheet = API.batchGet(SHEET_ID, "ROWS", "A2:K");
+        sheet.valueRanges.stream().findFirst().map(r -> r.values).ifPresent(values -> {
+            for (String[] value : values) {
+                toMember(value).ifPresent(members::add);
             }
-        }
+        });
         return members;
+    }
+
+    private Optional<Member> toMember(String[] value) {
+        final String firstName = value[0];
+        final String lastName = value[1];
+        final String endOfValidity = value[6];
+        final String active = value[10];
+        if (IS_ACTIVE.equals(active)) {
+            Member member = new Member(firstName, lastName);
+            LocalDate localDate = parseDate(endOfValidity);
+            member.setEndOfValidity(localDate);
+            return Optional.of(member);
+        }
+        return Optional.empty();
+    }
+
+    static LocalDate parseDate(String endOfValidity) {
+        return LocalDate.parse(endOfValidity, DATE_TIME_FORMATTER);
     }
 }

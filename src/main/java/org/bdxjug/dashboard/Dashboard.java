@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import org.bdxjug.dashboard.meetings.Meeting;
 import org.bdxjug.dashboard.meetings.MeetingAttendee;
 import org.bdxjug.dashboard.meetings.MeetingRepository;
+import org.bdxjug.dashboard.members.Member;
 import org.bdxjug.dashboard.members.MemberRepository;
 import spark.*;
 
@@ -45,9 +46,15 @@ public class Dashboard {
 
         get("/api/meetings", (req, res) -> meetings(meetingRepository, res), new Gson()::toJson);
         get("/api/attendees/top", (req, res) -> topAttendees(meetingRepository), new Gson()::toJson);
-        get("/api/members", (req, res) -> memberRepository.all(), new Gson()::toJson);
+        get("/api/members", (req, res) -> members(memberRepository, res), new Gson()::toJson);
 
         after((request, res) -> res.type("application/json"));
+    }
+
+    private static List<Member> members(MemberRepository memberRepository, Response res) {
+        List<Member> allMembers = memberRepository.all();
+        res.header("X-Count", String.valueOf(allMembers.size()));
+        return allMembers;
     }
 
     private static List<Meeting> meetings(MeetingRepository meetingRepository, Response res) {

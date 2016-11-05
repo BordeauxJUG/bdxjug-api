@@ -15,14 +15,21 @@
  */
 package org.bdxjug.dashboard.members;
 
+import java.time.LocalDate;
+
 public class Member {
 
     private final String firstName;
     private final String lastName;
+    private LocalDate endOfValidity;
 
     public Member(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public void setEndOfValidity(LocalDate endOfValidity) {
+        this.endOfValidity = endOfValidity;
     }
 
     public String firstName() {
