@@ -32,7 +32,6 @@ import static spark.Spark.*;
 
 public class Dashboard {
 
-    private static final String PROD_MODE = "PROD_MODE";
     private static final String ENV_PORT = "PORT";
     private static MeetingRepository meetingRepository;
     private static MemberRepository memberRepository;
@@ -101,12 +100,6 @@ public class Dashboard {
     }
 
     private static void setStaticFiles() {
-        if (Boolean.valueOf(System.getProperty(PROD_MODE))) {
-            staticFiles.location("/public");
-        } else {
-            String projectDir = System.getProperty("user.dir");
-            String staticDir = "/src/main/resources/public";
-            staticFiles.externalLocation(projectDir + staticDir);
-        }
+        staticFiles.location("/public");
     }
 }

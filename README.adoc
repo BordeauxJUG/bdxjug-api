@@ -8,18 +8,8 @@ This project is a dashboard to gather all data of Bordeaux JUG.
 
 == Technical Stack
 
-=== BackEnd
-
 * JDK 8
 * http://sparkjava.com/[Spark] as web server
-
-=== FrontEnd
-
-TODO
-
-== System Property
-
-PROD_MODE:: set to true for production mode of fluent-http
 
 == Environment Variable
 
