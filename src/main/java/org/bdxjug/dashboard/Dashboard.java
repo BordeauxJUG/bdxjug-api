@@ -23,10 +23,7 @@ import org.bdxjug.dashboard.members.Member;
 import org.bdxjug.dashboard.members.MemberRepository;
 import spark.*;
 
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Optional.ofNullable;
@@ -45,10 +42,14 @@ public class Dashboard {
         MemberRepository memberRepository = new MemberRepository();
 
         get("/api/meetings", (req, res) -> meetings(meetingRepository, res), new Gson()::toJson);
-        get("/api/attendees/top", (req, res) -> topAttendees(meetingRepository), new Gson()::toJson);
+        get("/api/attendees/top", (req, res) -> topAttendees(meetingRepository, getLimit(req, 10)), new Gson()::toJson);
         get("/api/members", (req, res) -> members(memberRepository, res), new Gson()::toJson);
 
         after((request, res) -> res.type("application/json"));
+    }
+
+    private static Integer getLimit(Request req, int defaultValue) {
+        return ofNullable(req.queryParams("limit")).map(Integer::parseInt).orElse(defaultValue);
     }
 
     private static List<Member> members(MemberRepository memberRepository, Response res) {
@@ -64,7 +65,7 @@ public class Dashboard {
         return allMeetings;
     }
 
-    private static Map<String, Long> topAttendees(MeetingRepository meetingRepository) {
+    private static Map<String, Long> topAttendees(MeetingRepository meetingRepository, int limit) {
         List<Meeting> allMeetings = meetingRepository.all();
         Map<String, Long> countByAttendee = allMeetings.stream()
                 .map(meetingRepository::attendees)
@@ -75,7 +76,7 @@ public class Dashboard {
         Map<String, Long> finalMap = new LinkedHashMap<>();
         countByAttendee.entrySet().stream()
                 .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
-                .limit(10)
+                .limit(limit)
                 .forEachOrdered(e -> finalMap.put(e.getKey(), e.getValue()));
         return finalMap;
     }
