@@ -36,6 +36,24 @@ import static spark.Spark.*;
 public class Dashboard {
 
     private static final String ENV_PORT = "PORT";
+    private enum Headers {
+        ORIGIN("origin"),
+        ACCEPT("accept"),
+        CONTENT_TYPE("content-type"),
+        X_COUNT("X-Count"),
+        X_TOTAL_COUNT("X-TotalCount"),
+        X_AVERAGE_ATTENDEES("X-AverageAttendees");
+
+        private final String headerName;
+        Headers(String headerName) {
+            this.headerName = headerName;
+        }
+        static String join(String separator) {
+            return Arrays.stream(values()).map(h -> h.headerName).collect(Collectors.joining(separator));
+        }
+    }
+    private static final String METHODS = "GET, POST, PUT, DELETE, OPTIONS, HEAD";
+
     private static MeetingRepository meetingRepository;
     private static MemberRepository memberRepository;
     private static SpeakerRepository speakerRepository;
@@ -45,6 +63,8 @@ public class Dashboard {
         setStaticFiles();
         initRepositories();
 
+        enableCORS("*", METHODS, Headers.join(","));
+
         ResponseTransformer jsonMapper = configureGson(false)::toJson;
         get("/api/meetings", Dashboard::meetings, jsonMapper);
         get("/api/meetings/:year", Dashboard::meetings, jsonMapper);
@@ -52,7 +72,7 @@ public class Dashboard {
         get("/api/members", Dashboard::members, jsonMapper);
         get("/api/speakers", Dashboard::speakers, jsonMapper);
 
-        after((request, res) -> res.type("application/json"));
+        after((req, res) -> res.type("application/json"));
     }
 
     static Gson configureGson(boolean pretty) {
@@ -75,13 +95,13 @@ public class Dashboard {
 
     private static List<Speaker> speakers(Request req, Response res) {
         List<Speaker> allSpeakers = speakerRepository.all();
-        res.header("X-Count", String.valueOf(allSpeakers.size()));
+        res.header(Headers.X_COUNT.headerName, String.valueOf(allSpeakers.size()));
         return allSpeakers;
     }
 
     private static List<Member> members(Request req, Response res) {
         List<Member> allMembers = memberRepository.all();
-        res.header("X-Count", String.valueOf(allMembers.size()));
+        res.header(Headers.X_COUNT.headerName, String.valueOf(allMembers.size()));
         return allMembers;
     }
 
@@ -92,9 +112,9 @@ public class Dashboard {
 
         List<Meeting> allMeetings = meetingRepository.all();
         List<Meeting> filteredMeetings = allMeetings.stream().filter(filter).collect(Collectors.toList());
-        res.header("X-TotalCount", String.valueOf(allMeetings.size()));
-        res.header("X-Count", String.valueOf(filteredMeetings.size()));
-        res.header("X-AverageAttendees", String.valueOf(filteredMeetings.stream().mapToInt(Meeting::nbAttendees).average().orElse(0d)));
+        res.header(Headers.X_TOTAL_COUNT.headerName, String.valueOf(allMeetings.size()));
+        res.header(Headers.X_COUNT.headerName, String.valueOf(filteredMeetings.size()));
+        res.header(Headers.X_AVERAGE_ATTENDEES.headerName, String.valueOf(filteredMeetings.stream().mapToInt(Meeting::nbAttendees).average().orElse(0d)));
         return filteredMeetings;
     }
 
@@ -121,5 +141,28 @@ public class Dashboard {
 
     private static void setStaticFiles() {
         staticFiles.location("/public");
+    }
+
+    private static void enableCORS(final String origin, final String methods, final String headers) {
+        options("/*", (request, response) -> {
+
+            String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
+            if (accessControlRequestHeaders != null) {
+                response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
+            }
+
+            String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
+            if (accessControlRequestMethod != null) {
+                response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
+            }
+
+            return "OK";
+        });
+
+        before((req, res) -> {
+            res.header("Access-Control-Allow-Origin", origin);
+            res.header("Access-Control-Request-Method", methods);
+            res.header("Access-Control-Allow-Headers", headers);
+        });
     }
 }
