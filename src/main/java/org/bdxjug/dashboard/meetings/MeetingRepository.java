@@ -17,6 +17,7 @@ package org.bdxjug.dashboard.meetings;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
+import org.bdxjug.dashboard.interfaces.MeetupAPI;
 
 import java.time.Instant;
 import java.time.ZoneId;

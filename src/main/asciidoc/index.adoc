@@ -102,3 +102,28 @@ Body::
 ----
 include::{basedir}/target/generated-docs/members.json[]
 ----
+
+== Speakers
+
+=== GET /api/speakers
+
+Returns the list of speakers.
+
+.Request
+
+Headers::
+* Accept : `application/json`
+Parameters::
+* N/A
+
+.Response
+
+Headers::
+* `Content-Type` : `application/json`
+* `X-Count` : the number of speakers
+
+Body::
+[source, javascript]
+----
+include::{basedir}/target/generated-docs/speakers.json[]
+----

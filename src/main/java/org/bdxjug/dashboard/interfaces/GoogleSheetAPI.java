@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.dashboard.meetings;
+package org.bdxjug.dashboard.interfaces;
 
 import feign.Feign;
 import feign.Param;
@@ -23,45 +23,30 @@ import feign.gson.GsonEncoder;
 
 import java.util.List;
 
-interface MeetupAPI {
+public interface GoogleSheetAPI {
 
     static String apiKey() {
-        return System.getenv("MEETUP_API_KEY");
+        return System.getenv("GOOGLE_SHEET_API_KEY");
     }
 
-    static MeetupAPI api() {
+    static GoogleSheetAPI api() {
         return Feign.builder()
                 .encoder(new GsonEncoder())
                 .decoder(new GsonDecoder())
                 .requestInterceptor(r -> r.query("key", apiKey()))
-                .target(MeetupAPI.class, "https://api.meetup.com");
+                .target(GoogleSheetAPI.class, "https://sheets.googleapis.com/v4");
     }
 
-    @RequestLine("GET /{group}/events?status=past")
-    List<Event> pastEvents(@Param("group") String group);
+    @RequestLine("GET /spreadsheets/{sheetId}/values:batchGet?majorDimension={majorDimension}&ranges={ranges}")
+    SpreadSheet batchGet(@Param("sheetId") String sheetId, @Param("majorDimension") String majorDimension, @Param("ranges") String ranges);
 
-    @RequestLine("GET /{group}/events/{event}/attendance")
-    List<Attendee> eventAttendance(@Param("group") String group, @Param("event") String event);
-
-    class Event {
-        String id;
-        String name;
-        long time;
-        int yes_rsvp_count;
+    class SpreadSheet {
+        public String spreadsheetId;
+        public List<Range> valueRanges;
     }
 
-    class Member {
-        String id;
-        String name;
-    }
-
-    class MemberResponse {
-        String response;
-    }
-
-    class Attendee {
-        String status;
-        Member member;
-        MemberResponse rsvp;
+    class Range {
+        public String range;
+        public String[][] values;
     }
 }

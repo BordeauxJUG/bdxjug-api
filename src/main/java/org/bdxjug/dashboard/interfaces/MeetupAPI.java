@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.dashboard.members;
+package org.bdxjug.dashboard.interfaces;
 
 import feign.Feign;
 import feign.Param;
@@ -23,30 +23,45 @@ import feign.gson.GsonEncoder;
 
 import java.util.List;
 
-interface GoogleSheetAPI {
+public interface MeetupAPI {
 
     static String apiKey() {
-        return System.getenv("GOOGLE_SHEET_API_KEY");
+        return System.getenv("MEETUP_API_KEY");
     }
 
-    static GoogleSheetAPI api() {
+    static MeetupAPI api() {
         return Feign.builder()
                 .encoder(new GsonEncoder())
                 .decoder(new GsonDecoder())
                 .requestInterceptor(r -> r.query("key", apiKey()))
-                .target(GoogleSheetAPI.class, "https://sheets.googleapis.com/v4");
+                .target(MeetupAPI.class, "https://api.meetup.com");
     }
 
-    @RequestLine("GET /spreadsheets/{sheetId}/values:batchGet?majorDimension={majorDimension}&ranges={ranges}")
-    SpreadSheet batchGet(@Param("sheetId") String sheetId, @Param("majorDimension") String majorDimension, @Param("ranges") String ranges);
+    @RequestLine("GET /{group}/events?status=past")
+    List<Event> pastEvents(@Param("group") String group);
 
-    class SpreadSheet {
-        String spreadsheetId;
-        List<Range> valueRanges;
+    @RequestLine("GET /{group}/events/{event}/attendance")
+    List<Attendee> eventAttendance(@Param("group") String group, @Param("event") String event);
+
+    class Event {
+        public String id;
+        public String name;
+        public long time;
+        public int yes_rsvp_count;
     }
 
-    class Range {
-        String range;
-        String[][] values;
+    class Member {
+        public String id;
+        public String name;
+    }
+
+    class MemberResponse {
+        public String response;
+    }
+
+    class Attendee {
+        public String status;
+        public Member member;
+        public MemberResponse rsvp;
     }
 }

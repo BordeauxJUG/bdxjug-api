@@ -16,11 +16,14 @@
 package org.bdxjug.dashboard;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.bdxjug.dashboard.meetings.Meeting;
 import org.bdxjug.dashboard.meetings.MeetingAttendee;
 import org.bdxjug.dashboard.meetings.MeetingRepository;
 import org.bdxjug.dashboard.members.Member;
 import org.bdxjug.dashboard.members.MemberRepository;
+import org.bdxjug.dashboard.speakers.Speaker;
+import org.bdxjug.dashboard.speakers.SpeakerRepository;
 import spark.*;
 
 import java.util.*;
@@ -35,28 +38,45 @@ public class Dashboard {
     private static final String ENV_PORT = "PORT";
     private static MeetingRepository meetingRepository;
     private static MemberRepository memberRepository;
+    private static SpeakerRepository speakerRepository;
 
     public static void main(String[] args) {
         setPort();
         setStaticFiles();
         initRepositories();
 
-        ResponseTransformer jsonMapper = new Gson()::toJson;
+        ResponseTransformer jsonMapper = configureGson(false)::toJson;
         get("/api/meetings", Dashboard::meetings, jsonMapper);
         get("/api/meetings/:year", Dashboard::meetings, jsonMapper);
         get("/api/attendees/top", Dashboard::topAttendees, jsonMapper);
         get("/api/members", Dashboard::members, jsonMapper);
+        get("/api/speakers", Dashboard::speakers, jsonMapper);
 
         after((request, res) -> res.type("application/json"));
+    }
+
+    static Gson configureGson(boolean pretty) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        if (pretty) {
+            gsonBuilder.setPrettyPrinting();
+        }
+        return gsonBuilder.create();
     }
 
     private static void initRepositories() {
         meetingRepository = new MeetingRepository();
         memberRepository = new MemberRepository();
+        speakerRepository = new SpeakerRepository();
     }
 
     private static Integer getLimit(Request req, int defaultValue) {
         return ofNullable(req.queryParams("limit")).map(Integer::parseInt).orElse(defaultValue);
+    }
+
+    private static List<Speaker> speakers(Request req, Response res) {
+        List<Speaker> allSpeakers = speakerRepository.all();
+        res.header("X-Count", String.valueOf(allSpeakers.size()));
+        return allSpeakers;
     }
 
     private static List<Member> members(Request req, Response res) {

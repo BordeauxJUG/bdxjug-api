@@ -1,5 +1,6 @@
 package org.bdxjug.dashboard.meetings;
 
+import org.bdxjug.dashboard.interfaces.MeetupAPI;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
