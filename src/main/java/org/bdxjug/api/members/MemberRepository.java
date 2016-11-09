@@ -15,10 +15,12 @@
  */
 package org.bdxjug.api.members;
 
+import org.bdxjug.api.Logger;
 import org.bdxjug.api.interfaces.GoogleSheetAPI;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -57,6 +59,11 @@ public class MemberRepository {
     }
 
     static LocalDate parseDate(String endOfValidity) {
-        return LocalDate.parse(endOfValidity, DATE_TIME_FORMATTER);
+        try {
+            return LocalDate.parse(endOfValidity, DATE_TIME_FORMATTER);
+        } catch (DateTimeParseException e) {
+            Logger.simple().log(e);
+            return LocalDate.ofEpochDay(0);
+        }
     }
 }

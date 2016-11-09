@@ -17,4 +17,12 @@ public class MemberRepositoryTest {
         assertThat(localDate.getYear()).isEqualTo(2016);
     }
 
+
+    @Test
+    public void parseBadDate_should_not_fail() {
+        LocalDate localDate = MemberRepository.parseDate("11/7/2016");
+
+        assertThat(localDate).isEqualTo(LocalDate.ofEpochDay(0));
+    }
+
 }
