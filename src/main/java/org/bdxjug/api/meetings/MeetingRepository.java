@@ -31,17 +31,19 @@ public class MeetingRepository {
     private static final String JUG_GROUP = "BordeauxJUG";
 
     private final LoadingCache<String, List<MeetingAttendee>> attendeeByMeetingId;
-    private final List<Meeting> meetings;
+    private final LoadingCache<String, List<Meeting>> meetings;
 
     public MeetingRepository() {
-        meetings = API.pastEvents(JUG_GROUP).stream()
-                .filter(e -> e.yes_rsvp_count > 17) // Filter JugOff
-                .map(MeetingRepository::toMeeting)
-                .collect(Collectors.toList());
+        meetings = Caffeine.newBuilder()
+                .expireAfterAccess(30, TimeUnit.MINUTES)
+                .build(key ->
+                    API.pastEvents(JUG_GROUP).stream()
+                    .filter(e -> e.yes_rsvp_count > 17) // Filter JugOff
+                    .map(MeetingRepository::toMeeting)
+                    .collect(Collectors.toList()));
 
         attendeeByMeetingId = Caffeine.newBuilder()
-                .maximumSize(10_000)
-                .expireAfterWrite(10, TimeUnit.MINUTES)
+                .expireAfterAccess(30, TimeUnit.MINUTES)
                 .build(key ->
                         API.eventAttendance(JUG_GROUP, key).stream()
                         .filter(a -> !a.member.id.equals("0"))
@@ -52,7 +54,7 @@ public class MeetingRepository {
     }
 
     public List<Meeting> all() {
-        return meetings;
+        return meetings.get("all");
     }
 
     public List<MeetingAttendee> attendees(Meeting meeting) {
