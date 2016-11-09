@@ -45,10 +45,13 @@ public class DocumentationTest {
     @Test
     public void members() throws IOException, InterruptedException {
         Member member1 = new Member("John", "Doe");
+        member1.setFirstRegistration(LocalDate.of(2016, 4, 16));
         member1.setEndOfValidity(LocalDate.of(2017, 4, 16));
         Member member2 = new Member("Jean", "Dupont");
+        member2.setFirstRegistration(LocalDate.of(2014, 9, 23));
         member2.setEndOfValidity(LocalDate.of(2018, 9, 23));
         Member member3 = new Member("Michel", "Durand");
+        member3.setFirstRegistration(LocalDate.of(2015, 8, 4));
         member3.setEndOfValidity(LocalDate.of(2016, 8, 4));
 
         writeJson("members.json", gson.toJson(Arrays.asList(member1, member2, member3)));
