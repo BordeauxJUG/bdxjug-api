@@ -22,6 +22,7 @@ public class Member {
     private final String firstName;
     private final String lastName;
     private LocalDate endOfValidity;
+    private LocalDate firstRegistration;
 
     public Member(String firstName, String lastName) {
         this.firstName = firstName;
@@ -32,11 +33,7 @@ public class Member {
         this.endOfValidity = endOfValidity;
     }
 
-    public String firstName() {
-        return firstName;
-    }
-
-    public String lastName() {
-        return lastName;
+    public void setFirstRegistration(LocalDate firstRegistration) {
+        this.firstRegistration = firstRegistration;
     }
 }

@@ -44,12 +44,13 @@ public class MemberRepository {
     private Optional<Member> toMember(String[] value) {
         final String firstName = value[0];
         final String lastName = value[1];
+        final String firstRegistration = value[4];
         final String endOfValidity = value[6];
         final String active = value[10];
         if (IS_ACTIVE.equals(active)) {
             Member member = new Member(firstName, lastName);
-            LocalDate localDate = parseDate(endOfValidity);
-            member.setEndOfValidity(localDate);
+            member.setFirstRegistration(parseDate(firstRegistration));
+            member.setEndOfValidity(parseDate(endOfValidity));
             return Optional.of(member);
         }
         return Optional.empty();
