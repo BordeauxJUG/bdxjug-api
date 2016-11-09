@@ -20,6 +20,8 @@ import org.bdxjug.api.interfaces.GoogleSheetAPI;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Optional.ofNullable;
+
 public class SpeakerRepository {
 
     private static final GoogleSheetAPI API = GoogleSheetAPI.api();
@@ -27,10 +29,14 @@ public class SpeakerRepository {
 
     public List<Speaker> all() {
         List<Speaker> speakers = new ArrayList<>();
-        GoogleSheetAPI.SpreadSheet sheet = API.batchGet(SHEET_ID, "ROWS", "A2:C");
+        GoogleSheetAPI.SpreadSheet sheet = API.batchGet(SHEET_ID, "ROWS", "A2:D");
         sheet.valueRanges.stream().findFirst().map(r -> r.values).ifPresent(values -> {
             for (String[] value : values) {
-                speakers.add(new Speaker(value[0], value[1], value[2]));
+                Speaker speaker = new Speaker(value[0], value[1], value[2]);
+                if (value.length > 3) {
+                    ofNullable(value[3]).ifPresent(speaker::setTwitter);
+                }
+                speakers.add(speaker);
             }
         });
         return speakers;

@@ -62,6 +62,7 @@ public class DocumentationTest {
         Speaker speaker1 = new Speaker("Antonio Goncalves",
                 "Antonio is a senior software architect specialized in Java/Java EE. As a consultant he advises customers in France and help them in defining their software architecture. Antonio is also the founder of the very successful Paris JUG and independent JCP member on JEE6 (JSR 316), JPA 2.0 (JSR 317) and EJB 3.1 (JSR 318). Based on all his experiences, he has written two books about Java EE 5 and recently on Java EE 6 with Glassfish. It explains, in a practical way, how to develop an application using most of the Java EE specifications.",
                 "http://lh3.ggpht.com/_apLykarZbI4/StG6i1ESRkI/AAAAAAAAAVo/NcQUT_iz6Yg/s800/antoniogoncalves.gif");
+        speaker1.setTwitter("@agoncal");
         Speaker speaker2 = new Speaker("Nicolas Martignole",
                 "Nicolas est indépendant depuis 2008, auteur du blog le Touilleur Express et\\nmembre de l'équipe du Paris JUG depuis 2 ans.\\nIl travaille plutôt dans la Finance, en tant que technical team leader.\\nUn peu d'Agilité, pas mal de développements et de bonnes pratiques et surtout, du fun.\\nEn quelques mots, son parcours\\n5 ans dans une agence Web puis une Startup Java\\n6 ans chez Thomson-Reuters dans la Finance, développeur sénior puis technical team leader.\\ndepuis 2008 consultant indépendant.",
                 "https://lh6.googleusercontent.com/_apLykarZbI4/TWLOWg9d5wI/AAAAAAAAAlo/ooEPmIxCHtc/s144/nicolas_martignole_big.jpg");

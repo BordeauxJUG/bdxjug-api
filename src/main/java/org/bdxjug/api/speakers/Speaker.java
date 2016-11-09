@@ -20,6 +20,7 @@ public class Speaker {
     private final String name;
     private final String bio;
     private final String image;
+    private String twitter;
 
     public Speaker(String name, String bio, String image) {
         this.name = name;
@@ -27,15 +28,7 @@ public class Speaker {
         this.image = image;
     }
 
-    public String name() {
-        return name;
-    }
-
-    public String bio() {
-        return bio;
-    }
-
-    public String image() {
-        return image;
+    public void setTwitter(String twitter) {
+        this.twitter = twitter;
     }
 }
