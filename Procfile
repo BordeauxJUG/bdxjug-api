@@ -1,1 +1,1 @@
-web:    java -jar target/bdxjug-dashboard.jar
+web:    java -jar target/bdxjug-api.jar

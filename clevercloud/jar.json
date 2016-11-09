@@ -4,6 +4,6 @@
     "goal": "package"
   },
   "deploy": {
-    "jarName": "target/bdxjug-dashboard.jar"
+    "jarName": "target/bdxjug-api.jar"
   }
 }

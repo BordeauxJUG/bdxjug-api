@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.dashboard.speakers;
+package org.bdxjug.api.speakers;
 
-import org.bdxjug.dashboard.interfaces.GoogleSheetAPI;
+import org.bdxjug.api.interfaces.GoogleSheetAPI;
 
 import java.util.ArrayList;
 import java.util.List;

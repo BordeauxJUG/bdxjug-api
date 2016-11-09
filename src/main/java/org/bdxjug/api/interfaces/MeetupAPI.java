@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.dashboard.interfaces;
+package org.bdxjug.api.interfaces;
 
 import feign.Feign;
 import feign.Param;
 import feign.RequestLine;
 import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
-import org.bdxjug.dashboard.Configuration;
+import org.bdxjug.api.Configuration;
 
 import java.util.List;
 

@@ -1,9 +1,9 @@
-package org.bdxjug.dashboard;
+package org.bdxjug.api;
 
 import com.google.gson.Gson;
-import org.bdxjug.dashboard.meetings.Meeting;
-import org.bdxjug.dashboard.members.Member;
-import org.bdxjug.dashboard.speakers.Speaker;
+import org.bdxjug.api.meetings.Meeting;
+import org.bdxjug.api.members.Member;
+import org.bdxjug.api.speakers.Speaker;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -24,7 +24,7 @@ public class DocumentationTest {
 
     @BeforeClass
     public static void init() {
-        gson = Dashboard.configureGson(true);
+        gson = Server.configureGson(true);
         Paths.get(PROJECT_DIR, "target", "generated-docs").toFile().mkdirs();
     }
 

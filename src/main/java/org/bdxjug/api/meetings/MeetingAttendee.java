@@ -13,29 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.dashboard.speakers;
+package org.bdxjug.api.meetings;
 
-public class Speaker {
+public class MeetingAttendee {
 
+    private final String id;
     private final String name;
-    private final String bio;
-    private final String image;
 
-    public Speaker(String name, String bio, String image) {
+    public MeetingAttendee(String id, String name) {
+        this.id = id;
         this.name = name;
-        this.bio = bio;
-        this.image = image;
+    }
+
+    public String id() {
+        return id;
     }
 
     public String name() {
         return name;
     }
 
-    public String bio() {
-        return bio;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MeetingAttendee attendee = (MeetingAttendee) o;
+
+        return id.equals(attendee.id);
+
     }
 
-    public String image() {
-        return image;
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 }

@@ -13,16 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.dashboard.meetings;
+package org.bdxjug.api.meetings;
 
-public class MeetingAttendee {
+import java.time.LocalDate;
+
+public class Meeting {
 
     private final String id;
     private final String name;
+    private final LocalDate date;
+    private int nbAttendees;
 
-    public MeetingAttendee(String id, String name) {
+    public Meeting(String id, String name, LocalDate date) {
         this.id = id;
         this.name = name;
+        this.date = date;
     }
 
     public String id() {
@@ -33,14 +38,26 @@ public class MeetingAttendee {
         return name;
     }
 
+    public LocalDate date() {
+        return date;
+    }
+
+    public int nbAttendees() {
+        return nbAttendees;
+    }
+
+    public void setAttendance(int nbAttendees) {
+        this.nbAttendees = nbAttendees;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        MeetingAttendee attendee = (MeetingAttendee) o;
+        Meeting meeting = (Meeting) o;
 
-        return id.equals(attendee.id);
+        return id.equals(meeting.id);
 
     }
 

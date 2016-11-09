@@ -1,8 +1,8 @@
-= Bordeaux JUG Dashboard
+= Bordeaux JUG API
 
 == Description
 
-This project is a dashboard to gather all data of Bordeaux JUG.
+This project provides a REST API about Bordeaux JUG data.
 
 ...and a opportunity to test a technical stack :-)
 
@@ -18,7 +18,3 @@ PORT:: the http port (default is 4567)
 MEETUP_API_KEY:: the api key for https://www.meetup.com/
 
 GOOGLE_SHEET_API_KEY:: the api key for https://docs.google.com/spreadsheets/
-
-== Demo
-
-On Heroku:: https://bdxjug-dash.herokuapp.com/

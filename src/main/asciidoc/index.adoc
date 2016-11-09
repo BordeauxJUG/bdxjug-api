@@ -1,4 +1,4 @@
-= API Bordeaux JUG
+= Bordeaux JUG API
 :toc: left
 :table-caption!:
 :nofooter:

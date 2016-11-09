@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.dashboard.members;
+package org.bdxjug.api.members;
 
-import org.bdxjug.dashboard.interfaces.GoogleSheetAPI;
+import org.bdxjug.api.interfaces.GoogleSheetAPI;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

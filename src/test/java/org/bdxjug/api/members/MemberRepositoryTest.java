@@ -1,4 +1,4 @@
-package org.bdxjug.dashboard.members;
+package org.bdxjug.api.members;
 
 import org.junit.Test;
 

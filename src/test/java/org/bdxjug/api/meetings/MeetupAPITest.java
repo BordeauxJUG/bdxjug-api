@@ -1,6 +1,6 @@
-package org.bdxjug.dashboard.meetings;
+package org.bdxjug.api.meetings;
 
-import org.bdxjug.dashboard.interfaces.MeetupAPI;
+import org.bdxjug.api.interfaces.MeetupAPI;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.notNullValue;

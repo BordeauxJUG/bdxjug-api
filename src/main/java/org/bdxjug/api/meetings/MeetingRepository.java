@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.dashboard.meetings;
+package org.bdxjug.api.meetings;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
-import org.bdxjug.dashboard.interfaces.MeetupAPI;
+import org.bdxjug.api.interfaces.MeetupAPI;
 
 import java.time.Instant;
 import java.time.ZoneId;

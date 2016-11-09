@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.dashboard;
+package org.bdxjug.api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.bdxjug.dashboard.meetings.Meeting;
-import org.bdxjug.dashboard.meetings.MeetingAttendee;
-import org.bdxjug.dashboard.meetings.MeetingRepository;
-import org.bdxjug.dashboard.members.Member;
-import org.bdxjug.dashboard.members.MemberRepository;
-import org.bdxjug.dashboard.speakers.Speaker;
-import org.bdxjug.dashboard.speakers.SpeakerRepository;
+import org.bdxjug.api.meetings.Meeting;
+import org.bdxjug.api.meetings.MeetingAttendee;
+import org.bdxjug.api.meetings.MeetingRepository;
+import org.bdxjug.api.members.Member;
+import org.bdxjug.api.members.MemberRepository;
+import org.bdxjug.api.speakers.Speaker;
+import org.bdxjug.api.speakers.SpeakerRepository;
 import spark.*;
 
 import java.util.*;
@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 import static java.util.Optional.ofNullable;
 import static spark.Spark.*;
 
-public class Dashboard {
+public class Server {
 
     private enum Headers {
         ORIGIN("origin"),
@@ -65,11 +65,11 @@ public class Dashboard {
         enableCORS("*", METHODS, Headers.join(","));
 
         ResponseTransformer jsonMapper = configureGson(false)::toJson;
-        get("/api/meetings", Dashboard::meetings, jsonMapper);
-        get("/api/meetings/:year", Dashboard::meetings, jsonMapper);
-        get("/api/attendees/top", Dashboard::topAttendees, jsonMapper);
-        get("/api/members", Dashboard::members, jsonMapper);
-        get("/api/speakers", Dashboard::speakers, jsonMapper);
+        get("/api/meetings", Server::meetings, jsonMapper);
+        get("/api/meetings/:year", Server::meetings, jsonMapper);
+        get("/api/attendees/top", Server::topAttendees, jsonMapper);
+        get("/api/members", Server::members, jsonMapper);
+        get("/api/speakers", Server::speakers, jsonMapper);
 
         after((req, res) -> res.type("application/json"));
     }
