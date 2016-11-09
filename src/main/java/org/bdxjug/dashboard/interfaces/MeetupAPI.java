@@ -20,13 +20,14 @@ import feign.Param;
 import feign.RequestLine;
 import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
+import org.bdxjug.dashboard.Configuration;
 
 import java.util.List;
 
 public interface MeetupAPI {
 
     static String apiKey() {
-        return System.getenv("MEETUP_API_KEY");
+        return Configuration.MEETUP_API_KEY.value().orElseThrow(IllegalStateException::new);
     }
 
     static MeetupAPI api() {

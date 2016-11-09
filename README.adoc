@@ -13,6 +13,8 @@ This project is a dashboard to gather all data of Bordeaux JUG.
 
 == Environment Variable
 
+PORT:: the http port (default is 4567)
+
 MEETUP_API_KEY:: the api key for https://www.meetup.com/
 
 GOOGLE_SHEET_API_KEY:: the api key for https://docs.google.com/spreadsheets/

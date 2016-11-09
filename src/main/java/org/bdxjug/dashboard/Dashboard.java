@@ -35,7 +35,6 @@ import static spark.Spark.*;
 
 public class Dashboard {
 
-    private static final String ENV_PORT = "PORT";
     private enum Headers {
         ORIGIN("origin"),
         ACCEPT("accept"),
@@ -136,7 +135,7 @@ public class Dashboard {
     }
 
     private static void setPort() {
-        ofNullable(System.getenv(ENV_PORT)).map(Integer::parseInt).ifPresent(Spark::port);
+        Configuration.PORT.value().map(Integer::parseInt).ifPresent(Spark::port);
     }
 
     private static void setStaticFiles() {
