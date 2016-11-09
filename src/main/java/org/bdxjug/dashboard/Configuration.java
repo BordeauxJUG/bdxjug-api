@@ -15,18 +15,14 @@
  */
 package org.bdxjug.dashboard;
 
-import java.util.Optional;
-
-import static java.util.Optional.ofNullable;
-
 public enum Configuration {
 
     GOOGLE_SHEET_API_KEY,
     MEETUP_API_KEY,
     PORT;
 
-    public Optional<String> value() {
-        return ofNullable(System.getProperty(this.name(), System.getenv(this.name())));
+    public String value() {
+        return System.getProperty(this.name(), System.getenv(this.name()));
     }
 
 }

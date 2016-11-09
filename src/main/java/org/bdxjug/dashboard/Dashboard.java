@@ -135,7 +135,7 @@ public class Dashboard {
     }
 
     private static void setPort() {
-        Configuration.PORT.value().map(Integer::parseInt).ifPresent(Spark::port);
+        ofNullable(Configuration.PORT.value()).map(Integer::parseInt).ifPresent(Spark::port);
     }
 
     private static void setStaticFiles() {

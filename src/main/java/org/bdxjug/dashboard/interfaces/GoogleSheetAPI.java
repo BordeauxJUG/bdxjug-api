@@ -27,7 +27,7 @@ import java.util.List;
 public interface GoogleSheetAPI {
 
     static String apiKey() {
-        return Configuration.GOOGLE_SHEET_API_KEY.value().orElseThrow(IllegalStateException::new);
+        return Configuration.GOOGLE_SHEET_API_KEY.value();
     }
 
     static GoogleSheetAPI api() {

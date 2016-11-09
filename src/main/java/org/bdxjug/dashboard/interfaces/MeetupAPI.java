@@ -27,7 +27,7 @@ import java.util.List;
 public interface MeetupAPI {
 
     static String apiKey() {
-        return Configuration.MEETUP_API_KEY.value().orElseThrow(IllegalStateException::new);
+        return Configuration.MEETUP_API_KEY.value();
     }
 
     static MeetupAPI api() {
