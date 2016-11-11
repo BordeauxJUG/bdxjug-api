@@ -27,7 +27,6 @@ import org.bdxjug.api.speakers.SpeakerRepository;
 import spark.*;
 
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static java.util.Optional.ofNullable;
@@ -40,7 +39,6 @@ public class Server {
         ACCEPT("accept"),
         CONTENT_TYPE("content-type"),
         X_COUNT("X-Count"),
-        X_TOTAL_COUNT("X-TotalCount"),
         X_AVERAGE_ATTENDEES("X-AverageAttendees");
 
         private final String headerName;
@@ -65,8 +63,8 @@ public class Server {
         enableCORS("*", METHODS, Headers.join(","));
 
         ResponseTransformer jsonMapper = configureGson(false)::toJson;
-        get("/api/meetings", Server::meetings, jsonMapper);
-        get("/api/meetings/:year", Server::meetings, jsonMapper);
+        get("/api/meetings/past", Server::meetings, jsonMapper);
+        get("/api/meetings/past/:year", Server::meetings, jsonMapper);
         get("/api/attendees/top", Server::topAttendees, jsonMapper);
         get("/api/members", Server::members, jsonMapper);
         get("/api/speakers", Server::speakers, jsonMapper);
@@ -105,16 +103,14 @@ public class Server {
     }
 
     private static List<Meeting> meetings(Request req, Response res) {
-        Predicate<Meeting> filter = ofNullable(req.params("year"))
-                .map(y -> (Predicate<Meeting>) m -> m.date().getYear() == Integer.parseInt(y))
-                .orElse(meeting -> true);
+        List<Meeting> allMeetings = ofNullable(req.params("year"))
+                .map(Integer::parseInt)
+                .map(y -> meetingRepository.byYear(y))
+                .orElseGet(() -> meetingRepository.all());
 
-        List<Meeting> allMeetings = meetingRepository.all();
-        List<Meeting> filteredMeetings = allMeetings.stream().filter(filter).collect(Collectors.toList());
-        res.header(Headers.X_TOTAL_COUNT.headerName, String.valueOf(allMeetings.size()));
-        res.header(Headers.X_COUNT.headerName, String.valueOf(filteredMeetings.size()));
-        res.header(Headers.X_AVERAGE_ATTENDEES.headerName, String.valueOf(filteredMeetings.stream().mapToInt(Meeting::nbAttendees).average().orElse(0d)));
-        return filteredMeetings;
+        res.header(Headers.X_COUNT.headerName, String.valueOf(allMeetings.size()));
+        res.header(Headers.X_AVERAGE_ATTENDEES.headerName, String.valueOf(allMeetings.stream().mapToInt(Meeting::nbAttendees).average().orElse(0d)));
+        return allMeetings;
     }
 
     private static Map<String, Long> topAttendees(Request req, Response res) {

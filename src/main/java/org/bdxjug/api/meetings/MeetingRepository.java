@@ -57,6 +57,10 @@ public class MeetingRepository {
         return meetings.get("all");
     }
 
+    public List<Meeting> byYear(int year) {
+        return all().stream().filter(m -> m.date().getYear() == year).collect(Collectors.toList());
+    }
+
     public List<MeetingAttendee> attendees(Meeting meeting) {
         return attendeeByMeetingId.get(meeting.id());
     }

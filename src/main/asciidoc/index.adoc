@@ -7,9 +7,9 @@ This API provides endpoints for Bordeaux JUG data.
 
 == Meetings
 
-=== GET /api/meetings
+=== GET /api/meetings/past
 
-Returns the list of all meetings.
+Returns the list of all past meetings.
 
 .Request
 
@@ -22,7 +22,7 @@ Parameters:: N/A
 
 Headers::
 * `Content-Type` : `application/json`
-* `X-TotalCount` : the number of meetings
+* `X-Count` : the number of meetings
 * `X-AverageAttendees` : the average of attendees for meetings
 
 Body::
@@ -31,9 +31,9 @@ Body::
 include::{basedir}/target/generated-docs/meetings.json[]
 ----
 
-=== GET /api/meetings/{year}
+=== GET /api/meetings/past/{year}
 
-Returns the list of all meetings for a given `year`.
+Returns the list of all past meetings for a given `year`.
 
 .Request
 
