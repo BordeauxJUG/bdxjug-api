@@ -38,8 +38,8 @@ public interface MeetupAPI {
                 .target(MeetupAPI.class, "https://api.meetup.com");
     }
 
-    @RequestLine("GET /{group}/events?status=past")
-    List<Event> pastEvents(@Param("group") String group);
+    @RequestLine("GET /{group}/events?status={status}")
+    List<Event> events(@Param("group") String group, @Param("status") String status);
 
     @RequestLine("GET /{group}/events/{event}/attendance")
     List<Attendee> eventAttendance(@Param("group") String group, @Param("event") String event);

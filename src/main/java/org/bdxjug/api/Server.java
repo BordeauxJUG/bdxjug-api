@@ -63,8 +63,9 @@ public class Server {
         enableCORS("*", METHODS, Headers.join(","));
 
         ResponseTransformer jsonMapper = configureGson(false)::toJson;
-        get("/api/meetings/past", Server::meetings, jsonMapper);
-        get("/api/meetings/past/:year", Server::meetings, jsonMapper);
+        get("/api/meetings/upcoming", Server::upcomingMeetings, jsonMapper);
+        get("/api/meetings/past", Server::pastMeetings, jsonMapper);
+        get("/api/meetings/past/:year", Server::pastMeetings, jsonMapper);
         get("/api/attendees/top", Server::topAttendees, jsonMapper);
         get("/api/members", Server::members, jsonMapper);
         get("/api/speakers", Server::speakers, jsonMapper);
@@ -102,12 +103,17 @@ public class Server {
         return allMembers;
     }
 
-    private static List<Meeting> meetings(Request req, Response res) {
+    private static List<Meeting> upcomingMeetings(Request req, Response res) {
+        List<Meeting> allMeetings = meetingRepository.upcomingMeetings();
+        res.header(Headers.X_COUNT.headerName, String.valueOf(allMeetings.size()));
+        return allMeetings;
+    }
+
+    private static List<Meeting> pastMeetings(Request req, Response res) {
         List<Meeting> allMeetings = ofNullable(req.params("year"))
                 .map(Integer::parseInt)
-                .map(y -> meetingRepository.byYear(y))
-                .orElseGet(() -> meetingRepository.all());
-
+                .map(y -> meetingRepository.pastMeetingsByYear(y))
+                .orElseGet(() -> meetingRepository.pastMeetings());
         res.header(Headers.X_COUNT.headerName, String.valueOf(allMeetings.size()));
         res.header(Headers.X_AVERAGE_ATTENDEES.headerName, String.valueOf(allMeetings.stream().mapToInt(Meeting::nbAttendees).average().orElse(0d)));
         return allMeetings;
@@ -115,7 +121,7 @@ public class Server {
 
     private static Map<String, Long> topAttendees(Request req, Response res) {
         int limit = getLimit(req, 10);
-        List<Meeting> allMeetings = meetingRepository.all();
+        List<Meeting> allMeetings = meetingRepository.pastMeetings();
         Map<String, Long> countByAttendee = allMeetings.stream()
                 .map(meetingRepository::attendees)
                 .flatMap(Collection::stream)

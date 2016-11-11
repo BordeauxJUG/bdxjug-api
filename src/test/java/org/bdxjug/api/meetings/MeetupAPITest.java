@@ -11,7 +11,7 @@ public class MeetupAPITest {
     @Test
     public void test_api() {
         assumeThat(MeetupAPI.apiKey(), notNullValue());
-        MeetupAPI.api().pastEvents("BordeauxJUG").stream().map(e -> e.name).forEach(System.out::println);
+        MeetupAPI.api().events("BordeauxJUG","past").stream().map(e -> e.name).forEach(System.out::println);
     }
 
 }

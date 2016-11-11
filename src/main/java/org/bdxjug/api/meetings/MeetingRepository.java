@@ -37,7 +37,7 @@ public class MeetingRepository {
         meetings = Caffeine.newBuilder()
                 .expireAfterAccess(30, TimeUnit.MINUTES)
                 .build(key ->
-                    API.pastEvents(JUG_GROUP).stream()
+                    API.events(JUG_GROUP, key).stream()
                     .filter(e -> e.yes_rsvp_count > 17) // Filter JugOff
                     .map(MeetingRepository::toMeeting)
                     .collect(Collectors.toList()));
@@ -53,12 +53,16 @@ public class MeetingRepository {
                         .collect(Collectors.toList()));
     }
 
-    public List<Meeting> all() {
-        return meetings.get("all");
+    public List<Meeting> pastMeetings() {
+        return meetings.get("past");
     }
 
-    public List<Meeting> byYear(int year) {
-        return all().stream().filter(m -> m.date().getYear() == year).collect(Collectors.toList());
+    public List<Meeting> upcomingMeetings() {
+        return meetings.get("upcoming");
+    }
+
+    public List<Meeting> pastMeetingsByYear(int year) {
+        return pastMeetings().stream().filter(m -> m.date().getYear() == year).collect(Collectors.toList());
     }
 
     public List<MeetingAttendee> attendees(Meeting meeting) {

@@ -7,6 +7,29 @@ This API provides endpoints for Bordeaux JUG data.
 
 == Meetings
 
+=== GET /api/meetings/upcoming
+
+Returns the list of all upcoming meetings.
+
+.Request
+
+Headers::
+* Accept : `application/json`
+
+Parameters:: N/A
+
+.Response
+
+Headers::
+* `Content-Type` : `application/json`
+* `X-Count` : the number of meetings
+
+Body::
+[source, javascript]
+----
+include::{basedir}/target/generated-docs/meetings.json[]
+----
+
 === GET /api/meetings/past
 
 Returns the list of all past meetings.
