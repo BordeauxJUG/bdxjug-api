@@ -49,6 +49,17 @@ public interface MeetupAPI {
         public String name;
         public long time;
         public int yes_rsvp_count;
+        public Venue venue;
+        public String link;
+        public String description;
+    }
+
+    class Venue {
+        public String name;
+        public double lat;
+        public double lon;
+        public String address_1;
+        public String city;
     }
 
     class Member {

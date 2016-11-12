@@ -1,6 +1,8 @@
 package org.bdxjug.api;
 
 import com.google.gson.Gson;
+import org.bdxjug.api.meetings.Geo;
+import org.bdxjug.api.meetings.Location;
 import org.bdxjug.api.meetings.Meeting;
 import org.bdxjug.api.members.Member;
 import org.bdxjug.api.speakers.Speaker;
@@ -36,8 +38,14 @@ public class DocumentationTest {
     public void meetings() throws IOException, InterruptedException {
         Meeting meeting1 = new Meeting("228184140", "Quickie Party", LocalDate.of(2016, 1, 21));
         meeting1.setAttendance(36);
+        meeting1.setDescription("La soirée sera composée par trois quickies....");
+        meeting1.setRegistrationLink("https://www.meetup.com/fr-FR/BordeauxJUG/events/228184140/");
+        meeting1.setLocation(new Location("ENSEIRB", "1 Avenue du Docteur Albert Schweitzer, Talence", new Geo(44.80613708496094, -0.6075440049171448)));
         Meeting meeting2 = new Meeting("228464263", "De Zéro à Héros avec Spring Boot", LocalDate.of(2016, 2, 10));
         meeting2.setAttendance(52);
+        meeting2.setDescription("Jeudi 31 mars 2016 à 19h00 dans l'amphi A de l'ENSEIRB MATMECA, Stéphane NICOLL ...");
+        meeting2.setRegistrationLink("https://www.meetup.com/fr-FR/BordeauxJUG/events/182201392/");
+        meeting2.setLocation(new Location("ENSEIRB", "1 Avenue du Docteur Albert Schweitzer, Talence", new Geo(44.80613708496094, -0.6075440049171448)));
 
         writeJson("meetings.json", gson.toJson(Arrays.asList(meeting1, meeting2)));
     }

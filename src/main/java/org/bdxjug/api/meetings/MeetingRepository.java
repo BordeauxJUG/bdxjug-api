@@ -72,6 +72,12 @@ public class MeetingRepository {
     private static Meeting toMeeting(MeetupAPI.Event e) {
         Meeting meeting = new Meeting(e.id, e.name, Instant.ofEpochMilli(e.time).atZone(ZoneId.systemDefault()).toLocalDate());
         meeting.setAttendance(e.yes_rsvp_count);
+        meeting.setDescription(e.description);
+        meeting.setRegistrationLink(e.link);
+        if (e.venue != null) {
+            String address = e.venue.address_1 + ", " + e.venue.city;
+            meeting.setLocation(new Location(e.venue.name, address, new Geo(e.venue.lat, e.venue.lon)));
+        }
         return meeting;
     }
 }

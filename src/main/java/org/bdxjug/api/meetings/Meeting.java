@@ -23,6 +23,9 @@ public class Meeting {
     private final String name;
     private final LocalDate date;
     private int nbAttendees;
+    private String description;
+    private String registrationLink;
+    private Location location;
 
     public Meeting(String id, String name, LocalDate date) {
         this.id = id;
@@ -48,6 +51,30 @@ public class Meeting {
 
     public void setAttendance(int nbAttendees) {
         this.nbAttendees = nbAttendees;
+    }
+
+    public String description() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String registrationLink() {
+        return registrationLink;
+    }
+
+    public void setRegistrationLink(String registrationLink) {
+        this.registrationLink = registrationLink;
+    }
+
+    public Location location() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     @Override
