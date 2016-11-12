@@ -16,8 +16,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class DocumentationTest {
 
@@ -47,7 +51,7 @@ public class DocumentationTest {
         meeting2.setRegistrationLink("https://www.meetup.com/fr-FR/BordeauxJUG/events/182201392/");
         meeting2.setLocation(new Location("ENSEIRB", "1 Avenue du Docteur Albert Schweitzer, Talence", new Geo(44.80613708496094, -0.6075440049171448)));
 
-        writeJson("meetings.json", gson.toJson(Arrays.asList(meeting1, meeting2)));
+        writeJson("meetings.json", gson.toJson(Stream.of(meeting1, meeting2).sorted(Comparator.comparing(Meeting::date).reversed()).collect(Collectors.toList())));
     }
 
     @Test

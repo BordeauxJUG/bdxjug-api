@@ -21,6 +21,7 @@ import org.bdxjug.api.interfaces.MeetupAPI;
 
 import java.time.Instant;
 import java.time.ZoneId;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -31,15 +32,21 @@ public class MeetingRepository {
     private static final String JUG_GROUP = "BordeauxJUG";
 
     private final LoadingCache<String, List<MeetingAttendee>> attendeeByMeetingId;
-    private final LoadingCache<String, List<Meeting>> meetings;
+    private final LoadingCache<Status, List<Meeting>> meetings;
+
+    enum Status {
+        past,
+        upcoming
+    }
 
     public MeetingRepository() {
         meetings = Caffeine.newBuilder()
                 .expireAfterAccess(30, TimeUnit.MINUTES)
                 .build(key ->
-                    API.events(JUG_GROUP, key).stream()
-                    .filter(e -> e.yes_rsvp_count > 17) // Filter JugOff
+                    API.events(JUG_GROUP, key.name()).stream()
+                    .filter(e -> e.yes_rsvp_count > getMinimumYes(key))
                     .map(MeetingRepository::toMeeting)
+                    .sorted(Comparator.comparing(Meeting::date).reversed())
                     .collect(Collectors.toList()));
 
         attendeeByMeetingId = Caffeine.newBuilder()
@@ -53,12 +60,19 @@ public class MeetingRepository {
                         .collect(Collectors.toList()));
     }
 
+    private int getMinimumYes(Status status) {
+        if (status.equals(Status.past)) {
+            return 17; // Filter JugOff
+        }
+        return 0;
+    }
+
     public List<Meeting> pastMeetings() {
-        return meetings.get("past");
+        return meetings.get(Status.past);
     }
 
     public List<Meeting> upcomingMeetings() {
-        return meetings.get("upcoming");
+        return meetings.get(Status.upcoming);
     }
 
     public List<Meeting> pastMeetingsByYear(int year) {
