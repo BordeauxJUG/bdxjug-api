@@ -150,3 +150,28 @@ Body::
 ----
 include::{basedir}/target/generated-docs/speakers.json[]
 ----
+
+== Sponsors
+
+=== GET /api/sponsors
+
+Returns the list of sponsors.
+
+.Request
+
+Headers::
+* Accept : `application/json`
+Parameters::
+* N/A
+
+.Response
+
+Headers::
+* `Content-Type` : `application/json`
+* `X-Count` : the number of sponsors
+
+Body::
+[source, javascript]
+----
+include::{basedir}/target/generated-docs/sponsors.json[]
+----

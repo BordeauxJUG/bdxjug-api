@@ -6,6 +6,7 @@ import org.bdxjug.api.meetings.Location;
 import org.bdxjug.api.meetings.Meeting;
 import org.bdxjug.api.members.Member;
 import org.bdxjug.api.speakers.Speaker;
+import org.bdxjug.api.sponsors.Sponsor;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -83,6 +84,14 @@ public class DocumentationTest {
                 "http://www.gravatar.com/avatar/f0887bf6175ba40dca795eb37883a8cf?s=128");
 
         writeJson("speakers.json", gson.toJson(Arrays.asList(speaker1, speaker2, speaker3)));
+    }
+
+    @Test
+    public void sponsors() throws IOException, InterruptedException {
+        Sponsor sponsor1 = new Sponsor("Arca", "http://www.arca-computing.fr/", "https://lh3.googleusercontent.com/NukZwnl7xNhTUQoriXPDXFmwEBqPmnarQbxOwNmpOk4=w300-h117-no");
+        Sponsor sponsor2 = new Sponsor("DevCoop", "http://dev.coop", "http://www.devcoop.fr/img/logo.png");
+
+        writeJson("sponsors.json", gson.toJson(Arrays.asList(sponsor1, sponsor2)));
     }
 
     @Test

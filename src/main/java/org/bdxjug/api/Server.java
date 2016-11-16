@@ -24,6 +24,8 @@ import org.bdxjug.api.members.Member;
 import org.bdxjug.api.members.MemberRepository;
 import org.bdxjug.api.speakers.Speaker;
 import org.bdxjug.api.speakers.SpeakerRepository;
+import org.bdxjug.api.sponsors.Sponsor;
+import org.bdxjug.api.sponsors.SponsorRepository;
 import spark.*;
 
 import java.util.*;
@@ -54,6 +56,7 @@ public class Server {
     private static MeetingRepository meetingRepository;
     private static MemberRepository memberRepository;
     private static SpeakerRepository speakerRepository;
+    private static SponsorRepository sponsorRepository;
 
     public static void main(String[] args) {
         setPort();
@@ -69,6 +72,7 @@ public class Server {
         get("/api/attendees/top", Server::topAttendees, jsonMapper);
         get("/api/members", Server::members, jsonMapper);
         get("/api/speakers", Server::speakers, jsonMapper);
+        get("/api/sponsors", Server::sponsors, jsonMapper);
 
         after((req, res) -> res.type("application/json"));
     }
@@ -85,6 +89,7 @@ public class Server {
         meetingRepository = new MeetingRepository();
         memberRepository = new MemberRepository();
         speakerRepository = new SpeakerRepository();
+        sponsorRepository = new SponsorRepository();
     }
 
     private static Integer getLimit(Request req, int defaultValue) {
@@ -95,6 +100,12 @@ public class Server {
         List<Speaker> allSpeakers = speakerRepository.all();
         res.header(Headers.X_COUNT.headerName, String.valueOf(allSpeakers.size()));
         return allSpeakers;
+    }
+
+    private static List<Sponsor> sponsors(Request req, Response res) {
+        List<Sponsor> allSponsors = sponsorRepository.all();
+        res.header(Headers.X_COUNT.headerName, String.valueOf(allSponsors.size()));
+        return allSponsors;
     }
 
     private static List<Member> members(Request req, Response res) {
