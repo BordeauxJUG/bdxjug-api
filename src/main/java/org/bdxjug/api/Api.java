@@ -15,6 +15,8 @@
  */
 package org.bdxjug.api;
 
+import org.bdxjug.api.speakers.Speaker;
+import org.bdxjug.api.speakers.SpeakerRepository;
 import org.bdxjug.api.sponsors.Sponsor;
 import org.bdxjug.api.sponsors.SponsorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,10 +50,12 @@ public class Api {
     }
 
     private final SponsorRepository sponsorRepository;
+    private final SpeakerRepository speakerRepository;
 
     @Autowired
-    public Api(SponsorRepository sponsorRepository) {
+    public Api(SponsorRepository sponsorRepository, SpeakerRepository speakerRepository) {
         this.sponsorRepository = sponsorRepository;
+        this.speakerRepository = speakerRepository;
     }
 
     @RequestMapping("sponsors")
@@ -60,5 +64,13 @@ public class Api {
         HttpHeaders headers = new HttpHeaders();
         headers.add(Headers.X_COUNT.headerName, String.valueOf(allSponsors.size()));
         return ResponseEntity.ok().headers(headers).body(allSponsors);
+    }
+
+    @RequestMapping("speakers")
+    public ResponseEntity speakers() {
+        List<Speaker> allSpeakers = speakerRepository.all();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(Headers.X_COUNT.headerName, String.valueOf(allSpeakers.size()));
+        return ResponseEntity.ok().headers(headers).body(allSpeakers);
     }
 }

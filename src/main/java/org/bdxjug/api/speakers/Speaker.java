@@ -17,10 +17,10 @@ package org.bdxjug.api.speakers;
 
 public class Speaker {
 
-    private final String name;
-    private final String bio;
-    private final String image;
-    private String twitter;
+    public final String name;
+    public final String bio;
+    public final String image;
+    public String twitter;
 
     public Speaker(String name, String bio, String image) {
         this.name = name;
