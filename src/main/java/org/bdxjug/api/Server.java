@@ -72,7 +72,6 @@ public class Server {
         get("/api/attendees/top", Server::topAttendees, jsonMapper);
         get("/api/members", Server::members, jsonMapper);
         get("/api/speakers", Server::speakers, jsonMapper);
-        get("/api/sponsors", Server::sponsors, jsonMapper);
 
         after((req, res) -> res.type("application/json"));
     }
@@ -100,12 +99,6 @@ public class Server {
         List<Speaker> allSpeakers = speakerRepository.all();
         res.header(Headers.X_COUNT.headerName, String.valueOf(allSpeakers.size()));
         return allSpeakers;
-    }
-
-    private static List<Sponsor> sponsors(Request req, Response res) {
-        List<Sponsor> allSponsors = sponsorRepository.all();
-        res.header(Headers.X_COUNT.headerName, String.valueOf(allSponsors.size()));
-        return allSponsors;
     }
 
     private static List<Member> members(Request req, Response res) {

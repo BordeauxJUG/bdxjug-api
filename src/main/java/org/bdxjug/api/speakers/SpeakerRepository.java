@@ -16,12 +16,14 @@
 package org.bdxjug.api.speakers;
 
 import org.bdxjug.api.interfaces.GoogleSheetAPI;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Optional.ofNullable;
 
+@Component
 public class SpeakerRepository {
 
     private static final GoogleSheetAPI API = GoogleSheetAPI.api();
