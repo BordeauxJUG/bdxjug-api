@@ -19,10 +19,10 @@ import java.time.LocalDate;
 
 public class Member {
 
-    public final String firstName;
-    public final String lastName;
-    public LocalDate endOfValidity;
-    public LocalDate firstRegistration;
+    private final String firstName;
+    private final String lastName;
+    private LocalDate endOfValidity;
+    private LocalDate firstRegistration;
 
     public Member(String firstName, String lastName) {
         this.firstName = firstName;

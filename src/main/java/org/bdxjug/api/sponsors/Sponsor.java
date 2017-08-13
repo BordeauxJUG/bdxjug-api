@@ -17,9 +17,9 @@ package org.bdxjug.api.sponsors;
 
 public class Sponsor {
 
-    public final String name;
-    public final String url;
-    public final String image;
+    private final String name;
+    private final String url;
+    private final String image;
 
     public Sponsor(String name, String url, String image) {
         this.name = name;

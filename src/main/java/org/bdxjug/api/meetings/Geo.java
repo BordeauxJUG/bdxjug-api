@@ -20,8 +20,8 @@ package org.bdxjug.api.meetings;
  */
 public class Geo {
 
-    public final double latitude;
-    public final double longitude;
+    private final double latitude;
+    private final double longitude;
 
     public Geo(double latitude, double longitude) {
         this.latitude = latitude;

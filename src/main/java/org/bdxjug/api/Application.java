@@ -17,11 +17,25 @@ package org.bdxjug.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.GsonHttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import java.util.List;
 
 @SpringBootApplication
 public class Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
+    }
+
+    @EnableWebMvc
+    public class WebConfig extends WebMvcConfigurerAdapter {
+        @Override
+        public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+            converters.add(new GsonHttpMessageConverter());
+        }
     }
 }

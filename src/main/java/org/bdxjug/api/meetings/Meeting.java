@@ -19,13 +19,13 @@ import java.time.LocalDate;
 
 public class Meeting {
 
-    public final String id;
-    public final String name;
-    public final LocalDate date;
-    public int nbAttendees;
-    public String description;
-    public String registrationLink;
-    public Location location;
+    private final String id;
+    private final String name;
+    private final LocalDate date;
+    private int nbAttendees;
+    private String description;
+    private String registrationLink;
+    private Location location;
 
     public Meeting(String id, String name, LocalDate date) {
         this.id = id;
