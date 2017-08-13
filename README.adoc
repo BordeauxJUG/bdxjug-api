@@ -4,16 +4,8 @@
 
 This project provides a REST API about Bordeaux JUG data.
 
-...and a opportunity to test a technical stack :-)
-
-== Technical Stack
-
-* JDK 8
-* http://sparkjava.com/[Spark] as web server
 
 == Environment Variable
-
-PORT:: the http port (default is 4567)
 
 MEETUP_API_KEY:: the api key for https://www.meetup.com/
 
