@@ -1,6 +1,7 @@
 package org.bdxjug.api;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.bdxjug.api.meetings.Geo;
 import org.bdxjug.api.meetings.Location;
 import org.bdxjug.api.meetings.Meeting;
@@ -31,9 +32,18 @@ public class DocumentationTest {
 
     @BeforeClass
     public static void init() {
-        gson = Server.configureGson(true);
+        gson = configureGson(true);
         Paths.get(PROJECT_DIR, "target", "generated-docs").toFile().mkdirs();
     }
+
+    private static Gson configureGson(boolean pretty) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        if (pretty) {
+            gsonBuilder.setPrettyPrinting();
+        }
+        return gsonBuilder.create();
+    }
+
 
     private Path writeJson(String file, String json) throws IOException {
         return Files.write(Paths.get(PROJECT_DIR, "target", "generated-docs", file), json.getBytes(StandardCharsets.UTF_8));
