@@ -15,6 +15,8 @@
  */
 package org.bdxjug.api;
 
+import org.bdxjug.api.members.Member;
+import org.bdxjug.api.members.MemberRepository;
 import org.bdxjug.api.speakers.Speaker;
 import org.bdxjug.api.speakers.SpeakerRepository;
 import org.bdxjug.api.sponsors.Sponsor;
@@ -51,11 +53,15 @@ public class Api {
 
     private final SponsorRepository sponsorRepository;
     private final SpeakerRepository speakerRepository;
+    private final MemberRepository memberRepository;
 
     @Autowired
-    public Api(SponsorRepository sponsorRepository, SpeakerRepository speakerRepository) {
+    public Api(SponsorRepository sponsorRepository,
+               SpeakerRepository speakerRepository,
+               MemberRepository memberRepository) {
         this.sponsorRepository = sponsorRepository;
         this.speakerRepository = speakerRepository;
+        this.memberRepository = memberRepository;
     }
 
     @RequestMapping("sponsors")
@@ -72,5 +78,13 @@ public class Api {
         HttpHeaders headers = new HttpHeaders();
         headers.add(Headers.X_COUNT.headerName, String.valueOf(allSpeakers.size()));
         return ResponseEntity.ok().headers(headers).body(allSpeakers);
+    }
+
+    @RequestMapping("members")
+    public ResponseEntity members() {
+        List<Member> allMembers = memberRepository.all();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(Headers.X_COUNT.headerName, String.valueOf(allMembers.size()));
+        return ResponseEntity.ok().headers(headers).body(allMembers);
     }
 }

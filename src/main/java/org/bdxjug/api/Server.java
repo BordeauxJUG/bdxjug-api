@@ -54,9 +54,6 @@ public class Server {
     private static final String METHODS = "GET, POST, PUT, DELETE, OPTIONS, HEAD";
 
     private static MeetingRepository meetingRepository;
-    private static MemberRepository memberRepository;
-    private static SpeakerRepository speakerRepository;
-    private static SponsorRepository sponsorRepository;
 
     public static void main(String[] args) {
         setPort();
@@ -70,8 +67,6 @@ public class Server {
         get("/api/meetings/past", Server::pastMeetings, jsonMapper);
         get("/api/meetings/past/:year", Server::pastMeetings, jsonMapper);
         get("/api/attendees/top", Server::topAttendees, jsonMapper);
-        get("/api/members", Server::members, jsonMapper);
-        get("/api/speakers", Server::speakers, jsonMapper);
 
         after((req, res) -> res.type("application/json"));
     }
@@ -86,26 +81,12 @@ public class Server {
 
     private static void initRepositories() {
         meetingRepository = new MeetingRepository();
-        memberRepository = new MemberRepository();
-        speakerRepository = new SpeakerRepository();
-        sponsorRepository = new SponsorRepository();
     }
 
     private static Integer getLimit(Request req, int defaultValue) {
         return ofNullable(req.queryParams("limit")).map(Integer::parseInt).orElse(defaultValue);
     }
 
-    private static List<Speaker> speakers(Request req, Response res) {
-        List<Speaker> allSpeakers = speakerRepository.all();
-        res.header(Headers.X_COUNT.headerName, String.valueOf(allSpeakers.size()));
-        return allSpeakers;
-    }
-
-    private static List<Member> members(Request req, Response res) {
-        List<Member> allMembers = memberRepository.all();
-        res.header(Headers.X_COUNT.headerName, String.valueOf(allMembers.size()));
-        return allMembers;
-    }
 
     private static List<Meeting> upcomingMeetings(Request req, Response res) {
         List<Meeting> allMeetings = meetingRepository.upcomingMeetings();
