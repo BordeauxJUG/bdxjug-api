@@ -16,10 +16,12 @@
 package org.bdxjug.api.sponsors;
 
 import org.bdxjug.api.interfaces.GoogleSheetAPI;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class SponsorRepository {
 
     private static final GoogleSheetAPI API = GoogleSheetAPI.api();

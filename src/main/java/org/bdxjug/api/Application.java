@@ -13,26 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.api.meetings;
+package org.bdxjug.api;
 
-/**
- * Created by benoit on 12/11/2016.
- */
-public class Geo {
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-    public final double latitude;
-    public final double longitude;
+@SpringBootApplication
+public class Application {
 
-    public Geo(double latitude, double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
-
-    public double latitude() {
-        return latitude;
-    }
-
-    public double longitude() {
-        return longitude;
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
     }
 }

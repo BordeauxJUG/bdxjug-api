@@ -17,6 +17,7 @@ package org.bdxjug.api.members;
 
 import org.bdxjug.api.Logger;
 import org.bdxjug.api.interfaces.GoogleSheetAPI;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class MemberRepository {
 
     private static final GoogleSheetAPI API = GoogleSheetAPI.api();

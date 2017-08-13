@@ -18,6 +18,7 @@ package org.bdxjug.api.meetings;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import org.bdxjug.api.interfaces.MeetupAPI;
+import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+@Component
 public class MeetingRepository {
 
     private static final MeetupAPI API = MeetupAPI.api();
