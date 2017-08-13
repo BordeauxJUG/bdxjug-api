@@ -15,14 +15,11 @@
  */
 package org.bdxjug.api.meetings;
 
-/**
- * Created by benoit on 12/11/2016.
- */
 public class Location {
 
-    private final String name;
-    private final String address;
-    private final Geo geo;
+    public final String name;
+    public final String address;
+    public final Geo geo;
 
     public Location(String name, String address, Geo geo) {
         this.name = name;

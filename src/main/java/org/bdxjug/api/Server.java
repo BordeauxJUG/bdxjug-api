@@ -63,9 +63,6 @@ public class Server {
         enableCORS("*", METHODS, Headers.join(","));
 
         ResponseTransformer jsonMapper = configureGson(false)::toJson;
-        get("/api/meetings/upcoming", Server::upcomingMeetings, jsonMapper);
-        get("/api/meetings/past", Server::pastMeetings, jsonMapper);
-        get("/api/meetings/past/:year", Server::pastMeetings, jsonMapper);
         get("/api/attendees/top", Server::topAttendees, jsonMapper);
 
         after((req, res) -> res.type("application/json"));
@@ -87,22 +84,6 @@ public class Server {
         return ofNullable(req.queryParams("limit")).map(Integer::parseInt).orElse(defaultValue);
     }
 
-
-    private static List<Meeting> upcomingMeetings(Request req, Response res) {
-        List<Meeting> allMeetings = meetingRepository.upcomingMeetings();
-        res.header(Headers.X_COUNT.headerName, String.valueOf(allMeetings.size()));
-        return allMeetings;
-    }
-
-    private static List<Meeting> pastMeetings(Request req, Response res) {
-        List<Meeting> allMeetings = ofNullable(req.params("year"))
-                .map(Integer::parseInt)
-                .map(y -> meetingRepository.pastMeetingsByYear(y))
-                .orElseGet(() -> meetingRepository.pastMeetings());
-        res.header(Headers.X_COUNT.headerName, String.valueOf(allMeetings.size()));
-        res.header(Headers.X_AVERAGE_ATTENDEES.headerName, String.valueOf(allMeetings.stream().mapToInt(Meeting::nbAttendees).average().orElse(0d)));
-        return allMeetings;
-    }
 
     private static Map<String, Long> topAttendees(Request req, Response res) {
         int limit = getLimit(req, 10);

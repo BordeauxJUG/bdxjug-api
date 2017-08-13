@@ -15,6 +15,8 @@
  */
 package org.bdxjug.api;
 
+import org.bdxjug.api.meetings.Meeting;
+import org.bdxjug.api.meetings.MeetingRepository;
 import org.bdxjug.api.members.Member;
 import org.bdxjug.api.members.MemberRepository;
 import org.bdxjug.api.speakers.Speaker;
@@ -24,12 +26,15 @@ import org.bdxjug.api.sponsors.SponsorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.util.Optional.ofNullable;
 
 @RestController
 @RequestMapping("api")
@@ -54,14 +59,17 @@ public class Api {
     private final SponsorRepository sponsorRepository;
     private final SpeakerRepository speakerRepository;
     private final MemberRepository memberRepository;
+    private final MeetingRepository meetingRepository;
 
     @Autowired
     public Api(SponsorRepository sponsorRepository,
                SpeakerRepository speakerRepository,
-               MemberRepository memberRepository) {
+               MemberRepository memberRepository,
+               MeetingRepository meetingRepository) {
         this.sponsorRepository = sponsorRepository;
         this.speakerRepository = speakerRepository;
         this.memberRepository = memberRepository;
+        this.meetingRepository = meetingRepository;
     }
 
     @RequestMapping("sponsors")
@@ -86,5 +94,29 @@ public class Api {
         HttpHeaders headers = new HttpHeaders();
         headers.add(Headers.X_COUNT.headerName, String.valueOf(allMembers.size()));
         return ResponseEntity.ok().headers(headers).body(allMembers);
+    }
+
+    @RequestMapping("meetings/upcoming")
+    public ResponseEntity upcomingMeetings() {
+        List<Meeting> allMeetings = meetingRepository.upcomingMeetings();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(Headers.X_COUNT.headerName, String.valueOf(allMeetings.size()));
+        return ResponseEntity.ok().headers(headers).body(allMeetings);
+    }
+
+    @RequestMapping("meetings/past")
+    public ResponseEntity pastMeetings() {
+        return pastMeetings(null);
+    }
+
+    @RequestMapping("meetings/past/{year}")
+    public ResponseEntity pastMeetings(@PathVariable("year") Integer year) {
+        List<Meeting> allMeetings = ofNullable(year)
+                .map(meetingRepository::pastMeetingsByYear)
+                .orElseGet(meetingRepository::pastMeetings);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(Headers.X_COUNT.headerName, String.valueOf(allMeetings.size()));
+        headers.add(Headers.X_AVERAGE_ATTENDEES.headerName, String.valueOf(allMeetings.stream().mapToInt(Meeting::nbAttendees).average().orElse(0d)));
+        return ResponseEntity.ok().headers(headers).body(allMeetings);
     }
 }
