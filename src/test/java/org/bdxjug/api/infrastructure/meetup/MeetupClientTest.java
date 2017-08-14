@@ -1,6 +1,5 @@
-package org.bdxjug.api.meetings;
+package org.bdxjug.api.infrastructure.meetup;
 
-import org.bdxjug.api.interfaces.MeetupClient;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;

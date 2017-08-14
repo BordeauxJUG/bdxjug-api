@@ -13,29 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.api.sponsors;
+package org.bdxjug.api.infrastructure.googlesheet;
 
-public class Sponsor {
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
-    private final String name;
-    private final String url;
-    private final String image;
+interface LocalDates {
 
-    public Sponsor(String name, String url, String image) {
-        this.name = name;
-        this.url = url;
-        this.image = image;
-    }
+    DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public String getName() {
-        return name;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public String getImage() {
-        return image;
+    static LocalDate parseDate(String endOfValidity) {
+        try {
+            return LocalDate.parse(endOfValidity, DATE_TIME_FORMATTER);
+        } catch (DateTimeParseException e) {
+            return LocalDate.ofEpochDay(0);
+        }
     }
 }

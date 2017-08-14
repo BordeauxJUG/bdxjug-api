@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.api.meetings;
+package org.bdxjug.api.domain.meetings;
 
 import java.time.LocalDate;
 

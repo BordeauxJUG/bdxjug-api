@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.api.speakers;
+package org.bdxjug.api.infrastructure.googlesheet;
 
-import org.bdxjug.api.interfaces.GoogleSheetClient;
+import org.bdxjug.api.domain.speakers.Speaker;
+import org.bdxjug.api.domain.speakers.SpeakerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,16 +26,17 @@ import java.util.List;
 import static java.util.Optional.ofNullable;
 
 @Component
-public class SpeakerRepository {
+public class GoogleSheetSpeakerRepository implements SpeakerRepository {
 
     private static final String SHEET_ID = "1-v3BG67SzcxuiQpb_wkLiwCAG4RGwn2nGn0uAbWG6yg";
     private final GoogleSheetClient client;
 
     @Autowired
-    public SpeakerRepository(GoogleSheetClient client) {
+    public GoogleSheetSpeakerRepository(GoogleSheetClient client) {
         this.client = client;
     }
 
+    @Override
     public List<Speaker> all() {
         List<Speaker> speakers = new ArrayList<>();
         GoogleSheetClient.SpreadSheet sheet = client.batchGet(SHEET_ID, "ROWS", "A2:D");

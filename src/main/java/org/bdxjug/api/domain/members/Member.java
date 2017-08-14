@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.api.members;
+package org.bdxjug.api.domain.members;
 
 import java.time.LocalDate;
 

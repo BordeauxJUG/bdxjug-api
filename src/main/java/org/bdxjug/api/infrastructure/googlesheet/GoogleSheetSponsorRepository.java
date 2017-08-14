@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.api.sponsors;
+package org.bdxjug.api.infrastructure.googlesheet;
 
-import org.bdxjug.api.interfaces.GoogleSheetClient;
+import org.bdxjug.api.domain.sponsors.Sponsor;
+import org.bdxjug.api.domain.sponsors.SponsorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,16 +24,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class SponsorRepository {
+public class GoogleSheetSponsorRepository implements SponsorRepository {
 
     private static final String SHEET_ID = "1hjiS7OwgsNJxziJUKski2T7KGc0cTgfJT7iDpc2zr-I";
     private final GoogleSheetClient client;
 
     @Autowired
-    public SponsorRepository(GoogleSheetClient client) {
+    public GoogleSheetSponsorRepository(GoogleSheetClient client) {
         this.client = client;
     }
 
+    @Override
     public List<Sponsor> all() {
         List<Sponsor> sponsors = new ArrayList<>();
         GoogleSheetClient.SpreadSheet sheet = client.batchGet(SHEET_ID, "ROWS", "A2:C");

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.api.interfaces;
+package org.bdxjug.api.infrastructure.googlesheet;
 
 import feign.Param;
 import feign.RequestLine;

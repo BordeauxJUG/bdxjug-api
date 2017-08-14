@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.api.meetings;
+package org.bdxjug.api.infrastructure.meetup;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
-import org.bdxjug.api.interfaces.MeetupClient;
+import org.bdxjug.api.domain.meetings.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Component
-public class MeetingRepository {
+public class MeetupMeetingRepository implements MeetingRepository {
 
     private static final String JUG_GROUP = "BordeauxJUG";
 
@@ -42,13 +42,13 @@ public class MeetingRepository {
     }
 
     @Autowired
-    public MeetingRepository(MeetupClient meetupClient) {
+    public MeetupMeetingRepository(MeetupClient meetupClient) {
         meetings = Caffeine.newBuilder()
                 .expireAfterAccess(30, TimeUnit.MINUTES)
                 .build(key ->
                     meetupClient.events(JUG_GROUP, key.name()).stream()
                     .filter(e -> e.yes_rsvp_count > getMinimumYes(key))
-                    .map(MeetingRepository::toMeeting)
+                    .map(MeetupMeetingRepository::toMeeting)
                     .sorted(Comparator.comparing(Meeting::getDate).reversed())
                     .collect(Collectors.toList()));
 
@@ -70,18 +70,22 @@ public class MeetingRepository {
         return 0;
     }
 
+    @Override
     public List<Meeting> pastMeetings() {
         return meetings.get(Status.past);
     }
 
+    @Override
     public List<Meeting> upcomingMeetings() {
         return meetings.get(Status.upcoming);
     }
 
+    @Override
     public List<Meeting> pastMeetingsByYear(int year) {
         return pastMeetings().stream().filter(m -> m.getDate().getYear() == year).collect(Collectors.toList());
     }
 
+    @Override
     public List<MeetingAttendee> attendees(Meeting meeting) {
         return attendeeByMeetingId.get(meeting.getId());
     }

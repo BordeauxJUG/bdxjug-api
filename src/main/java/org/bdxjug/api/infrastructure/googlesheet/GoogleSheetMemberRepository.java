@@ -13,32 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.api.members;
+package org.bdxjug.api.infrastructure.googlesheet;
 
-import org.bdxjug.api.interfaces.GoogleSheetClient;
+import org.bdxjug.api.domain.members.Member;
+import org.bdxjug.api.domain.members.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Component
-public class MemberRepository {
+public class GoogleSheetMemberRepository implements MemberRepository {
 
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final String IS_ACTIVE = "1";
     private static final String SHEET_ID = "19Kj1ltJzW0k_Y9PHnQsmyMrPONVIhDyeP-y5W7o8Ons";
     private final GoogleSheetClient client;
 
     @Autowired
-    public MemberRepository(GoogleSheetClient client) {
+    public GoogleSheetMemberRepository(GoogleSheetClient client) {
         this.client = client;
     }
 
+    @Override
     public List<Member> all() {
         List<Member> members = new ArrayList<>();
         GoogleSheetClient.SpreadSheet sheet = client.batchGet(SHEET_ID, "ROWS", "A2:K");
@@ -58,18 +56,12 @@ public class MemberRepository {
         final String active = value[10];
         if (IS_ACTIVE.equals(active)) {
             Member member = new Member(firstName, lastName);
-            member.setFirstRegistration(parseDate(firstRegistration));
-            member.setEndOfValidity(parseDate(endOfValidity));
+            member.setFirstRegistration(LocalDates.parseDate(firstRegistration));
+            member.setEndOfValidity(LocalDates.parseDate(endOfValidity));
             return Optional.of(member);
         }
         return Optional.empty();
     }
 
-    static LocalDate parseDate(String endOfValidity) {
-        try {
-            return LocalDate.parse(endOfValidity, DATE_TIME_FORMATTER);
-        } catch (DateTimeParseException e) {
-            return LocalDate.ofEpochDay(0);
-        }
-    }
+
 }

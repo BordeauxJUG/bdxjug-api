@@ -13,38 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.api.speakers;
+package org.bdxjug.api.domain.meetings;
 
-public class Speaker {
+public class MeetingAttendee {
 
+    private final String id;
     private final String name;
-    private final String bio;
-    private final String image;
-    private String twitter;
 
-    public Speaker(String name, String bio, String image) {
+    public MeetingAttendee(String id, String name) {
+        this.id = id;
         this.name = name;
-        this.bio = bio;
-        this.image = image;
     }
 
-    public void setTwitter(String twitter) {
-        this.twitter = twitter;
+    public String getId() {
+        return id;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getBio() {
-        return bio;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MeetingAttendee attendee = (MeetingAttendee) o;
+
+        return id.equals(attendee.id);
+
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public String getTwitter() {
-        return twitter;
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 }

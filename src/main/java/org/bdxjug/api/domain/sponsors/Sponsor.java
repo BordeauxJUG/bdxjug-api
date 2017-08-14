@@ -13,29 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.api.meetings;
+package org.bdxjug.api.domain.sponsors;
 
-public class Location {
+public class Sponsor {
 
     private final String name;
-    private final String address;
-    private final Geo geo;
+    private final String url;
+    private final String image;
 
-    public Location(String name, String address, Geo geo) {
+    public Sponsor(String name, String url, String image) {
         this.name = name;
-        this.address = address;
-        this.geo = geo;
+        this.url = url;
+        this.image = image;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getAddress() {
-        return address;
+    public String getUrl() {
+        return url;
     }
 
-    public Geo getGeo() {
-        return geo;
+    public String getImage() {
+        return image;
     }
 }

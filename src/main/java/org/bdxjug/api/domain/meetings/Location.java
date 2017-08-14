@@ -13,26 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.api.meetings;
+package org.bdxjug.api.domain.meetings;
 
-/**
- * Created by benoit on 12/11/2016.
- */
-public class Geo {
+public class Location {
 
-    private final double latitude;
-    private final double longitude;
+    private final String name;
+    private final String address;
+    private final Geo geo;
 
-    public Geo(double latitude, double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+    public Location(String name, String address, Geo geo) {
+        this.name = name;
+        this.address = address;
+        this.geo = geo;
     }
 
-    public double getLatitude() {
-        return latitude;
+    public String getName() {
+        return name;
     }
 
-    public double getLongitude() {
-        return longitude;
+    public String getAddress() {
+        return address;
+    }
+
+    public Geo getGeo() {
+        return geo;
     }
 }

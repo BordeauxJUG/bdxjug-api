@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.api;
+package org.bdxjug.api.interfaces;
 
 import io.swagger.annotations.ApiOperation;
-import org.bdxjug.api.meetings.Meeting;
-import org.bdxjug.api.meetings.MeetingAttendee;
-import org.bdxjug.api.meetings.MeetingRepository;
-import org.bdxjug.api.members.Member;
-import org.bdxjug.api.members.MemberRepository;
-import org.bdxjug.api.speakers.Speaker;
-import org.bdxjug.api.speakers.SpeakerRepository;
-import org.bdxjug.api.sponsors.Sponsor;
-import org.bdxjug.api.sponsors.SponsorRepository;
+import org.bdxjug.api.domain.meetings.Meeting;
+import org.bdxjug.api.domain.meetings.MeetingAttendee;
+import org.bdxjug.api.domain.meetings.MeetingRepository;
+import org.bdxjug.api.domain.members.Member;
+import org.bdxjug.api.domain.members.MemberRepository;
+import org.bdxjug.api.domain.speakers.Speaker;
+import org.bdxjug.api.domain.speakers.SpeakerRepository;
+import org.bdxjug.api.domain.sponsors.Sponsor;
+import org.bdxjug.api.domain.sponsors.SponsorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -44,26 +44,26 @@ public class Api {
 
     private static final String COUNT_HEADER = "X-Count";
 
-    private final SponsorRepository sponsorRepository;
-    private final SpeakerRepository speakerRepository;
-    private final MemberRepository memberRepository;
-    private final MeetingRepository meetingRepository;
+    private final SponsorRepository googleSheetSponsorRepository;
+    private final SpeakerRepository googleSheetSpeakerRepository;
+    private final MemberRepository googleSheetMemberRepository;
+    private final MeetingRepository meetupMeetingRepository;
 
     @Autowired
-    public Api(SponsorRepository sponsorRepository,
-               SpeakerRepository speakerRepository,
-               MemberRepository memberRepository,
-               MeetingRepository meetingRepository) {
-        this.sponsorRepository = sponsorRepository;
-        this.speakerRepository = speakerRepository;
-        this.memberRepository = memberRepository;
-        this.meetingRepository = meetingRepository;
+    public Api(SponsorRepository googleSheetSponsorRepository,
+               SpeakerRepository googleSheetSpeakerRepository,
+               MemberRepository googleSheetMemberRepository,
+               MeetingRepository meetupMeetingRepository) {
+        this.googleSheetSponsorRepository = googleSheetSponsorRepository;
+        this.googleSheetSpeakerRepository = googleSheetSpeakerRepository;
+        this.googleSheetMemberRepository = googleSheetMemberRepository;
+        this.meetupMeetingRepository = meetupMeetingRepository;
     }
 
     @ApiOperation("Retrieve all sponsors")
     @GetMapping("sponsors")
     public ResponseEntity<List<Sponsor>> sponsors() {
-        List<Sponsor> allSponsors = sponsorRepository.all();
+        List<Sponsor> allSponsors = googleSheetSponsorRepository.all();
         HttpHeaders headers = new HttpHeaders();
         headers.add(COUNT_HEADER, String.valueOf(allSponsors.size()));
         return ResponseEntity.ok().headers(headers).body(allSponsors);
@@ -72,7 +72,7 @@ public class Api {
     @ApiOperation("Retrieve all speakers")
     @GetMapping("speakers")
     public ResponseEntity<List<Speaker>> speakers() {
-        List<Speaker> allSpeakers = speakerRepository.all();
+        List<Speaker> allSpeakers = googleSheetSpeakerRepository.all();
         HttpHeaders headers = new HttpHeaders();
         headers.add(COUNT_HEADER, String.valueOf(allSpeakers.size()));
         return ResponseEntity.ok().headers(headers).body(allSpeakers);
@@ -81,7 +81,7 @@ public class Api {
     @ApiOperation("Retrieve all members")
     @GetMapping("members")
     public ResponseEntity<List<Member>> members() {
-        List<Member> allMembers = memberRepository.all();
+        List<Member> allMembers = googleSheetMemberRepository.all();
         HttpHeaders headers = new HttpHeaders();
         headers.add(COUNT_HEADER, String.valueOf(allMembers.size()));
         return ResponseEntity.ok().headers(headers).body(allMembers);
@@ -90,7 +90,7 @@ public class Api {
     @ApiOperation("Retrieve all upcoming meetings")
     @GetMapping("meetings/upcoming")
     public ResponseEntity<List<Meeting>> upcomingMeetings() {
-        List<Meeting> allMeetings = meetingRepository.upcomingMeetings();
+        List<Meeting> allMeetings = meetupMeetingRepository.upcomingMeetings();
         HttpHeaders headers = new HttpHeaders();
         headers.add(COUNT_HEADER, String.valueOf(allMeetings.size()));
         return ResponseEntity.ok().headers(headers).body(allMeetings);
@@ -106,8 +106,8 @@ public class Api {
     @GetMapping("meetings/past/{year}")
     public ResponseEntity<List<Meeting>> pastMeetings(@PathVariable("year") Integer year) {
         List<Meeting> allMeetings = ofNullable(year)
-                .map(meetingRepository::pastMeetingsByYear)
-                .orElseGet(meetingRepository::pastMeetings);
+                .map(meetupMeetingRepository::pastMeetingsByYear)
+                .orElseGet(meetupMeetingRepository::pastMeetings);
         HttpHeaders headers = new HttpHeaders();
         headers.add(COUNT_HEADER, String.valueOf(allMeetings.size()));
         headers.add("X-AverageAttendees", String.valueOf(allMeetings.stream().mapToInt(Meeting::getNbAttendees).average().orElse(0d)));
@@ -117,9 +117,9 @@ public class Api {
     @GetMapping("attendees/top")
     public ResponseEntity topAttendees(@RequestParam(value = "limit", required = false) Integer limitParam) {
         Integer limit = Optional.ofNullable(limitParam).orElse(10);
-        List<Meeting> allMeetings = meetingRepository.pastMeetings();
+        List<Meeting> allMeetings = meetupMeetingRepository.pastMeetings();
         Map<String, Long> countByAttendee = allMeetings.stream()
-                .map(meetingRepository::attendees)
+                .map(meetupMeetingRepository::attendees)
                 .flatMap(Collection::stream)
                 .collect(Collectors.groupingBy(
                         MeetingAttendee::getName, Collectors.counting()
