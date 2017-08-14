@@ -27,35 +27,19 @@ import org.bdxjug.api.sponsors.SponsorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Optional.ofNullable;
 
+@CrossOrigin(origins = "*", exposedHeaders = "origin, accept, content-type, X-Count, X-AverageAttendees")
 @RestController
 @RequestMapping("api")
 public class Api {
 
-    private enum Headers {
-        ORIGIN("origin"),
-        ACCEPT("accept"),
-        CONTENT_TYPE("content-type"),
-        X_COUNT("X-Count"),
-        X_AVERAGE_ATTENDEES("X-AverageAttendees");
-
-        private final String headerName;
-        Headers(String headerName) {
-            this.headerName = headerName;
-        }
-        static String join(String separator) {
-            return Arrays.stream(values()).map(h -> h.headerName).collect(Collectors.joining(separator));
-        }
-    }
+    private static final String COUNT_HEADER = "X-Count";
 
     private final SponsorRepository sponsorRepository;
     private final SpeakerRepository speakerRepository;
@@ -77,7 +61,7 @@ public class Api {
     public ResponseEntity sponsors() {
         List<Sponsor> allSponsors = sponsorRepository.all();
         HttpHeaders headers = new HttpHeaders();
-        headers.add(Headers.X_COUNT.headerName, String.valueOf(allSponsors.size()));
+        headers.add(COUNT_HEADER, String.valueOf(allSponsors.size()));
         return ResponseEntity.ok().headers(headers).body(allSponsors);
     }
 
@@ -85,7 +69,7 @@ public class Api {
     public ResponseEntity speakers() {
         List<Speaker> allSpeakers = speakerRepository.all();
         HttpHeaders headers = new HttpHeaders();
-        headers.add(Headers.X_COUNT.headerName, String.valueOf(allSpeakers.size()));
+        headers.add(COUNT_HEADER, String.valueOf(allSpeakers.size()));
         return ResponseEntity.ok().headers(headers).body(allSpeakers);
     }
 
@@ -93,7 +77,7 @@ public class Api {
     public ResponseEntity members() {
         List<Member> allMembers = memberRepository.all();
         HttpHeaders headers = new HttpHeaders();
-        headers.add(Headers.X_COUNT.headerName, String.valueOf(allMembers.size()));
+        headers.add(COUNT_HEADER, String.valueOf(allMembers.size()));
         return ResponseEntity.ok().headers(headers).body(allMembers);
     }
 
@@ -101,7 +85,7 @@ public class Api {
     public ResponseEntity upcomingMeetings() {
         List<Meeting> allMeetings = meetingRepository.upcomingMeetings();
         HttpHeaders headers = new HttpHeaders();
-        headers.add(Headers.X_COUNT.headerName, String.valueOf(allMeetings.size()));
+        headers.add(COUNT_HEADER, String.valueOf(allMeetings.size()));
         return ResponseEntity.ok().headers(headers).body(allMeetings);
     }
 
@@ -116,8 +100,8 @@ public class Api {
                 .map(meetingRepository::pastMeetingsByYear)
                 .orElseGet(meetingRepository::pastMeetings);
         HttpHeaders headers = new HttpHeaders();
-        headers.add(Headers.X_COUNT.headerName, String.valueOf(allMeetings.size()));
-        headers.add(Headers.X_AVERAGE_ATTENDEES.headerName, String.valueOf(allMeetings.stream().mapToInt(Meeting::nbAttendees).average().orElse(0d)));
+        headers.add(COUNT_HEADER, String.valueOf(allMeetings.size()));
+        headers.add("X-AverageAttendees", String.valueOf(allMeetings.stream().mapToInt(Meeting::nbAttendees).average().orElse(0d)));
         return ResponseEntity.ok().headers(headers).body(allMeetings);
     }
 
