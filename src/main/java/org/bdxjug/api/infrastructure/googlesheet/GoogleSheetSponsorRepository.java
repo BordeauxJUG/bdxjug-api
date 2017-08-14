@@ -20,29 +20,24 @@ import org.bdxjug.api.domain.sponsors.SponsorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class GoogleSheetSponsorRepository implements SponsorRepository {
+public class GoogleSheetSponsorRepository extends GoogleSheetRepository<Sponsor> implements SponsorRepository {
 
     private static final String SHEET_ID = "1hjiS7OwgsNJxziJUKski2T7KGc0cTgfJT7iDpc2zr-I";
-    private final GoogleSheetClient client;
 
     @Autowired
     public GoogleSheetSponsorRepository(GoogleSheetClient client) {
-        this.client = client;
+        super(client, SHEET_ID);
     }
 
     @Override
     public List<Sponsor> all() {
-        List<Sponsor> sponsors = new ArrayList<>();
-        GoogleSheetClient.SpreadSheet sheet = client.batchGet(SHEET_ID, "ROWS", "A2:C");
-        sheet.valueRanges.stream().findFirst().map(r -> r.values).ifPresent(values -> {
-            for (String[] value : values) {
-                Sponsor sponsor = new Sponsor(value[0], value[1], value[2]);
-                sponsors.add(sponsor);
-            }
-        });
-        return sponsors;    }
+        return batchGet(this::toSponsor, "A2:C");
+    }
+
+    private Sponsor toSponsor(String[] value) {
+        return new Sponsor(value[0], value[1], value[2]);
+    }
 }

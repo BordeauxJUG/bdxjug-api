@@ -20,36 +20,31 @@ import org.bdxjug.api.domain.speakers.SpeakerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Optional.ofNullable;
 
 @Component
-public class GoogleSheetSpeakerRepository implements SpeakerRepository {
+public class GoogleSheetSpeakerRepository extends GoogleSheetRepository<Speaker> implements SpeakerRepository {
 
     private static final String SHEET_ID = "1-v3BG67SzcxuiQpb_wkLiwCAG4RGwn2nGn0uAbWG6yg";
-    private final GoogleSheetClient client;
 
     @Autowired
     public GoogleSheetSpeakerRepository(GoogleSheetClient client) {
-        this.client = client;
+        super(client, SHEET_ID);
     }
 
     @Override
     public List<Speaker> all() {
-        List<Speaker> speakers = new ArrayList<>();
-        GoogleSheetClient.SpreadSheet sheet = client.batchGet(SHEET_ID, "ROWS", "A2:D");
-        sheet.valueRanges.stream().findFirst().map(r -> r.values).ifPresent(values -> {
-            for (String[] value : values) {
-                Speaker speaker = new Speaker(value[0], value[1], value[2]);
-                if (value.length > 3) {
-                    ofNullable(value[3]).ifPresent(speaker::setTwitter);
-                }
-                speakers.add(speaker);
-            }
-        });
-        return speakers;
+        return batchGet(this::toSpeaker, "A2:D");
+    }
+
+    private Speaker toSpeaker(String[] value) {
+        Speaker speaker = new Speaker(value[0], value[1], value[2]);
+        if (value.length > 3) {
+            ofNullable(value[3]).ifPresent(speaker::setTwitter);
+        }
+        return speaker;
     }
 
 }
