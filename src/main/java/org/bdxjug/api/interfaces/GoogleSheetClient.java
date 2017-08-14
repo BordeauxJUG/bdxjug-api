@@ -15,28 +15,12 @@
  */
 package org.bdxjug.api.interfaces;
 
-import feign.Feign;
 import feign.Param;
 import feign.RequestLine;
-import feign.gson.GsonDecoder;
-import feign.gson.GsonEncoder;
-import org.bdxjug.api.Configuration;
 
 import java.util.List;
 
-public interface GoogleSheetAPI {
-
-    static String apiKey() {
-        return Configuration.GOOGLE_SHEET_API_KEY.value();
-    }
-
-    static GoogleSheetAPI api() {
-        return Feign.builder()
-                .encoder(new GsonEncoder())
-                .decoder(new GsonDecoder())
-                .requestInterceptor(r -> r.query("key", apiKey()))
-                .target(GoogleSheetAPI.class, "https://sheets.googleapis.com/v4");
-    }
+public interface GoogleSheetClient {
 
     @RequestLine("GET /spreadsheets/{sheetId}/values:batchGet?majorDimension={majorDimension}&ranges={ranges}")
     SpreadSheet batchGet(@Param("sheetId") String sheetId, @Param("majorDimension") String majorDimension, @Param("ranges") String ranges);

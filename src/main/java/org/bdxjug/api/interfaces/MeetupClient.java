@@ -15,28 +15,12 @@
  */
 package org.bdxjug.api.interfaces;
 
-import feign.Feign;
 import feign.Param;
 import feign.RequestLine;
-import feign.gson.GsonDecoder;
-import feign.gson.GsonEncoder;
-import org.bdxjug.api.Configuration;
 
 import java.util.List;
 
-public interface MeetupAPI {
-
-    static String apiKey() {
-        return Configuration.MEETUP_API_KEY.value();
-    }
-
-    static MeetupAPI api() {
-        return Feign.builder()
-                .encoder(new GsonEncoder())
-                .decoder(new GsonDecoder())
-                .requestInterceptor(r -> r.query("key", apiKey()))
-                .target(MeetupAPI.class, "https://api.meetup.com");
-    }
+public interface MeetupClient {
 
     @RequestLine("GET /{group}/events?status={status}")
     List<Event> events(@Param("group") String group, @Param("status") String status);

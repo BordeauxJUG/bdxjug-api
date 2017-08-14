@@ -15,7 +15,8 @@
  */
 package org.bdxjug.api.sponsors;
 
-import org.bdxjug.api.interfaces.GoogleSheetAPI;
+import org.bdxjug.api.interfaces.GoogleSheetClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -24,12 +25,17 @@ import java.util.List;
 @Component
 public class SponsorRepository {
 
-    private static final GoogleSheetAPI API = GoogleSheetAPI.api();
     private static final String SHEET_ID = "1hjiS7OwgsNJxziJUKski2T7KGc0cTgfJT7iDpc2zr-I";
+    private final GoogleSheetClient client;
+
+    @Autowired
+    public SponsorRepository(GoogleSheetClient client) {
+        this.client = client;
+    }
 
     public List<Sponsor> all() {
         List<Sponsor> sponsors = new ArrayList<>();
-        GoogleSheetAPI.SpreadSheet sheet = API.batchGet(SHEET_ID, "ROWS", "A2:C");
+        GoogleSheetClient.SpreadSheet sheet = client.batchGet(SHEET_ID, "ROWS", "A2:C");
         sheet.valueRanges.stream().findFirst().map(r -> r.values).ifPresent(values -> {
             for (String[] value : values) {
                 Sponsor sponsor = new Sponsor(value[0], value[1], value[2]);

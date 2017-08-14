@@ -1,0 +1,5 @@
+bdxjug:
+    google-sheet:
+        key: ${GOOGLE_SHEET_API_KEY}
+    meetup:
+        key: ${MEETUP_API_KEY}

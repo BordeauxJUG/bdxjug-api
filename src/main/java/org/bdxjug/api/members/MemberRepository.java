@@ -15,7 +15,8 @@
  */
 package org.bdxjug.api.members;
 
-import org.bdxjug.api.interfaces.GoogleSheetAPI;
+import org.bdxjug.api.interfaces.GoogleSheetClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -28,14 +29,19 @@ import java.util.Optional;
 @Component
 public class MemberRepository {
 
-    private static final GoogleSheetAPI API = GoogleSheetAPI.api();
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final String IS_ACTIVE = "1";
     private static final String SHEET_ID = "19Kj1ltJzW0k_Y9PHnQsmyMrPONVIhDyeP-y5W7o8Ons";
+    private final GoogleSheetClient client;
+
+    @Autowired
+    public MemberRepository(GoogleSheetClient client) {
+        this.client = client;
+    }
 
     public List<Member> all() {
         List<Member> members = new ArrayList<>();
-        GoogleSheetAPI.SpreadSheet sheet = API.batchGet(SHEET_ID, "ROWS", "A2:K");
+        GoogleSheetClient.SpreadSheet sheet = client.batchGet(SHEET_ID, "ROWS", "A2:K");
         sheet.valueRanges.stream().findFirst().map(r -> r.values).ifPresent(values -> {
             for (String[] value : values) {
                 toMember(value).ifPresent(members::add);

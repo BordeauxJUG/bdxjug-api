@@ -17,7 +17,8 @@ package org.bdxjug.api.meetings;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
-import org.bdxjug.api.interfaces.MeetupAPI;
+import org.bdxjug.api.interfaces.MeetupClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -30,7 +31,6 @@ import java.util.stream.Collectors;
 @Component
 public class MeetingRepository {
 
-    private static final MeetupAPI API = MeetupAPI.api();
     private static final String JUG_GROUP = "BordeauxJUG";
 
     private final LoadingCache<String, List<MeetingAttendee>> attendeeByMeetingId;
@@ -41,11 +41,12 @@ public class MeetingRepository {
         upcoming
     }
 
-    public MeetingRepository() {
+    @Autowired
+    public MeetingRepository(MeetupClient meetupClient) {
         meetings = Caffeine.newBuilder()
                 .expireAfterAccess(30, TimeUnit.MINUTES)
                 .build(key ->
-                    API.events(JUG_GROUP, key.name()).stream()
+                    meetupClient.events(JUG_GROUP, key.name()).stream()
                     .filter(e -> e.yes_rsvp_count > getMinimumYes(key))
                     .map(MeetingRepository::toMeeting)
                     .sorted(Comparator.comparing(Meeting::getDate).reversed())
@@ -54,7 +55,7 @@ public class MeetingRepository {
         attendeeByMeetingId = Caffeine.newBuilder()
                 .expireAfterAccess(30, TimeUnit.MINUTES)
                 .build(key ->
-                        API.eventAttendance(JUG_GROUP, key).stream()
+                        meetupClient.eventAttendance(JUG_GROUP, key).stream()
                         .filter(a -> !a.member.id.equals("0"))
                         .filter(a -> a.rsvp.response.equals("yes"))
                         .filter(a -> !a.member.name.equals("Bordeaux JUG"))
@@ -85,7 +86,7 @@ public class MeetingRepository {
         return attendeeByMeetingId.get(meeting.getId());
     }
 
-    private static Meeting toMeeting(MeetupAPI.Event e) {
+    private static Meeting toMeeting(MeetupClient.Event e) {
         Meeting meeting = new Meeting(e.id, e.name, Instant.ofEpochMilli(e.time).atZone(ZoneId.systemDefault()).toLocalDate());
         meeting.setAttendance(e.yes_rsvp_count);
         meeting.setDescription(e.description);

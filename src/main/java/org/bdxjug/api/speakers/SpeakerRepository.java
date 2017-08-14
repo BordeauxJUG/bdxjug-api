@@ -15,7 +15,8 @@
  */
 package org.bdxjug.api.speakers;
 
-import org.bdxjug.api.interfaces.GoogleSheetAPI;
+import org.bdxjug.api.interfaces.GoogleSheetClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -26,12 +27,17 @@ import static java.util.Optional.ofNullable;
 @Component
 public class SpeakerRepository {
 
-    private static final GoogleSheetAPI API = GoogleSheetAPI.api();
     private static final String SHEET_ID = "1-v3BG67SzcxuiQpb_wkLiwCAG4RGwn2nGn0uAbWG6yg";
+    private final GoogleSheetClient client;
+
+    @Autowired
+    public SpeakerRepository(GoogleSheetClient client) {
+        this.client = client;
+    }
 
     public List<Speaker> all() {
         List<Speaker> speakers = new ArrayList<>();
-        GoogleSheetAPI.SpreadSheet sheet = API.batchGet(SHEET_ID, "ROWS", "A2:D");
+        GoogleSheetClient.SpreadSheet sheet = client.batchGet(SHEET_ID, "ROWS", "A2:D");
         sheet.valueRanges.stream().findFirst().map(r -> r.values).ifPresent(values -> {
             for (String[] value : values) {
                 Speaker speaker = new Speaker(value[0], value[1], value[2]);
