@@ -48,7 +48,7 @@ public class MeetingRepository {
                     API.events(JUG_GROUP, key.name()).stream()
                     .filter(e -> e.yes_rsvp_count > getMinimumYes(key))
                     .map(MeetingRepository::toMeeting)
-                    .sorted(Comparator.comparing(Meeting::date).reversed())
+                    .sorted(Comparator.comparing(Meeting::getDate).reversed())
                     .collect(Collectors.toList()));
 
         attendeeByMeetingId = Caffeine.newBuilder()
@@ -78,11 +78,11 @@ public class MeetingRepository {
     }
 
     public List<Meeting> pastMeetingsByYear(int year) {
-        return pastMeetings().stream().filter(m -> m.date().getYear() == year).collect(Collectors.toList());
+        return pastMeetings().stream().filter(m -> m.getDate().getYear() == year).collect(Collectors.toList());
     }
 
     public List<MeetingAttendee> attendees(Meeting meeting) {
-        return attendeeByMeetingId.get(meeting.id());
+        return attendeeByMeetingId.get(meeting.getId());
     }
 
     private static Meeting toMeeting(MeetupAPI.Event e) {

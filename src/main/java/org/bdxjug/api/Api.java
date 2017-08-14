@@ -15,6 +15,7 @@
  */
 package org.bdxjug.api;
 
+import io.swagger.annotations.ApiOperation;
 import org.bdxjug.api.meetings.Meeting;
 import org.bdxjug.api.meetings.MeetingAttendee;
 import org.bdxjug.api.meetings.MeetingRepository;
@@ -57,55 +58,61 @@ public class Api {
         this.meetingRepository = meetingRepository;
     }
 
-    @RequestMapping("sponsors")
-    public ResponseEntity sponsors() {
+    @ApiOperation("Retrieve all sponsors")
+    @GetMapping("sponsors")
+    public ResponseEntity<List<Sponsor>> sponsors() {
         List<Sponsor> allSponsors = sponsorRepository.all();
         HttpHeaders headers = new HttpHeaders();
         headers.add(COUNT_HEADER, String.valueOf(allSponsors.size()));
         return ResponseEntity.ok().headers(headers).body(allSponsors);
     }
 
-    @RequestMapping("speakers")
-    public ResponseEntity speakers() {
+    @ApiOperation("Retrieve all speakers")
+    @GetMapping("speakers")
+    public ResponseEntity<List<Speaker>> speakers() {
         List<Speaker> allSpeakers = speakerRepository.all();
         HttpHeaders headers = new HttpHeaders();
         headers.add(COUNT_HEADER, String.valueOf(allSpeakers.size()));
         return ResponseEntity.ok().headers(headers).body(allSpeakers);
     }
 
-    @RequestMapping("members")
-    public ResponseEntity members() {
+    @ApiOperation("Retrieve all members")
+    @GetMapping("members")
+    public ResponseEntity<List<Member>> members() {
         List<Member> allMembers = memberRepository.all();
         HttpHeaders headers = new HttpHeaders();
         headers.add(COUNT_HEADER, String.valueOf(allMembers.size()));
         return ResponseEntity.ok().headers(headers).body(allMembers);
     }
 
-    @RequestMapping("meetings/upcoming")
-    public ResponseEntity upcomingMeetings() {
+    @ApiOperation("Retrieve all upcoming meetings")
+    @GetMapping("meetings/upcoming")
+    public ResponseEntity<List<Meeting>> upcomingMeetings() {
         List<Meeting> allMeetings = meetingRepository.upcomingMeetings();
         HttpHeaders headers = new HttpHeaders();
         headers.add(COUNT_HEADER, String.valueOf(allMeetings.size()));
         return ResponseEntity.ok().headers(headers).body(allMeetings);
     }
 
-    @RequestMapping("meetings/past")
-    public ResponseEntity pastMeetings() {
+    @ApiOperation("Retrieve all past meetings")
+    @GetMapping("meetings/past")
+    public ResponseEntity<List<Meeting>> pastMeetings() {
         return pastMeetings(null);
     }
 
-    @RequestMapping("meetings/past/{year}")
-    public ResponseEntity pastMeetings(@PathVariable("year") Integer year) {
+    @ApiOperation("Retrieve all past meetings for a specific year")
+    @GetMapping("meetings/past/{year}")
+    public ResponseEntity<List<Meeting>> pastMeetings(@PathVariable("year") Integer year) {
         List<Meeting> allMeetings = ofNullable(year)
                 .map(meetingRepository::pastMeetingsByYear)
                 .orElseGet(meetingRepository::pastMeetings);
         HttpHeaders headers = new HttpHeaders();
         headers.add(COUNT_HEADER, String.valueOf(allMeetings.size()));
-        headers.add("X-AverageAttendees", String.valueOf(allMeetings.stream().mapToInt(Meeting::nbAttendees).average().orElse(0d)));
+        headers.add("X-AverageAttendees", String.valueOf(allMeetings.stream().mapToInt(Meeting::getNbAttendees).average().orElse(0d)));
         return ResponseEntity.ok().headers(headers).body(allMeetings);
     }
 
-    @RequestMapping("attendees/top")
+    @GetMapping("attendees/top")
     public ResponseEntity topAttendees(@RequestParam(value = "limit", required = false) Integer limitParam) {
         Integer limit = Optional.ofNullable(limitParam).orElse(10);
         List<Meeting> allMeetings = meetingRepository.pastMeetings();
@@ -113,7 +120,7 @@ public class Api {
                 .map(meetingRepository::attendees)
                 .flatMap(Collection::stream)
                 .collect(Collectors.groupingBy(
-                        MeetingAttendee::name, Collectors.counting()
+                        MeetingAttendee::getName, Collectors.counting()
                 ));
         Map<String, Long> finalMap = new LinkedHashMap<>();
         countByAttendee.entrySet().stream()

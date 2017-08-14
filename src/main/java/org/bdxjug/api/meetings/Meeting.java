@@ -33,48 +33,48 @@ public class Meeting {
         this.date = date;
     }
 
-    public String id() {
-        return id;
-    }
-
-    public String name() {
-        return name;
-    }
-
-    public LocalDate date() {
-        return date;
-    }
-
-    public int nbAttendees() {
-        return nbAttendees;
-    }
-
     public void setAttendance(int nbAttendees) {
         this.nbAttendees = nbAttendees;
-    }
-
-    public String description() {
-        return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public String registrationLink() {
-        return registrationLink;
-    }
-
     public void setRegistrationLink(String registrationLink) {
         this.registrationLink = registrationLink;
     }
 
-    public Location location() {
-        return location;
-    }
-
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public int getNbAttendees() {
+        return nbAttendees;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getRegistrationLink() {
+        return registrationLink;
+    }
+
+    public Location getLocation() {
+        return location;
     }
 
     @Override

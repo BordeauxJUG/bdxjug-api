@@ -26,4 +26,16 @@ public class Sponsor {
         this.url = url;
         this.image = image;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getImage() {
+        return image;
+    }
 }

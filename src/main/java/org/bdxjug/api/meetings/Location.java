@@ -27,15 +27,15 @@ public class Location {
         this.geo = geo;
     }
 
-    public String nName() {
+    public String getName() {
         return name;
     }
 
-    public String address() {
+    public String getAddress() {
         return address;
     }
 
-    public Geo geo() {
+    public Geo getGeo() {
         return geo;
     }
 }

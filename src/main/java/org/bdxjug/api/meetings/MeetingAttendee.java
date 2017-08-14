@@ -25,11 +25,11 @@ public class MeetingAttendee {
         this.name = name;
     }
 
-    public String id() {
+    public String getId() {
         return id;
     }
 
-    public String name() {
+    public String getName() {
         return name;
     }
 

@@ -13,7 +13,9 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
+
         <lib.spring-boot.version>1.5.6.RELEASE</lib.spring-boot.version>
+        <lib.springfox-swagger-ui.version>2.7.0</lib.springfox-swagger-ui.version>
     </properties>
 
     <dependencyManagement>
@@ -38,13 +40,31 @@
             <artifactId>spring-boot-starter-tomcat</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${lib.springfox-swagger-ui.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${lib.springfox-swagger-ui.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-spring-web</artifactId>
+            <version>${lib.springfox-swagger-ui.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-common</artifactId>
+            <version>${lib.springfox-swagger-ui.version}</version>
+        </dependency>
+
 
         <dependency>
             <groupId>com.netflix.feign</groupId>
@@ -89,39 +109,18 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.asciidoctor</groupId>
-                <artifactId>asciidoctor-maven-plugin</artifactId>
-                <version>1.5.3</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${lib.spring-boot.version}</version>
                 <executions>
                     <execution>
-                        <phase>prepare-package</phase>
+                        <id>repackage</id>
                         <goals>
-                            <goal>process-asciidoc</goal>
+                            <goal>repackage</goal>
                         </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.outputDirectory}/public</outputDirectory>
-                            <backend>html5</backend>
-                            <sourceHighlighter>coderay</sourceHighlighter>
-                            <attributes>
-                                <basedir>${project.basedir}</basedir>
-                            </attributes>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>${lib.spring-boot.version}</version>
-                    <executions>
-                        <execution>
-                            <id>repackage</id>
-                            <goals>
-                                <goal>repackage</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
         </plugins>
     </build>
 

@@ -36,4 +36,20 @@ public class Member {
     public void setFirstRegistration(LocalDate firstRegistration) {
         this.firstRegistration = firstRegistration;
     }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public LocalDate getEndOfValidity() {
+        return endOfValidity;
+    }
+
+    public LocalDate getFirstRegistration() {
+        return firstRegistration;
+    }
 }

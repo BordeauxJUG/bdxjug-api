@@ -31,4 +31,20 @@ public class Speaker {
     public void setTwitter(String twitter) {
         this.twitter = twitter;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public String getTwitter() {
+        return twitter;
+    }
 }
