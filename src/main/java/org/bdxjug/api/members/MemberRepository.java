@@ -15,7 +15,6 @@
  */
 package org.bdxjug.api.members;
 
-import org.bdxjug.api.Logger;
 import org.bdxjug.api.interfaces.GoogleSheetAPI;
 import org.springframework.stereotype.Component;
 
@@ -64,7 +63,6 @@ public class MemberRepository {
         try {
             return LocalDate.parse(endOfValidity, DATE_TIME_FORMATTER);
         } catch (DateTimeParseException e) {
-            Logger.simple().log(e);
             return LocalDate.ofEpochDay(0);
         }
     }
