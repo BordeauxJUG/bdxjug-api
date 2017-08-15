@@ -17,26 +17,28 @@ package org.bdxjug.api.infrastructure.googlesheet.members;
 
 import org.bdxjug.api.domain.members.Member;
 import org.bdxjug.api.domain.members.MemberRepository;
-import org.bdxjug.api.infrastructure.googlesheet.GoogleSheetClient;
 import org.bdxjug.api.infrastructure.googlesheet.GoogleSheetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static org.bdxjug.api.infrastructure.googlesheet.GoogleSheetRepository.parseDate;
+
 @Component
-public class GoogleSheetMemberRepository extends GoogleSheetRepository<Member> implements MemberRepository {
+public class GoogleSheetMemberRepository implements MemberRepository {
 
     private static final String IS_ACTIVE = "1";
+    private final GoogleSheetRepository repository;
 
     @Autowired
-    public GoogleSheetMemberRepository(GoogleSheetClient client) {
-        super(client);
+    public GoogleSheetMemberRepository(GoogleSheetRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public List<Member> all() {
-        return batchGet(this::toMember, "'Members'!A2:Z");
+        return repository.batchGet(this::toMember, "'Members'!A2:Z");
     }
 
     private Member toMember(String[] value) {

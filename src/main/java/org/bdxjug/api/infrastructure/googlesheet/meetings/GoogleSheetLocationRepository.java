@@ -16,24 +16,27 @@
 package org.bdxjug.api.infrastructure.googlesheet.meetings;
 
 import org.bdxjug.api.domain.meetings.*;
-import org.bdxjug.api.infrastructure.googlesheet.GoogleSheetClient;
 import org.bdxjug.api.infrastructure.googlesheet.GoogleSheetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static org.bdxjug.api.infrastructure.googlesheet.GoogleSheetRepository.setValue;
+
 @Component
-public class GoogleSheetLocationRepository extends GoogleSheetRepository<Location> implements LocationRepository {
+public class GoogleSheetLocationRepository implements LocationRepository {
+
+    private final GoogleSheetRepository repository;
 
     @Autowired
-    public GoogleSheetLocationRepository(GoogleSheetClient client) {
-        super(client);
+    public GoogleSheetLocationRepository(GoogleSheetRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public List<Location> all() {
-        return batchGet(this::toLocation, "'Locations'!A2:Z");
+        return repository.batchGet(this::toLocation, "'Locations'!A2:Z");
     }
 
     private Location toLocation(String[] value) {

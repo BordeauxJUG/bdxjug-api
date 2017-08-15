@@ -18,24 +18,27 @@ package org.bdxjug.api.infrastructure.googlesheet.meetings;
 import org.bdxjug.api.domain.meetings.Speaker;
 import org.bdxjug.api.domain.meetings.SpeakerID;
 import org.bdxjug.api.domain.meetings.SpeakerRepository;
-import org.bdxjug.api.infrastructure.googlesheet.GoogleSheetClient;
 import org.bdxjug.api.infrastructure.googlesheet.GoogleSheetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static org.bdxjug.api.infrastructure.googlesheet.GoogleSheetRepository.setValue;
+
 @Component
-public class GoogleSheetSpeakerRepository extends GoogleSheetRepository<Speaker> implements SpeakerRepository {
+public class GoogleSheetSpeakerRepository implements SpeakerRepository {
+
+    private final GoogleSheetRepository repository;
 
     @Autowired
-    public GoogleSheetSpeakerRepository(GoogleSheetClient client) {
-        super(client);
+    public GoogleSheetSpeakerRepository(GoogleSheetRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public List<Speaker> all() {
-        return batchGet(this::toSpeaker, "'Speakers'!A2:Z");
+        return repository.batchGet(this::toSpeaker, "'Speakers'!A2:Z");
     }
 
     private Speaker toSpeaker(String[] value) {

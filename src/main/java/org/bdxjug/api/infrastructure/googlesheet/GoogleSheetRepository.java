@@ -15,6 +15,9 @@
  */
 package org.bdxjug.api.infrastructure.googlesheet;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -26,18 +29,20 @@ import java.util.function.Function;
 
 import static java.util.Optional.ofNullable;
 
-public abstract class GoogleSheetRepository<T> {
+@Component
+public class GoogleSheetRepository {
 
     private static final String SHEET_ID = "1io9i7-HyejSJYVa8EaZL_uJd5XErvoKzYXkMHkD_VOc";
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     private final GoogleSheetClient client;
 
-    protected GoogleSheetRepository(GoogleSheetClient client) {
+    @Autowired
+    public GoogleSheetRepository(GoogleSheetClient client) {
         this.client = client;
     }
 
-    protected List<T> batchGet(Function<String[], T> lineMapping, String ranges) {
+    public <T> List<T> batchGet(Function<String[], T> lineMapping, String ranges) {
         List<T> results = new ArrayList<>();
         GoogleSheetClient.SpreadSheet sheet = client.batchGet(SHEET_ID, "ROWS", ranges);
         sheet.valueRanges.stream().findFirst().map(r -> r.values).ifPresent(values -> {
@@ -48,13 +53,13 @@ public abstract class GoogleSheetRepository<T> {
         return results;
     }
 
-    protected static void setValue(String[] value, int index, Consumer<String> setter) {
+    public static void setValue(String[] value, int index, Consumer<String> setter) {
         if (value.length > index) {
             ofNullable(value[index]).ifPresent(setter);
         }
     }
 
-    protected static LocalDate parseDate(String endOfValidity) {
+    public static LocalDate parseDate(String endOfValidity) {
         try {
             return LocalDate.parse(endOfValidity, DATE_TIME_FORMATTER);
         } catch (DateTimeParseException e) {

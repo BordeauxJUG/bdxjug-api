@@ -17,24 +17,28 @@ package org.bdxjug.api.infrastructure.googlesheet.sponsors;
 
 import org.bdxjug.api.domain.sponsors.Sponsor;
 import org.bdxjug.api.domain.sponsors.SponsorRepository;
-import org.bdxjug.api.infrastructure.googlesheet.GoogleSheetClient;
 import org.bdxjug.api.infrastructure.googlesheet.GoogleSheetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static org.bdxjug.api.infrastructure.googlesheet.GoogleSheetRepository.parseDate;
+import static org.bdxjug.api.infrastructure.googlesheet.GoogleSheetRepository.setValue;
+
 @Component
-public class GoogleSheetSponsorRepository extends GoogleSheetRepository<Sponsor> implements SponsorRepository {
+public class GoogleSheetSponsorRepository implements SponsorRepository {
+
+    private final GoogleSheetRepository repository;
 
     @Autowired
-    public GoogleSheetSponsorRepository(GoogleSheetClient client) {
-        super(client);
+    public GoogleSheetSponsorRepository(GoogleSheetRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public List<Sponsor> all() {
-        return batchGet(this::toSponsor, "'Sponsors'!A2:Z");
+        return repository.batchGet(this::toSponsor, "'Sponsors'!A2:Z");
     }
 
     private Sponsor toSponsor(String[] values) {

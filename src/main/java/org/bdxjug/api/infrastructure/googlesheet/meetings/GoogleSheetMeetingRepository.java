@@ -25,17 +25,22 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+import static org.bdxjug.api.infrastructure.googlesheet.GoogleSheetRepository.parseDate;
+import static org.bdxjug.api.infrastructure.googlesheet.GoogleSheetRepository.setValue;
+
 @Component
-public class GoogleSheetMeetingRepository extends GoogleSheetRepository<Meeting> implements MeetingRepository {
+public class GoogleSheetMeetingRepository implements MeetingRepository {
+
+    private final GoogleSheetRepository repository;
 
     @Autowired
-    public GoogleSheetMeetingRepository(GoogleSheetClient client) {
-        super(client);
+    public GoogleSheetMeetingRepository(GoogleSheetRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public SortedSet<Meeting> all() {
-        return new TreeSet<>(batchGet(this::toMeeting, "'Meetings'!A2:Z"));
+        return new TreeSet<>(repository.batchGet(this::toMeeting, "'Meetings'!A2:Z"));
     }
 
     private Meeting toMeeting(String[] values) {
