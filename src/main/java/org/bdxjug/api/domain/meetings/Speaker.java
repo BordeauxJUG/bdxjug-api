@@ -15,54 +15,16 @@
  */
 package org.bdxjug.api.domain.meetings;
 
+import lombok.Data;
+
+@Data
 public class Speaker {
 
     private final SpeakerID id;
     private final String firstName;
     private final String lastName;
+
     private String bio;
     private String urlAvatar;
     private String twitter;
-
-    public Speaker(SpeakerID id, String firstName, String lastName) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
-    }
-
-    public void setTwitter(String twitter) {
-        this.twitter = twitter;
-    }
-
-    public void setUrlAvatar(String urlAvatar) {
-        this.urlAvatar = urlAvatar;
-    }
-
-    public SpeakerID getId() {
-        return id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getBio() {
-        return bio;
-    }
-
-    public String getUrlAvatar() {
-        return urlAvatar;
-    }
-
-    public String getTwitter() {
-        return twitter;
-    }
 }

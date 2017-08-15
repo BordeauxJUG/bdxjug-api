@@ -15,41 +15,16 @@
  */
 package org.bdxjug.api.domain.members;
 
+import lombok.Data;
+
 import java.time.LocalDate;
 
+@Data
 public class Member {
 
     private final String firstName;
     private final String lastName;
+
     private LocalDate endOfValidity;
     private LocalDate firstRegistration;
-
-    public Member(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-    public void setEndOfValidity(LocalDate endOfValidity) {
-        this.endOfValidity = endOfValidity;
-    }
-
-    public void setFirstRegistration(LocalDate firstRegistration) {
-        this.firstRegistration = firstRegistration;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public LocalDate getEndOfValidity() {
-        return endOfValidity;
-    }
-
-    public LocalDate getFirstRegistration() {
-        return firstRegistration;
-    }
 }

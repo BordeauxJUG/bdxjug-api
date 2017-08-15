@@ -15,43 +15,15 @@
  */
 package org.bdxjug.api.domain.meetings;
 
+import lombok.Data;
+
+@Data
 public class Location {
 
     private final LocationID id;
     private final String name;
     private final String address;
-    private String room;
     private final Geo geo;
 
-    public Location(LocationID id, String name, String address, Geo geo) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.geo = geo;
-    }
-
-    public void setRoom(String room) {
-        this.room = room;
-    }
-
-    public LocationID getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-
-    public String getRoom() {
-        return room;
-    }
-
-    public Geo getGeo() {
-        return geo;
-    }
+    private String room;
 }

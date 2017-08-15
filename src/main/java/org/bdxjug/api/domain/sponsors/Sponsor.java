@@ -15,8 +15,11 @@
  */
 package org.bdxjug.api.domain.sponsors;
 
+import lombok.Data;
+
 import java.time.LocalDate;
 
+@Data
 public class Sponsor {
 
     private final String name;
@@ -24,33 +27,4 @@ public class Sponsor {
 
     private LocalDate endOfValidity;
     private String description;
-
-    public Sponsor(String name, String logoUrl) {
-        this.name = name;
-        this.logoUrl = logoUrl;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getLogoUrl() {
-        return logoUrl;
-    }
-
-    public LocalDate getEndOfValidity() {
-        return endOfValidity;
-    }
-
-    public void setEndOfValidity(LocalDate endOfValidity) {
-        this.endOfValidity = endOfValidity;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

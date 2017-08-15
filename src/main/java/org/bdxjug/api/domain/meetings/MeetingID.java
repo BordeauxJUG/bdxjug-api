@@ -15,17 +15,10 @@
  */
 package org.bdxjug.api.domain.meetings;
 
-import java.util.Objects;
+import lombok.Data;
 
+@Data
 public class MeetingID {
 
-    private String value;
-
-    public MeetingID(String value) {
-        this.value = Objects.requireNonNull(value);
-    }
-
-    public String getValue() {
-        return value;
-    }
+    private final String value;
 }

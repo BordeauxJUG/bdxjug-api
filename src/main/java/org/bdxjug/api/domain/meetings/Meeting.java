@@ -15,61 +15,21 @@
  */
 package org.bdxjug.api.domain.meetings;
 
+import lombok.Data;
+
 import java.time.LocalDate;
 
+@Data
 public class Meeting implements Comparable<Meeting> {
 
-   private final MeetingID id;
-   private final LocalDate date;
-   private final SpeakerID speaker;
-   private final LocationID location;
-   private final String title;
-   private String summary;
-   private String description;
+    private final MeetingID id;
+    private final LocalDate date;
+    private final SpeakerID speaker;
+    private final LocationID location;
+    private final String title;
 
-    public Meeting(MeetingID id, LocalDate date, SpeakerID speaker, LocationID location, String title) {
-        this.id = id;
-        this.date = date;
-        this.speaker = speaker;
-        this.location = location;
-        this.title = title;
-    }
-
-    public MeetingID getId() {
-        return id;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public SpeakerID getSpeaker() {
-        return speaker;
-    }
-
-    public LocationID getLocation() {
-        return location;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    private String summary;
+    private String description;
 
     public boolean isPast() {
         return date.isBefore(LocalDate.now());
