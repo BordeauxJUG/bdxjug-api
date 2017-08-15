@@ -17,7 +17,6 @@
         <lib.spring-boot.version>1.5.6.RELEASE</lib.spring-boot.version>
         <lib.springfox-swagger-ui.version>2.7.0</lib.springfox-swagger-ui.version>
         <lib.feign.version>8.18.0</lib.feign.version>
-        <lib.caffeine.version>2.3.4</lib.caffeine.version>
     </properties>
 
     <dependencyManagement>
@@ -71,12 +70,6 @@
             <groupId>com.netflix.feign</groupId>
             <artifactId>feign-slf4j</artifactId>
             <version>${lib.feign.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.ben-manes.caffeine</groupId>
-            <artifactId>caffeine</artifactId>
-            <version>${lib.caffeine.version}</version>
         </dependency>
 
         <!-- Test -->
