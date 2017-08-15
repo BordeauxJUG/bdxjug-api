@@ -15,37 +15,17 @@
  */
 package org.bdxjug.api.domain.meetings;
 
-public class MeetingAttendee {
+import java.util.Objects;
 
-    private final String id;
-    private final String name;
+public class MeetingID {
 
-    public MeetingAttendee(String id, String name) {
-        this.id = id;
-        this.name = name;
+    private String value;
+
+    public MeetingID(String value) {
+        this.value = Objects.requireNonNull(value);
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        MeetingAttendee attendee = (MeetingAttendee) o;
-
-        return id.equals(attendee.id);
-
-    }
-
-    @Override
-    public int hashCode() {
-        return id.hashCode();
+    public String getValue() {
+        return value;
     }
 }

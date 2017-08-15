@@ -1,14 +1,14 @@
 package org.bdxjug.api.domain.meetings;
 
-import java.util.List;
+import java.util.SortedSet;
 
 public interface MeetingRepository {
 
-    List<Meeting> pastMeetings();
+    SortedSet<Meeting> all();
 
-    List<Meeting> upcomingMeetings();
+    SortedSet<Meeting> pastMeetings();
 
-    List<Meeting> pastMeetingsByYear(int year);
+    SortedSet<Meeting> upcomingMeetings();
 
-    List<MeetingAttendee> attendees(Meeting meeting);
+    SortedSet<Meeting> pastMeetingsByYear(int year);
 }

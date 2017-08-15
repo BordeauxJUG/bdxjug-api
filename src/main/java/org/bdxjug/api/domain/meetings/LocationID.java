@@ -15,21 +15,17 @@
  */
 package org.bdxjug.api.domain.meetings;
 
-public class Geo {
+import java.util.Objects;
 
-    private final double latitude;
-    private final double longitude;
+public class LocationID {
 
-    public Geo(double latitude, double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+    private String value;
+
+    public LocationID(String value) {
+        this.value = Objects.requireNonNull(value);
     }
 
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
+    public String getValue() {
+        return value;
     }
 }

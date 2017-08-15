@@ -1,4 +1,4 @@
-package org.bdxjug.api.domain.speakers;
+package org.bdxjug.api.domain.meetings;
 
 import java.util.List;
 

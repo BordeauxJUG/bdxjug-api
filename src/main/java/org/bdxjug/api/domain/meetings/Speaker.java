@@ -13,35 +13,53 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.api.domain.speakers;
+package org.bdxjug.api.domain.meetings;
 
 public class Speaker {
 
-    private final String name;
-    private final String bio;
-    private final String image;
+    private final SpeakerID id;
+    private final String firstName;
+    private final String lastName;
+    private String bio;
+    private String urlAvatar;
     private String twitter;
 
-    public Speaker(String name, String bio, String image) {
-        this.name = name;
+    public Speaker(SpeakerID id, String firstName, String lastName) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public void setBio(String bio) {
         this.bio = bio;
-        this.image = image;
     }
 
     public void setTwitter(String twitter) {
         this.twitter = twitter;
     }
 
-    public String getName() {
-        return name;
+    public void setUrlAvatar(String urlAvatar) {
+        this.urlAvatar = urlAvatar;
+    }
+
+    public SpeakerID getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public String getBio() {
         return bio;
     }
 
-    public String getImage() {
-        return image;
+    public String getUrlAvatar() {
+        return urlAvatar;
     }
 
     public String getTwitter() {

@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.api.infrastructure.googlesheet;
+package org.bdxjug.api.infrastructure.googlesheet.members;
 
 import org.bdxjug.api.domain.members.Member;
 import org.bdxjug.api.domain.members.MemberRepository;
+import org.bdxjug.api.infrastructure.googlesheet.GoogleSheetClient;
+import org.bdxjug.api.infrastructure.googlesheet.GoogleSheetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,16 +28,15 @@ import java.util.List;
 public class GoogleSheetMemberRepository extends GoogleSheetRepository<Member> implements MemberRepository {
 
     private static final String IS_ACTIVE = "1";
-    private static final String SHEET_ID = "19Kj1ltJzW0k_Y9PHnQsmyMrPONVIhDyeP-y5W7o8Ons";
 
     @Autowired
     public GoogleSheetMemberRepository(GoogleSheetClient client) {
-        super(client, SHEET_ID);
+        super(client);
     }
 
     @Override
     public List<Member> all() {
-        return batchGet(this::toMember, "A2:K");
+        return batchGet(this::toMember, "'Members'!A2:Z");
     }
 
     private Member toMember(String[] value) {
@@ -46,8 +47,8 @@ public class GoogleSheetMemberRepository extends GoogleSheetRepository<Member> i
         final String active = value[10];
         if (IS_ACTIVE.equals(active)) {
             Member member = new Member(firstName, lastName);
-            member.setFirstRegistration(LocalDates.parseDate(firstRegistration));
-            member.setEndOfValidity(LocalDates.parseDate(endOfValidity));
+            member.setFirstRegistration(parseDate(firstRegistration));
+            member.setEndOfValidity(parseDate(endOfValidity));
             return member;
         }
         return null;

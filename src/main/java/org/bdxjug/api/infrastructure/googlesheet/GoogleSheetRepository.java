@@ -15,29 +15,50 @@
  */
 package org.bdxjug.api.infrastructure.googlesheet;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
-abstract class GoogleSheetRepository<T> {
+import static java.util.Optional.ofNullable;
+
+public abstract class GoogleSheetRepository<T> {
+
+    private static final String SHEET_ID = "1io9i7-HyejSJYVa8EaZL_uJd5XErvoKzYXkMHkD_VOc";
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     private final GoogleSheetClient client;
-    private final String sheetId;
 
-    GoogleSheetRepository(GoogleSheetClient client, String sheetId) {
+    protected GoogleSheetRepository(GoogleSheetClient client) {
         this.client = client;
-        this.sheetId = sheetId;
     }
 
-    List<T> batchGet(Function<String[], T> constructor, String ranges) {
+    protected List<T> batchGet(Function<String[], T> lineMapping, String ranges) {
         List<T> results = new ArrayList<>();
-        GoogleSheetClient.SpreadSheet sheet = client.batchGet(sheetId, "ROWS", ranges);
+        GoogleSheetClient.SpreadSheet sheet = client.batchGet(SHEET_ID, "ROWS", ranges);
         sheet.valueRanges.stream().findFirst().map(r -> r.values).ifPresent(values -> {
             for (String[] value : values) {
-                Optional.ofNullable(constructor.apply(value)).ifPresent(results::add);
+                Optional.ofNullable(lineMapping.apply(value)).ifPresent(results::add);
             }
         });
         return results;
+    }
+
+    protected static void setValue(String[] value, int index, Consumer<String> setter) {
+        if (value.length > index) {
+            ofNullable(value[index]).ifPresent(setter);
+        }
+    }
+
+    protected static LocalDate parseDate(String endOfValidity) {
+        try {
+            return LocalDate.parse(endOfValidity, DATE_TIME_FORMATTER);
+        } catch (DateTimeParseException e) {
+            return LocalDate.ofEpochDay(0);
+        }
     }
 }

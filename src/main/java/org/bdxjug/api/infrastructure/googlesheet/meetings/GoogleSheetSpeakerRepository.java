@@ -13,37 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.api.infrastructure.googlesheet;
+package org.bdxjug.api.infrastructure.googlesheet.meetings;
 
-import org.bdxjug.api.domain.speakers.Speaker;
-import org.bdxjug.api.domain.speakers.SpeakerRepository;
+import org.bdxjug.api.domain.meetings.Speaker;
+import org.bdxjug.api.domain.meetings.SpeakerID;
+import org.bdxjug.api.domain.meetings.SpeakerRepository;
+import org.bdxjug.api.infrastructure.googlesheet.GoogleSheetClient;
+import org.bdxjug.api.infrastructure.googlesheet.GoogleSheetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static java.util.Optional.ofNullable;
-
 @Component
 public class GoogleSheetSpeakerRepository extends GoogleSheetRepository<Speaker> implements SpeakerRepository {
 
-    private static final String SHEET_ID = "1-v3BG67SzcxuiQpb_wkLiwCAG4RGwn2nGn0uAbWG6yg";
-
     @Autowired
     public GoogleSheetSpeakerRepository(GoogleSheetClient client) {
-        super(client, SHEET_ID);
+        super(client);
     }
 
     @Override
     public List<Speaker> all() {
-        return batchGet(this::toSpeaker, "A2:D");
+        return batchGet(this::toSpeaker, "'Speakers'!A2:Z");
     }
 
     private Speaker toSpeaker(String[] value) {
-        Speaker speaker = new Speaker(value[0], value[1], value[2]);
-        if (value.length > 3) {
-            ofNullable(value[3]).ifPresent(speaker::setTwitter);
-        }
+        Speaker speaker = new Speaker(new SpeakerID(value[0]), value[1], value[2]);
+        setValue(value, 3, speaker::setTwitter);
+        setValue(value, 4, speaker::setUrlAvatar);
+        setValue(value, 5, speaker::setBio);
         return speaker;
     }
 

@@ -17,79 +17,70 @@ package org.bdxjug.api.domain.meetings;
 
 import java.time.LocalDate;
 
-public class Meeting {
+public class Meeting implements Comparable<Meeting> {
 
-    private final String id;
-    private final String name;
-    private final LocalDate date;
-    private int nbAttendees;
-    private String description;
-    private String registrationLink;
-    private Location location;
+   private final MeetingID id;
+   private final LocalDate date;
+   private final SpeakerID speaker;
+   private final LocationID location;
+   private final String title;
+   private String summary;
+   private String description;
 
-    public Meeting(String id, String name, LocalDate date) {
+    public Meeting(MeetingID id, LocalDate date, SpeakerID speaker, LocationID location, String title) {
         this.id = id;
-        this.name = name;
         this.date = date;
-    }
-
-    public void setAttendance(int nbAttendees) {
-        this.nbAttendees = nbAttendees;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setRegistrationLink(String registrationLink) {
-        this.registrationLink = registrationLink;
-    }
-
-    public void setLocation(Location location) {
+        this.speaker = speaker;
         this.location = location;
+        this.title = title;
     }
 
-    public String getId() {
+    public MeetingID getId() {
         return id;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public LocalDate getDate() {
         return date;
     }
 
-    public int getNbAttendees() {
-        return nbAttendees;
+    public SpeakerID getSpeaker() {
+        return speaker;
+    }
+
+    public LocationID getLocation() {
+        return location;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getSummary() {
+        return summary;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public String getRegistrationLink() {
-        return registrationLink;
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
-    public Location getLocation() {
-        return location;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean isPast() {
+        return date.isBefore(LocalDate.now());
+    }
 
-        Meeting meeting = (Meeting) o;
-
-        return id.equals(meeting.id);
-
+    public boolean isUpcoming() {
+        return date.isAfter(LocalDate.now());
     }
 
     @Override
-    public int hashCode() {
-        return id.hashCode();
+    public int compareTo(Meeting o) {
+        return o.date.compareTo(this.date);
     }
 }

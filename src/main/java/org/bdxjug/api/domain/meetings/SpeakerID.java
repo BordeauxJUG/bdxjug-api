@@ -13,21 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.api.infrastructure.googlesheet;
+package org.bdxjug.api.domain.meetings;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+import java.util.Objects;
 
-interface LocalDates {
+public class SpeakerID {
 
-    DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private String value;
 
-    static LocalDate parseDate(String endOfValidity) {
-        try {
-            return LocalDate.parse(endOfValidity, DATE_TIME_FORMATTER);
-        } catch (DateTimeParseException e) {
-            return LocalDate.ofEpochDay(0);
-        }
+    public SpeakerID(String value) {
+        this.value = Objects.requireNonNull(value);
+    }
+
+    public String getValue() {
+        return value;
     }
 }

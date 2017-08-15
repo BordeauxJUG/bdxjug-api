@@ -15,27 +15,42 @@
  */
 package org.bdxjug.api.domain.sponsors;
 
+import java.time.LocalDate;
+
 public class Sponsor {
 
     private final String name;
-    private final String url;
-    private final String image;
+    private final String logoUrl;
 
-    public Sponsor(String name, String url, String image) {
+    private LocalDate endOfValidity;
+    private String description;
+
+    public Sponsor(String name, String logoUrl) {
         this.name = name;
-        this.url = url;
-        this.image = image;
+        this.logoUrl = logoUrl;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getUrl() {
-        return url;
+    public String getLogoUrl() {
+        return logoUrl;
     }
 
-    public String getImage() {
-        return image;
+    public LocalDate getEndOfValidity() {
+        return endOfValidity;
+    }
+
+    public void setEndOfValidity(LocalDate endOfValidity) {
+        this.endOfValidity = endOfValidity;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
