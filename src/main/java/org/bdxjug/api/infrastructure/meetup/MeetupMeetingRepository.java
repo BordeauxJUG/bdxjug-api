@@ -32,9 +32,10 @@ import java.util.stream.Collectors;
 public class MeetupMeetingRepository implements MeetingRepository {
 
     private static final String JUG_GROUP = "BordeauxJUG";
+    private final MeetupClient meetupClient;
 
-    private final LoadingCache<String, List<MeetingAttendee>> attendeeByMeetingId;
-    private final LoadingCache<Status, List<Meeting>> meetings;
+    private LoadingCache<String, List<MeetingAttendee>> attendeeByMeetingId;
+    private LoadingCache<Status, List<Meeting>> meetings;
 
     enum Status {
         past,
@@ -43,24 +44,32 @@ public class MeetupMeetingRepository implements MeetingRepository {
 
     @Autowired
     public MeetupMeetingRepository(MeetupClient meetupClient) {
-        meetings = Caffeine.newBuilder()
-                .expireAfterAccess(30, TimeUnit.MINUTES)
-                .build(key ->
-                    meetupClient.events(JUG_GROUP, key.name()).stream()
-                    .filter(e -> e.yes_rsvp_count > getMinimumYes(key))
-                    .map(MeetupMeetingRepository::toMeeting)
-                    .sorted(Comparator.comparing(Meeting::getDate).reversed())
-                    .collect(Collectors.toList()));
+        this.meetupClient = meetupClient;
+    }
 
-        attendeeByMeetingId = Caffeine.newBuilder()
-                .expireAfterAccess(30, TimeUnit.MINUTES)
-                .build(key ->
-                        meetupClient.eventAttendance(JUG_GROUP, key).stream()
-                        .filter(a -> !a.member.id.equals("0"))
-                        .filter(a -> a.rsvp.response.equals("yes"))
-                        .filter(a -> !a.member.name.equals("Bordeaux JUG"))
-                        .map(a -> new MeetingAttendee(a.member.id, a.member.name))
-                        .collect(Collectors.toList()));
+    private void loadCache() {
+        if (meetings == null) {
+            meetings = Caffeine.newBuilder()
+                    .expireAfterAccess(30, TimeUnit.MINUTES)
+                    .build(key ->
+                            meetupClient.events(JUG_GROUP, key.name()).stream()
+                                    .filter(e -> e.yes_rsvp_count > getMinimumYes(key))
+                                    .map(MeetupMeetingRepository::toMeeting)
+                                    .sorted(Comparator.comparing(Meeting::getDate).reversed())
+                                    .collect(Collectors.toList()));
+        }
+
+        if (attendeeByMeetingId == null) {
+            attendeeByMeetingId = Caffeine.newBuilder()
+                    .expireAfterAccess(30, TimeUnit.MINUTES)
+                    .build(key ->
+                            meetupClient.eventAttendance(JUG_GROUP, key).stream()
+                                    .filter(a -> !a.member.id.equals("0"))
+                                    .filter(a -> a.rsvp.response.equals("yes"))
+                                    .filter(a -> !a.member.name.equals("Bordeaux JUG"))
+                                    .map(a -> new MeetingAttendee(a.member.id, a.member.name))
+                                    .collect(Collectors.toList()));
+        }
     }
 
     private int getMinimumYes(Status status) {
@@ -72,21 +81,25 @@ public class MeetupMeetingRepository implements MeetingRepository {
 
     @Override
     public List<Meeting> pastMeetings() {
+        loadCache();
         return meetings.get(Status.past);
     }
 
     @Override
     public List<Meeting> upcomingMeetings() {
+        loadCache();
         return meetings.get(Status.upcoming);
     }
 
     @Override
     public List<Meeting> pastMeetingsByYear(int year) {
+        loadCache();
         return pastMeetings().stream().filter(m -> m.getDate().getYear() == year).collect(Collectors.toList());
     }
 
     @Override
     public List<MeetingAttendee> attendees(Meeting meeting) {
+        loadCache();
         return attendeeByMeetingId.get(meeting.getId());
     }
 
