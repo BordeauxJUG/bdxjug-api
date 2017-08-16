@@ -46,18 +46,26 @@
             <artifactId>gson</artifactId>
         </dependency>
 
-        <!--
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
             <version>${lib.springfox-swagger-ui.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-databind</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${lib.springfox-swagger-ui.version}</version>
         </dependency>
-        -->
 
         <dependency>
             <groupId>com.netflix.feign</groupId>
