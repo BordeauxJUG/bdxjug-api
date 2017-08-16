@@ -16,6 +16,7 @@
 package org.bdxjug.api.infrastructure.sheet.xlsx;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -25,7 +26,10 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -55,11 +59,26 @@ public class XlsxSheet implements Sheet {
             int nbCells = row.getPhysicalNumberOfCells();
             String[] values = new String[nbCells];
             for (int j=0; j<nbCells; j++) {
-                values[j] = row.getCell(j).toString();
+                Cell cell = row.getCell(j);
+                if (isDate(cell)) {
+                    values[j] = getDateValue(cell);
+                } else {
+                    values[j] = cell.toString();
+                }
             }
             results.add(lineMapping.apply(values));
         }
         return results;
+    }
+
+    private static String getDateValue(Cell cell) {
+        Date dateCellValue = cell.getDateCellValue();
+        ZonedDateTime localDate = dateCellValue.toInstant().atZone(ZoneId.systemDefault());
+        return DATE_TIME_FORMATTER.format(localDate);
+    }
+
+    private static boolean isDate(Cell cell) {
+        return cell.getCellType() == Cell.CELL_TYPE_NUMERIC && cell.toString().contains("-");
     }
 
     private Optional<org.apache.poi.ss.usermodel.Sheet> sheetByName(String sheetName) {

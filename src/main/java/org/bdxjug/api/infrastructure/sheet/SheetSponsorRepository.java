@@ -28,6 +28,11 @@ import static org.bdxjug.api.infrastructure.sheet.Sheet.setValue;
 @Component
 public class SheetSponsorRepository implements SponsorRepository {
 
+    private static final int NAME = 1;
+    private static final int LOGO_URL = 2;
+    private static final int END_OF_VALIDITY = 3;
+    private static final int DESCRIPTION = 4;
+    
     private final Sheet sheet;
 
     @Autowired
@@ -41,9 +46,9 @@ public class SheetSponsorRepository implements SponsorRepository {
     }
 
     private Sponsor toSponsor(String[] values) {
-        Sponsor sponsor = new Sponsor(values[1], values[2]);
-        setValue(values, 3, value -> sponsor.setEndOfValidity(parseDate(value)));
-        setValue(values, 3, sponsor::setDescription);
+        Sponsor sponsor = new Sponsor(values[NAME], values[LOGO_URL]);
+        setValue(values, END_OF_VALIDITY, value -> sponsor.setEndOfValidity(parseDate(value)));
+        setValue(values, DESCRIPTION, sponsor::setDescription);
         return sponsor;
     }
 }

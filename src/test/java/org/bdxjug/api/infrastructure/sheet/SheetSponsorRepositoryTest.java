@@ -25,5 +25,7 @@ public class SheetSponsorRepositoryTest {
         Optional<Sponsor> devcoop = repository.all().stream().filter(s -> s.getName().equals("DEVCOOP")).findFirst();
 
         assertThat(devcoop.isPresent()).isTrue();
+        assertThat(devcoop.get().getLogoUrl()).isEqualTo("http://www.devcoop.fr/img/logo.png");
+        assertThat(devcoop.get().getDescription()).isNull();
     }
 }
