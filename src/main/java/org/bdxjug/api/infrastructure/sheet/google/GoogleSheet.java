@@ -17,6 +17,7 @@ package org.bdxjug.api.infrastructure.sheet.google;
 
 import org.bdxjug.api.infrastructure.sheet.Sheet;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 @Component
+@Profile("google")
 public class GoogleSheet implements Sheet {
 
     private static final String SHEET_ID = "1io9i7-HyejSJYVa8EaZL_uJd5XErvoKzYXkMHkD_VOc";

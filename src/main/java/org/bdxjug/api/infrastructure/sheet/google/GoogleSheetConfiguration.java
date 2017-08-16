@@ -23,14 +23,14 @@ import feign.slf4j.Slf4jLogger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 @Configuration
+@Profile("google")
 public class GoogleSheetConfiguration {
 
     @Value("${bdxjug.google-sheet.key}")
     private String gsKey;
-    @Value("${bdxjug.meetup.key}")
-    private String meetupKey;
 
     @Bean
     public GoogleSheetClient googleSheetsClient() {
