@@ -4,8 +4,6 @@ spring:
 
 server:
   port: ${PORT:8080}
-  error:
-    include-stacktrace: always
 
 bdxjug:
     google-sheet:
