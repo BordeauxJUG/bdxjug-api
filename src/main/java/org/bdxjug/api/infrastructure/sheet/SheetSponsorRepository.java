@@ -13,32 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.api.infrastructure.googlesheet.sponsors;
+package org.bdxjug.api.infrastructure.sheet;
 
 import org.bdxjug.api.domain.sponsors.Sponsor;
 import org.bdxjug.api.domain.sponsors.SponsorRepository;
-import org.bdxjug.api.infrastructure.googlesheet.GoogleSheetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static org.bdxjug.api.infrastructure.googlesheet.GoogleSheetRepository.parseDate;
-import static org.bdxjug.api.infrastructure.googlesheet.GoogleSheetRepository.setValue;
+import static org.bdxjug.api.infrastructure.sheet.Sheet.parseDate;
+import static org.bdxjug.api.infrastructure.sheet.Sheet.setValue;
 
 @Component
-public class GoogleSheetSponsorRepository implements SponsorRepository {
+public class SheetSponsorRepository implements SponsorRepository {
 
-    private final GoogleSheetRepository repository;
+    private final Sheet sheet;
 
     @Autowired
-    public GoogleSheetSponsorRepository(GoogleSheetRepository repository) {
-        this.repository = repository;
+    public SheetSponsorRepository(Sheet sheet) {
+        this.sheet = sheet;
     }
 
     @Override
     public List<Sponsor> all() {
-        return repository.batchGet(this::toSponsor, "'Sponsors'!A2:Z");
+        return sheet.readLines(this::toSponsor, "Sponsors");
     }
 
     private Sponsor toSponsor(String[] values) {

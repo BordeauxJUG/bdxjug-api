@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.api.infrastructure.googlesheet;
+package org.bdxjug.api.infrastructure.sheet.google;
 
 import feign.Param;
 import feign.RequestLine;
 
 import java.util.List;
 
-public interface GoogleSheetClient {
+interface GoogleSheetClient {
 
     @RequestLine("GET /spreadsheets/{sheetId}/values:batchGet?majorDimension={majorDimension}&ranges={ranges}")
     SpreadSheet batchGet(@Param("sheetId") String sheetId, @Param("majorDimension") String majorDimension, @Param("ranges") String ranges);

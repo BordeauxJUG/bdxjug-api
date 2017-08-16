@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.api.infrastructure.googlesheet.meetings;
+package org.bdxjug.api.infrastructure.sheet;
 
 import org.bdxjug.api.domain.meetings.*;
-import org.bdxjug.api.infrastructure.googlesheet.GoogleSheetClient;
-import org.bdxjug.api.infrastructure.googlesheet.GoogleSheetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,22 +23,22 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-import static org.bdxjug.api.infrastructure.googlesheet.GoogleSheetRepository.parseDate;
-import static org.bdxjug.api.infrastructure.googlesheet.GoogleSheetRepository.setValue;
+import static org.bdxjug.api.infrastructure.sheet.Sheet.parseDate;
+import static org.bdxjug.api.infrastructure.sheet.Sheet.setValue;
 
 @Component
-public class GoogleSheetMeetingRepository implements MeetingRepository {
+public class SheetMeetingRepository implements MeetingRepository {
 
-    private final GoogleSheetRepository repository;
+    private final Sheet sheet;
 
     @Autowired
-    public GoogleSheetMeetingRepository(GoogleSheetRepository repository) {
-        this.repository = repository;
+    public SheetMeetingRepository(Sheet sheet) {
+        this.sheet = sheet;
     }
 
     @Override
     public SortedSet<Meeting> all() {
-        return new TreeSet<>(repository.batchGet(this::toMeeting, "'Meetings'!A2:Z"));
+        return new TreeSet<>(sheet.readLines(this::toMeeting, "Meetings"));
     }
 
     private Meeting toMeeting(String[] values) {

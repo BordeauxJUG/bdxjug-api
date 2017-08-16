@@ -13,38 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.api.infrastructure.googlesheet;
+package org.bdxjug.api.infrastructure.sheet.google;
 
+import org.bdxjug.api.infrastructure.sheet.Sheet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
-import static java.util.Optional.ofNullable;
-
 @Component
-public class GoogleSheetRepository {
+public class GoogleSheet implements Sheet {
 
     private static final String SHEET_ID = "1io9i7-HyejSJYVa8EaZL_uJd5XErvoKzYXkMHkD_VOc";
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final String LINE_RANGE = "A2:Z";
 
     private final GoogleSheetClient client;
 
     @Autowired
-    public GoogleSheetRepository(GoogleSheetClient client) {
+    public GoogleSheet(GoogleSheetClient client) {
         this.client = client;
     }
 
-    public <T> List<T> batchGet(Function<String[], T> lineMapping, String ranges) {
+    @Override
+    public <T> List<T> readLines(Function<String[], T> lineMapping, String worksheet) {
         List<T> results = new ArrayList<>();
-        GoogleSheetClient.SpreadSheet sheet = client.batchGet(SHEET_ID, "ROWS", ranges);
+        String rangeValue = Optional.ofNullable(worksheet).map(w -> rangeWithWorksheet(LINE_RANGE, w)).orElse(LINE_RANGE);
+        GoogleSheetClient.SpreadSheet sheet = client.batchGet(SHEET_ID, "ROWS", rangeValue);
         sheet.valueRanges.stream().findFirst().map(r -> r.values).ifPresent(values -> {
             for (String[] value : values) {
                 Optional.ofNullable(lineMapping.apply(value)).ifPresent(results::add);
@@ -53,17 +50,8 @@ public class GoogleSheetRepository {
         return results;
     }
 
-    public static void setValue(String[] value, int index, Consumer<String> setter) {
-        if (value.length > index) {
-            ofNullable(value[index]).ifPresent(setter);
-        }
+    private static String rangeWithWorksheet(String ranges, String worksheet) {
+        return "'" + worksheet + "'!" + ranges;
     }
 
-    public static LocalDate parseDate(String endOfValidity) {
-        try {
-            return LocalDate.parse(endOfValidity, DATE_TIME_FORMATTER);
-        } catch (DateTimeParseException e) {
-            return LocalDate.ofEpochDay(0);
-        }
     }
-}
