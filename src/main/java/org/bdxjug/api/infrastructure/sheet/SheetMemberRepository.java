@@ -27,6 +27,12 @@ import static org.bdxjug.api.infrastructure.sheet.Sheet.parseDate;
 @Component
 public class SheetMemberRepository implements MemberRepository {
 
+    private static final int FIRST_NAME = 0;
+    private static final int LAST_NAME = 1;
+    private static final int FIRST_REGISTRATION = 4;
+    private static final int END_OF_VALIDITY = 6;
+    private static final int ACTIVE = 10;
+
     private static final String IS_ACTIVE = "1";
     private final Sheet sheet;
 
@@ -41,12 +47,12 @@ public class SheetMemberRepository implements MemberRepository {
     }
 
     private Member toMember(String[] value) {
-        final String firstName = value[0];
-        final String lastName = value[1];
-        final String firstRegistration = value[4];
-        final String endOfValidity = value[6];
-        final String active = value[10];
-        if (IS_ACTIVE.equals(active)) {
+        final String firstName = value[FIRST_NAME];
+        final String lastName = value[LAST_NAME];
+        final String firstRegistration = value[FIRST_REGISTRATION];
+        final String endOfValidity = value[END_OF_VALIDITY];
+        final String active = value[ACTIVE];
+        if (active.startsWith(IS_ACTIVE)) {
             Member member = new Member(firstName, lastName);
             member.setFirstRegistration(parseDate(firstRegistration));
             member.setEndOfValidity(parseDate(endOfValidity));

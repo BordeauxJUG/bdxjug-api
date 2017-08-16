@@ -63,8 +63,10 @@ public class XlsxSheet implements Sheet {
                     Cell cell = row.getCell(j);
                     if (isDate(cell)) {
                         values[j] = getDateValue(cell);
+                    } else if (cell.getCellType() == Cell.CELL_TYPE_FORMULA) {
+                        values[j] = String.valueOf(cell.getNumericCellValue());
                     } else {
-                        values[j] = cell.toString();
+                        values[j] = cell.toString().trim();
                     }
                 }
                 results.add(lineMapping.apply(values));
@@ -80,7 +82,8 @@ public class XlsxSheet implements Sheet {
     }
 
     private static boolean isDate(Cell cell) {
-        return cell.getCellType() == Cell.CELL_TYPE_NUMERIC && cell.toString().contains("-");
+        return (cell.getCellType() == Cell.CELL_TYPE_NUMERIC && cell.toString().contains("-"))
+            || (cell.getCellType() == Cell.CELL_TYPE_FORMULA && cell.toString().contains("DATE"));
     }
 
     private static boolean isRowEmpty(Row row) {
