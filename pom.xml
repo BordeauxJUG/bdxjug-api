@@ -103,7 +103,7 @@
             <plugin>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok-maven-plugin</artifactId>
-                <version>${lib.lombok.version}</version>
+                <version>${lib.lombok.version}.1</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
