@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.bdxjug.api.infrastructure.sheet.Sheet.setValue;
 
@@ -33,6 +34,11 @@ public class SheetSpeakerRepository implements SpeakerRepository {
     @Autowired
     public SheetSpeakerRepository(Sheet sheet) {
         this.sheet = sheet;
+    }
+
+    @Override
+    public Optional<Speaker> by(SpeakerID speakerID) {
+        return all().stream().filter(s -> s.getId().equals(speakerID)).findFirst();
     }
 
     @Override
