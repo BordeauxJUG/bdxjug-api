@@ -15,7 +15,6 @@
         <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
 
         <lib.spring-boot.version>1.5.6.RELEASE</lib.spring-boot.version>
-        <lib.springfox-swagger-ui.version>2.7.0</lib.springfox-swagger-ui.version>
         <lib.feign.version>8.18.0</lib.feign.version>
         <lib.lombok.version>1.16.18</lib.lombok.version>
     </properties>
@@ -36,6 +35,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -44,17 +49,6 @@
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${lib.springfox-swagger-ui.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${lib.springfox-swagger-ui.version}</version>
         </dependency>
 
         <dependency>
