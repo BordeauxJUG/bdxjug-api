@@ -56,17 +56,19 @@ public class XlsxSheet implements Sheet {
         int nbRows = worksheet.getPhysicalNumberOfRows();
         for (int i=1; i<nbRows; i++) {
             Row row = worksheet.getRow(i);
-            int nbCells = row.getPhysicalNumberOfCells();
-            String[] values = new String[nbCells];
-            for (int j=0; j<nbCells; j++) {
-                Cell cell = row.getCell(j);
-                if (isDate(cell)) {
-                    values[j] = getDateValue(cell);
-                } else {
-                    values[j] = cell.toString();
+            if (!isRowEmpty(row)) {
+                int nbCells = row.getPhysicalNumberOfCells();
+                String[] values = new String[nbCells];
+                for (int j = 0; j < nbCells; j++) {
+                    Cell cell = row.getCell(j);
+                    if (isDate(cell)) {
+                        values[j] = getDateValue(cell);
+                    } else {
+                        values[j] = cell.toString();
+                    }
                 }
+                results.add(lineMapping.apply(values));
             }
-            results.add(lineMapping.apply(values));
         }
         return results;
     }
@@ -80,6 +82,16 @@ public class XlsxSheet implements Sheet {
     private static boolean isDate(Cell cell) {
         return cell.getCellType() == Cell.CELL_TYPE_NUMERIC && cell.toString().contains("-");
     }
+
+    private static boolean isRowEmpty(Row row) {
+        for (int c = row.getFirstCellNum(); c < row.getLastCellNum(); c++) {
+            Cell cell = row.getCell(c);
+            if (cell != null && cell.getCellType() != Cell.CELL_TYPE_BLANK)
+                return false;
+        }
+        return true;
+    }
+
 
     private Optional<org.apache.poi.ss.usermodel.Sheet> sheetByName(String sheetName) {
         for (int i = 0; i < workbook.getNumberOfSheets(); i++) {

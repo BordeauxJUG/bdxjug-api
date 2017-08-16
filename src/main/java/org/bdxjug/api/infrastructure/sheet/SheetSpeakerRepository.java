@@ -29,6 +29,13 @@ import static org.bdxjug.api.infrastructure.sheet.Sheet.setValue;
 @Component
 public class SheetSpeakerRepository implements SpeakerRepository {
 
+    private static final int ID = 0;
+    private static final int FIRST_NAME = 1;
+    private static final int LAST_NAME = 2;
+    private static final int TWITTER = 3;
+    private static final int URL_AVATAR = 4;
+    private static final int BIO = 5;
+
     private final Sheet sheet;
 
     @Autowired
@@ -47,10 +54,10 @@ public class SheetSpeakerRepository implements SpeakerRepository {
     }
 
     private Speaker toSpeaker(String[] value) {
-        Speaker speaker = new Speaker(new SpeakerID(value[0]), value[1], value[2]);
-        setValue(value, 3, speaker::setTwitter);
-        setValue(value, 4, speaker::setUrlAvatar);
-        setValue(value, 5, speaker::setBio);
+        Speaker speaker = new Speaker(new SpeakerID(value[ID]), value[FIRST_NAME], value[LAST_NAME]);
+        setValue(value, TWITTER, speaker::setTwitter);
+        setValue(value, URL_AVATAR, speaker::setUrlAvatar);
+        setValue(value, BIO, speaker::setBio);
         return speaker;
     }
 

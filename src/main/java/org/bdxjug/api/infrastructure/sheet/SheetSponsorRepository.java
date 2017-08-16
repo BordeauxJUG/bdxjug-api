@@ -32,7 +32,7 @@ public class SheetSponsorRepository implements SponsorRepository {
     private static final int LOGO_URL = 2;
     private static final int END_OF_VALIDITY = 3;
     private static final int DESCRIPTION = 4;
-    
+
     private final Sheet sheet;
 
     @Autowired
