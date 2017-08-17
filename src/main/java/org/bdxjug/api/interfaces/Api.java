@@ -15,6 +15,7 @@
  */
 package org.bdxjug.api.interfaces;
 
+import io.swagger.annotations.ApiOperation;
 import org.bdxjug.api.domain.meetings.*;
 import org.bdxjug.api.domain.members.Member;
 import org.bdxjug.api.domain.members.MemberRepository;
@@ -24,12 +25,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.List;
 import java.util.SortedSet;
 
 import static java.util.Optional.ofNullable;
 
+@EnableSwagger2
 @CrossOrigin(origins = "*", exposedHeaders = "origin, accept, content-type, X-Count, X-AverageAttendees")
 @RestController
 @RequestMapping("api")
@@ -56,6 +59,7 @@ public class Api {
         this.locationRepository = locationRepository;
     }
 
+    @ApiOperation("Retrive all locations")
     @GetMapping("locations")
     public ResponseEntity<List<Location>> locations() {
         List<Location> allLocations = locationRepository.all();
@@ -64,6 +68,7 @@ public class Api {
         return ResponseEntity.ok().headers(headers).body(allLocations);
     }
 
+    @ApiOperation("Retrive all sponsors")
     @GetMapping("sponsors")
     public ResponseEntity<List<Sponsor>> sponsors() {
         List<Sponsor> allSponsors = sponsorRepository.all();
@@ -72,6 +77,7 @@ public class Api {
         return ResponseEntity.ok().headers(headers).body(allSponsors);
     }
 
+    @ApiOperation("Retrive all speakers")
     @GetMapping("speakers")
     public ResponseEntity<List<Speaker>> speakers() {
         List<Speaker> allSpeakers = speakerRepository.all();
@@ -80,6 +86,7 @@ public class Api {
         return ResponseEntity.ok().headers(headers).body(allSpeakers);
     }
 
+    @ApiOperation("Retrive all members")
     @GetMapping("members")
     public ResponseEntity<List<Member>> members() {
         List<Member> allMembers = memberRepository.all();
@@ -88,6 +95,7 @@ public class Api {
         return ResponseEntity.ok().headers(headers).body(allMembers);
     }
 
+    @ApiOperation("Retrive all meetings")
     @GetMapping("meetings")
     public ResponseEntity<SortedSet<Meeting>> meetings() {
         SortedSet<Meeting> allMeetings = meetingRepository.all();
@@ -96,6 +104,7 @@ public class Api {
         return ResponseEntity.ok().headers(headers).body(allMeetings);
     }
 
+    @ApiOperation("Retrive all upcoming meetings")
     @GetMapping("meetings/upcoming")
     public ResponseEntity<SortedSet<Meeting>> upcomingMeetings() {
         SortedSet<Meeting> allMeetings = meetingRepository.upcomingMeetings();
@@ -104,11 +113,13 @@ public class Api {
         return ResponseEntity.ok().headers(headers).body(allMeetings);
     }
 
+    @ApiOperation("Retrive all past meetings")
     @GetMapping("meetings/past")
     public ResponseEntity<SortedSet<Meeting>> pastMeetings() {
         return pastMeetings(null);
     }
 
+    @ApiOperation("Retrive all past meeting for a given year")
     @GetMapping("meetings/past/{year}")
     public ResponseEntity<SortedSet<Meeting>> pastMeetings(@PathVariable("year") Integer year) {
         SortedSet<Meeting> allMeetings = ofNullable(year)

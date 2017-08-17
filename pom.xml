@@ -15,8 +15,10 @@
         <maven.test.redirectTestOutputToFile>true</maven.test.redirectTestOutputToFile>
 
         <lib.spring-boot.version>1.5.6.RELEASE</lib.spring-boot.version>
+        <lib.springfox-swagger-ui.version>2.7.0</lib.springfox-swagger-ui.version>
         <lib.feign.version>8.18.0</lib.feign.version>
         <lib.lombok.version>1.16.18</lib.lombok.version>
+        <lib.poi.version>3.10-FINAL</lib.poi.version>
     </properties>
 
     <dependencyManagement>
@@ -53,6 +55,17 @@
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${lib.springfox-swagger-ui.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${lib.springfox-swagger-ui.version}</version>
         </dependency>
 
         <dependency>
@@ -96,14 +109,14 @@
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
-            <version>3.10-FINAL</version>
+            <version>${lib.poi.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
-            <version>3.10-FINAL</version>
+            <version>${lib.poi.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
