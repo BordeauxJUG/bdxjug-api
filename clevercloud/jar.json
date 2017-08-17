@@ -1,9 +1,9 @@
 {
   "build": {
     "type": "maven",
-    "goal": "spring-boot:run"
+    "goal": "package"
   },
   "deploy": {
-    "jarName": "target/bdxjug-api.jar"
+    "goal": "spring-boot:run"
   }
 }
