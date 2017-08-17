@@ -66,10 +66,8 @@ public class XlsxSheet implements Sheet {
                         values[j] = "";
                     } else if (isDate(cell)) {
                         values[j] = getDateValue(cell);
-                    } else if (isFormula(cell)) {
-                        values[j] = String.valueOf(cell.getNumericCellValue());
-                    } else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-                        values[j] = new BigDecimal(cell.getNumericCellValue()).toPlainString();
+                    } else if (isFormula(cell) || isNumeric(cell)) {
+                        values[j] = getNumericValue(cell).toPlainString();
                     } else {
                         values[j] = cell.toString().trim();
                     }
@@ -78,6 +76,14 @@ public class XlsxSheet implements Sheet {
             }
         }
         return results;
+    }
+
+    private BigDecimal getNumericValue(Cell cell) {
+        return new BigDecimal(cell.getNumericCellValue());
+    }
+
+    private boolean isNumeric(Cell cell) {
+        return cell.getCellType() == Cell.CELL_TYPE_NUMERIC;
     }
 
     private boolean isFormula(Cell cell) {
