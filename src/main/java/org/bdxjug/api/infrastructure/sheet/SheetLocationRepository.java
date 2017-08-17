@@ -27,6 +27,13 @@ import static org.bdxjug.api.infrastructure.sheet.Sheet.setValue;
 @Component
 public class SheetLocationRepository implements LocationRepository {
 
+    private static final int ID = 0;
+    private static final int NAME = 1;
+    private static final int ADDRESS = 2;
+    private static final int LAT = 3;
+    private static final int LNG = 4;
+    private static final int ROOM = 5;
+
     private final Sheet sheet;
 
     @Autowired
@@ -45,9 +52,9 @@ public class SheetLocationRepository implements LocationRepository {
     }
 
     private Location toLocation(String[] value) {
-        Geo geo = new Geo(Double.parseDouble(value[3]), Double.parseDouble(value[4]));
-        Location location = new Location(new LocationID(value[0]), value[1], value[2], geo);
-        setValue(value, 5, location::setRoom);
+        Geo geo = new Geo(Double.parseDouble(value[LAT]), Double.parseDouble(value[LNG]));
+        Location location = new Location(new LocationID(value[ID]), value[NAME], value[ADDRESS], geo);
+        setValue(value, ROOM, location::setRoom);
         return location;
     }
 

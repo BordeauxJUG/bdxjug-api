@@ -29,6 +29,13 @@ import static org.bdxjug.api.infrastructure.sheet.Sheet.setValue;
 @Component
 public class SheetMeetingRepository implements MeetingRepository {
 
+    private static final int ID = 0;
+    private static final int DATE = 1;
+    private static final int SPEAKER_ID = 2;
+    private static final int LOCATION_ID = 3;
+    private static final int SUMMARY = 5;
+    private static final int DESCRIPTION = 6;
+
     private final Sheet sheet;
 
     @Autowired
@@ -43,13 +50,13 @@ public class SheetMeetingRepository implements MeetingRepository {
 
     private Meeting toMeeting(String[] values) {
         Meeting meeting = new Meeting(
-                new MeetingID(values[0]),
-                parseDate(values[1]),
-                new SpeakerID(values[2]),
-                new LocationID(values[3]),
+                new MeetingID(values[ID]),
+                parseDate(values[DATE]),
+                new SpeakerID(values[SPEAKER_ID]),
+                new LocationID(values[LOCATION_ID]),
                 values[4]);
-        setValue(values, 5, meeting::setSummary);
-        setValue(values, 6, meeting::setDescription);
+        setValue(values, SUMMARY, meeting::setSummary);
+        setValue(values, DESCRIPTION, meeting::setDescription);
         return meeting;
     }
 

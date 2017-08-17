@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -61,10 +62,14 @@ public class XlsxSheet implements Sheet {
                 String[] values = new String[nbCells];
                 for (int j = 0; j < nbCells; j++) {
                     Cell cell = row.getCell(j);
-                    if (isDate(cell)) {
+                    if (isEmpty(cell)) {
+                        values[j] = "";
+                    } else if (isDate(cell)) {
                         values[j] = getDateValue(cell);
-                    } else if (cell.getCellType() == Cell.CELL_TYPE_FORMULA) {
+                    } else if (isFormula(cell)) {
                         values[j] = String.valueOf(cell.getNumericCellValue());
+                    } else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+                        values[j] = new BigDecimal(cell.getNumericCellValue()).toPlainString();
                     } else {
                         values[j] = cell.toString().trim();
                     }
@@ -73,6 +78,14 @@ public class XlsxSheet implements Sheet {
             }
         }
         return results;
+    }
+
+    private boolean isFormula(Cell cell) {
+        return cell.getCellType() == Cell.CELL_TYPE_FORMULA;
+    }
+
+    private boolean isEmpty(Cell cell) {
+        return cell == null || cell.getCellType() == Cell.CELL_TYPE_BLANK;
     }
 
     private static String getDateValue(Cell cell) {
