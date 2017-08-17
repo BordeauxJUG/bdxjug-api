@@ -134,6 +134,9 @@
                         <goals>
                             <goal>repackage</goal>
                         </goals>
+                        <configuration>
+                            <mainClass>org.bdxjug.api.Application</mainClass>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
