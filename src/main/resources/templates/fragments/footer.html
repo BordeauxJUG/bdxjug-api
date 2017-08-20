@@ -5,8 +5,14 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-<th:block th:fragment="footer">
-    Sponsors
-</th:block>
+
+<div th:fragment="footer">
+    <ul>
+        <li th:each="sponsor : ${sponsors}">
+            <img th:src="${sponsor.logoUrl}"/>
+        </li>
+    </ul>
+</div>
+
 </body>
 </html>
