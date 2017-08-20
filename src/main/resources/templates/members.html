@@ -1,28 +1,32 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/layout">
 <head>
-    <title>Getting Started: Serving Web Content</title>
+    <title>Bordeaux JUG</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-<h1>Membres</h1>
-<table>
-    <thead>
-    <th>
-        <td>Last Name</td>
-        <td>First Name</td>
-        <td>First Registration</td>
-        <td>End of validity</td>
-    </th>
-    </thead>
-    <tbody>
-    <tr th:each="member : ${members}">
-        <td th:text="${member.lastName}"></td>
-        <td th:text="${member.firstName}"></td>
-        <td th:text="${member.firstRegistration}"></td>
-        <td th:text="${member.endOfValidity}"></td>
-    </tr>
-    </tbody>
-</table>
+<th:block layout:fragment="content">
+    <h2>Membres</h2>
+    <table>
+        <thead>
+        <th>
+            <td>Last Name</td>
+            <td>First Name</td>
+            <td>First Registration</td>
+            <td>End of validity</td>
+        </th>
+        </thead>
+        <tbody>
+        <tr th:each="member : ${members}">
+            <td th:text="${member.lastName}"></td>
+            <td th:text="${member.firstName}"></td>
+            <td th:text="${member.firstRegistration}"></td>
+            <td th:text="${member.endOfValidity}"></td>
+        </tr>
+        </tbody>
+    </table>
+</th:block>
 </body>
 </html>
