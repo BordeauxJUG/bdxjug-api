@@ -22,8 +22,8 @@
             <td th:text="${meeting.date}"></td>
             <td th:text="${meeting.title}"></td>
             <td th:text="${speaker.firstName} + ' ' + ${speaker.lastName}"></td>
-            <td th:text="${meeting.summary}"></td>
-            <td th:text="${meeting.description}"></td>
+            <td th:utext="${meeting.summary}"></td>
+            <td th:utext="${meeting.description}"></td>
         </tr>
     </tbody>
 </table>

@@ -21,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import static org.bdxjug.api.infrastructure.sheet.Sheet.parseDate;
 
@@ -42,8 +44,8 @@ public class SheetMemberRepository implements MemberRepository {
     }
 
     @Override
-    public List<Member> all() {
-        return sheet.readLines(this::toMember, "Members");
+    public SortedSet<Member> all() {
+        return new TreeSet<>(sheet.readLines(this::toMember, "Members"));
     }
 
     private Member toMember(String[] value) {

@@ -1,8 +1,8 @@
 package org.bdxjug.api.domain.members;
 
-import java.util.List;
+import java.util.SortedSet;
 
 public interface MemberRepository {
 
-    List<Member> all();
+    SortedSet<Member> all();
 }

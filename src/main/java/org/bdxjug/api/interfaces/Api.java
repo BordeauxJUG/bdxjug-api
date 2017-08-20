@@ -79,8 +79,8 @@ public class Api {
 
     @ApiOperation("Retrive all speakers")
     @GetMapping("speakers")
-    public ResponseEntity<List<Speaker>> speakers() {
-        List<Speaker> allSpeakers = speakerRepository.all();
+    public ResponseEntity<SortedSet<Speaker>> speakers() {
+        SortedSet<Speaker> allSpeakers = speakerRepository.all();
         HttpHeaders headers = new HttpHeaders();
         headers.add(COUNT_HEADER, String.valueOf(allSpeakers.size()));
         return ResponseEntity.ok().headers(headers).body(allSpeakers);
@@ -88,8 +88,8 @@ public class Api {
 
     @ApiOperation("Retrive all members")
     @GetMapping("members")
-    public ResponseEntity<List<Member>> members() {
-        List<Member> allMembers = memberRepository.all();
+    public ResponseEntity<SortedSet<Member>> members() {
+        SortedSet<Member> allMembers = memberRepository.all();
         HttpHeaders headers = new HttpHeaders();
         headers.add(COUNT_HEADER, String.valueOf(allMembers.size()));
         return ResponseEntity.ok().headers(headers).body(allMembers);

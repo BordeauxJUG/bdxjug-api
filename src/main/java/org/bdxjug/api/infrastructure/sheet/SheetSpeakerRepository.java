@@ -23,6 +23,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import static org.bdxjug.api.infrastructure.sheet.Sheet.setValue;
 
@@ -49,8 +51,8 @@ public class SheetSpeakerRepository implements SpeakerRepository {
     }
 
     @Override
-    public List<Speaker> all() {
-        return sheet.readLines(this::toSpeaker, "Speakers");
+    public SortedSet<Speaker> all() {
+        return new TreeSet<>(sheet.readLines(this::toSpeaker, "Speakers"));
     }
 
     private Speaker toSpeaker(String[] value) {

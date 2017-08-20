@@ -6,5 +6,26 @@
 </head>
 <body>
 <h1>Speakers</h1>
+<table>
+    <thead>
+    <th>
+        <td></td>
+        <td>Last Name</td>
+        <td>First Name</td>
+        <td>Twitter</td>
+        <td>Bio</td>
+        <td>Description</td>
+    </th>
+    </thead>
+    <tbody>
+    <tr th:each="speaker : ${speakers}">
+        <td><img th:src="${speaker.urlAvatar}"/></td>
+        <td th:text="${speaker.lastName}"></td>
+        <td th:text="${speaker.firstName}"></td>
+        <td th:text="${speaker.twitter}"></td>
+        <td th:utext="${speaker.bio}"></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

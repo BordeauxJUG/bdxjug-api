@@ -20,11 +20,16 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class Member {
+public class Member implements Comparable<Member> {
 
     private final String firstName;
     private final String lastName;
 
     private LocalDate endOfValidity;
     private LocalDate firstRegistration;
+
+    @Override
+    public int compareTo(Member o) {
+        return lastName.compareTo(o.lastName);
+    }
 }

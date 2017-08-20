@@ -1,11 +1,11 @@
 package org.bdxjug.api.domain.meetings;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.SortedSet;
 
 public interface SpeakerRepository {
 
     Optional<Speaker> by(SpeakerID speakerID);
 
-    List<Speaker> all();
+    SortedSet<Speaker> all();
 }

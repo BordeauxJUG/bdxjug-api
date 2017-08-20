@@ -6,5 +6,23 @@
 </head>
 <body>
 <h1>Membres</h1>
+<table>
+    <thead>
+    <th>
+        <td>Last Name</td>
+        <td>First Name</td>
+        <td>First Registration</td>
+        <td>End of validity</td>
+    </th>
+    </thead>
+    <tbody>
+    <tr th:each="member : ${members}">
+        <td th:text="${member.lastName}"></td>
+        <td th:text="${member.firstName}"></td>
+        <td th:text="${member.firstRegistration}"></td>
+        <td th:text="${member.endOfValidity}"></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

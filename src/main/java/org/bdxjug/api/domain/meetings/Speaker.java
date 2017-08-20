@@ -18,7 +18,7 @@ package org.bdxjug.api.domain.meetings;
 import lombok.Data;
 
 @Data
-public class Speaker {
+public class Speaker implements Comparable<Speaker> {
 
     private final SpeakerID id;
     private final String firstName;
@@ -27,4 +27,9 @@ public class Speaker {
     private String bio;
     private String urlAvatar;
     private String twitter;
+
+    @Override
+    public int compareTo(Speaker o) {
+        return this.lastName.compareTo(o.lastName);
+    }
 }
