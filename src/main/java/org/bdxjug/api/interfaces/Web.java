@@ -15,18 +15,66 @@
  */
 package org.bdxjug.api.interfaces;
 
+import org.bdxjug.api.domain.meetings.MeetingInfo;
+import org.bdxjug.api.domain.meetings.MeetingRepository;
+import org.bdxjug.api.domain.meetings.SpeakerRepository;
+import org.bdxjug.api.domain.members.MemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class Web {
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String greeting(Model model) {
+    private final MeetingInfo meetingInfo;
+    private final MeetingRepository meetingRepository;
+    private final MemberRepository memberRepository;
+    private final SpeakerRepository speakerRepository;
+
+    @Autowired
+    public Web(MeetingInfo meetingInfo,
+               MeetingRepository meetingRepository,
+               MemberRepository memberRepository,
+               SpeakerRepository speakerRepository) {
+        this.meetingInfo = meetingInfo;
+        this.meetingRepository = meetingRepository;
+        this.memberRepository = memberRepository;
+        this.speakerRepository = speakerRepository;
+    }
+
+    @RequestMapping(value = "/")
+    public String index(Model model) {
         model.addAttribute("name", "Bordeaux JUG");
         return "index";
     }
 
+    @RequestMapping(value = "/info")
+    public String info(Model model) {
+        return "info";
+    }
+
+    @RequestMapping(value = "/meetings")
+    public String meetings(Model model) {
+        model.addAttribute("info", meetingInfo);
+        model.addAttribute("meetings", meetingRepository.pastMeetings());
+        return "meetings";
+    }
+
+    @RequestMapping(value = "/members")
+    public String members(Model model) {
+        model.addAttribute("members", memberRepository.all());
+        return "members";
+    }
+
+    @RequestMapping(value = "/speakers")
+    public String speakers(Model model) {
+        model.addAttribute("speakers", speakerRepository.all());
+        return "speakers";
+    }
+
+    @RequestMapping(value = "/association")
+    public String association(Model model) {
+        return "association";
+    }
 }
