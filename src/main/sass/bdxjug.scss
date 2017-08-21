@@ -1,0 +1,48 @@
+// Fonts
+$font-family: Source Sans Pro;
+$default-font-color: #363535;
+$dark-font-color: #34383D;
+$invert-font-color: #FEFEFE;
+
+// Backgrounds 
+$primary-color: #E21F1F;
+$primary-color-gradient:  linear-gradient(270deg, #E90E0E 0%, #B72222 100%);
+$disabled-primary-color-gradient: linear-gradient(270deg, #E90E0E 0%, #B72222 100%);
+
+$secondary-color: #1A9FD7;
+$secondary-color-gradient: linear-gradient(331deg, #1896DE 0%, #1A9FD7 100%);
+$disabled-secondary-color-gradient: linear-gradient(331deg, #1896DE 0%, #1A9FD7 100%);
+
+$white: #FFFFFF;
+$very-light-grey: #F0F4F6;
+$light-grey: #CFCFCF;
+$grey: #596069;
+$dark-grey: #34383D;
+
+
+$black-gradient: linear-gradient(270deg, #4B5158 0%, #34383D 100%);
+$disabled-black-gradient: linear-gradient(270deg, #4B5158 0%, #34383D 100%);
+
+
+body {
+    font: 100% $font-family;
+    color: $default-font-color;
+    p {
+        font-size: 10px; 
+    }
+    h1 {
+        font-size: 34px;
+    }
+    h2 {
+        font-size: 28px;
+    }
+}
+
+
+.btn {
+    height: 36px;
+    width: 158px;
+    background-color: $white;
+
+
+}
