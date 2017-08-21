@@ -16,6 +16,7 @@
 package org.bdxjug.api.interfaces;
 
 import io.swagger.annotations.ApiOperation;
+import org.bdxjug.api.application.AnnounceMeeting;
 import org.bdxjug.api.domain.meetings.*;
 import org.bdxjug.api.domain.members.Member;
 import org.bdxjug.api.domain.members.MemberRepository;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.SortedSet;
 
 import static java.util.Optional.ofNullable;
@@ -45,21 +47,24 @@ public class Api {
     private final MemberRepository memberRepository;
     private final MeetingRepository meetingRepository;
     private final LocationRepository locationRepository;
+    private final AnnounceMeeting announceMeeting;
 
     @Autowired
     public Api(SponsorRepository sponsorRepository,
                SpeakerRepository speakerRepository,
                MemberRepository memberRepository,
                MeetingRepository meetingRepository,
-               LocationRepository locationRepository) {
+               LocationRepository locationRepository,
+               AnnounceMeeting announceMeeting) {
         this.sponsorRepository = sponsorRepository;
         this.speakerRepository = speakerRepository;
         this.memberRepository = memberRepository;
         this.meetingRepository = meetingRepository;
         this.locationRepository = locationRepository;
+        this.announceMeeting = announceMeeting;
     }
 
-    @ApiOperation("Retrive all locations")
+    @ApiOperation("Retrieve all locations")
     @GetMapping("locations")
     public ResponseEntity<List<Location>> locations() {
         List<Location> allLocations = locationRepository.all();
@@ -68,7 +73,7 @@ public class Api {
         return ResponseEntity.ok().headers(headers).body(allLocations);
     }
 
-    @ApiOperation("Retrive all sponsors")
+    @ApiOperation("Retrieve all sponsors")
     @GetMapping("sponsors")
     public ResponseEntity<List<Sponsor>> sponsors() {
         List<Sponsor> allSponsors = sponsorRepository.all();
@@ -77,7 +82,7 @@ public class Api {
         return ResponseEntity.ok().headers(headers).body(allSponsors);
     }
 
-    @ApiOperation("Retrive all speakers")
+    @ApiOperation("Retrieve all speakers")
     @GetMapping("speakers")
     public ResponseEntity<SortedSet<Speaker>> speakers() {
         SortedSet<Speaker> allSpeakers = speakerRepository.all();
@@ -86,7 +91,7 @@ public class Api {
         return ResponseEntity.ok().headers(headers).body(allSpeakers);
     }
 
-    @ApiOperation("Retrive all members")
+    @ApiOperation("Retrieve all members")
     @GetMapping("members")
     public ResponseEntity<SortedSet<Member>> members() {
         SortedSet<Member> allMembers = memberRepository.all();
@@ -95,7 +100,7 @@ public class Api {
         return ResponseEntity.ok().headers(headers).body(allMembers);
     }
 
-    @ApiOperation("Retrive all meetings")
+    @ApiOperation("Retrieve all meetings")
     @GetMapping("meetings")
     public ResponseEntity<SortedSet<Meeting>> meetings() {
         SortedSet<Meeting> allMeetings = meetingRepository.all();
@@ -104,7 +109,29 @@ public class Api {
         return ResponseEntity.ok().headers(headers).body(allMeetings);
     }
 
-    @ApiOperation("Retrive all upcoming meetings")
+    @ApiOperation("Retrieve a meeting by id")
+    @GetMapping("meetings/{id}")
+    public ResponseEntity<Meeting> meeting(@PathVariable("id") String id) {
+        return meetingRepository.by(new MeetingID(id))
+                .map(ResponseEntity::ok)
+                .orElseGet(ResponseEntity.notFound()::build);
+    }
+
+    @ApiOperation("Announce a meeting")
+    @PutMapping("meetings/{id}/announcement")
+    public ResponseEntity<Meeting> publishMeeting(@PathVariable("id") String id) {
+        Optional<Meeting> meeting = meetingRepository.by(new MeetingID(id));
+        if (meeting.isPresent()) {
+            if (!meeting.get().isPublished()) {
+                announceMeeting.execute(meeting.get());
+            }
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @ApiOperation("Retrieve all upcoming meetings")
     @GetMapping("meetings/upcoming")
     public ResponseEntity<SortedSet<Meeting>> upcomingMeetings() {
         SortedSet<Meeting> allMeetings = meetingRepository.upcomingMeetings();
@@ -113,13 +140,13 @@ public class Api {
         return ResponseEntity.ok().headers(headers).body(allMeetings);
     }
 
-    @ApiOperation("Retrive all past meetings")
+    @ApiOperation("Retrieve all past meetings")
     @GetMapping("meetings/past")
     public ResponseEntity<SortedSet<Meeting>> pastMeetings() {
         return pastMeetings(null);
     }
 
-    @ApiOperation("Retrive all past meeting for a given year")
+    @ApiOperation("Retrieve all past meeting for a given year")
     @GetMapping("meetings/past/{year}")
     public ResponseEntity<SortedSet<Meeting>> pastMeetings(@PathVariable("year") Integer year) {
         SortedSet<Meeting> allMeetings = ofNullable(year)

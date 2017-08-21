@@ -19,8 +19,10 @@ import org.bdxjug.api.domain.meetings.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static org.bdxjug.api.infrastructure.sheet.Sheet.parseDate;
@@ -35,12 +37,18 @@ public class SheetMeetingRepository implements MeetingRepository {
     private static final int LOCATION_ID = 3;
     private static final int SUMMARY = 5;
     private static final int DESCRIPTION = 6;
+    private static final int REGISTRATION_ID = 7;
 
     private final Sheet sheet;
 
     @Autowired
     public SheetMeetingRepository(Sheet sheet) {
         this.sheet = sheet;
+    }
+
+    @Override
+    public Optional<Meeting> by(MeetingID meetingID) {
+        return all().stream().filter(m -> m.getId().equals(meetingID)).findFirst();
     }
 
     @Override
@@ -57,6 +65,7 @@ public class SheetMeetingRepository implements MeetingRepository {
                 values[4]);
         setValue(values, SUMMARY, meeting::setSummary);
         setValue(values, DESCRIPTION, meeting::setDescription);
+        setValue(values, REGISTRATION_ID, s -> meeting.setRegistrationID(new RegistrationID(s)));
         return meeting;
     }
 

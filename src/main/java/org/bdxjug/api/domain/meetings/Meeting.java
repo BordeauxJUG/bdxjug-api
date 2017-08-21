@@ -30,6 +30,7 @@ public class Meeting implements Comparable<Meeting> {
 
     private String summary;
     private String description;
+    private RegistrationID registrationID;
 
     public boolean isPast() {
         return date.isBefore(LocalDate.now());
@@ -37,6 +38,10 @@ public class Meeting implements Comparable<Meeting> {
 
     public boolean isUpcoming() {
         return date.isAfter(LocalDate.now());
+    }
+
+    public boolean isPublished() {
+        return registrationID != null;
     }
 
     @Override
