@@ -119,13 +119,11 @@ public class Api {
 
     @ApiOperation("Announce a meeting")
     @PutMapping("meetings/{id}/announcement")
-    public ResponseEntity<Meeting> publishMeeting(@PathVariable("id") String id) {
+    public ResponseEntity<AnnounceMeeting.Announcement> publishMeeting(@PathVariable("id") String id) {
         Optional<Meeting> meeting = meetingRepository.by(new MeetingID(id));
         if (meeting.isPresent()) {
-            if (!meeting.get().isPublished()) {
-                announceMeeting.execute(meeting.get());
-            }
-            return ResponseEntity.ok().build();
+            AnnounceMeeting.Announcement announcement = announceMeeting.execute(meeting.get());
+            return ResponseEntity.ok(announcement);
         } else {
             return ResponseEntity.notFound().build();
         }

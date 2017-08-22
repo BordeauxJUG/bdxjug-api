@@ -15,6 +15,7 @@
  */
 package org.bdxjug.api.application;
 
+import lombok.Data;
 import org.bdxjug.api.domain.meetings.Meeting;
 import org.bdxjug.api.domain.meetings.MeetingPublisher;
 import org.bdxjug.api.domain.meetings.RegistrationID;
@@ -31,11 +32,18 @@ public class AnnounceMeeting {
         this.publisher = publisher;
     }
 
-    public void execute(Meeting meeting) {
-        RegistrationID registrationID = this.publisher.publish(meeting);
-        meeting.setRegistrationID(registrationID);
-        // save meeting in google sheet
-        // post twitter
-        // send mail
+    @Data
+    public static class Announcement {
+        private final RegistrationID registrationID;
+        private final String registerLink;
     }
+
+    public Announcement execute(Meeting meeting) {
+        if (!meeting.isPublished()) {
+            RegistrationID registrationID = this.publisher.publish(meeting);
+            meeting.setRegistrationID(registrationID);
+        }
+        return new Announcement(meeting.getRegistrationID(), publisher.registerLink(meeting.getRegistrationID()));
+    }
+
 }

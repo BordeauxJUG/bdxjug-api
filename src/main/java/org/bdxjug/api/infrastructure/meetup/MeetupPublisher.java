@@ -29,4 +29,9 @@ public class MeetupPublisher implements MeetingPublisher {
     public RegistrationID publish(Meeting meeting) {
         return new RegistrationID(UUID.randomUUID().toString());
     }
+
+    @Override
+    public String registerLink(RegistrationID registrationID) {
+        return "https://www.meetup.com/BordeauxJUG/events/" + registrationID.getValue();
+    }
 }
