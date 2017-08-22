@@ -1,5 +1,7 @@
 // Fonts
-$font-family: Source Sans Pro;
+@import url('https://fonts.google.com/specimen/Source+Sans+Pro?selection.family=Source+Sans+Pro');
+
+$default-font-family: 'Source Sans Pro', sans-serif;
 $default-font-color: #363535;
 $dark-font-color: #34383D;
 $invert-font-color: #FEFEFE;
@@ -25,10 +27,10 @@ $disabled-black-gradient: linear-gradient(270deg, #4B5158 0%, #34383D 100%);
 
 
 body {
-    font: 100% $font-family;
+    font: 100% $default-font-family;
     color: $default-font-color;
     p {
-        font-size: 10px; 
+        font-size: 12px; 
     }
     h1 {
         font-size: 34px;
