@@ -13,18 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bdxjug.api.domain.meetings;
+package org.bdxjug.api.infrastructure.meetup;
 
-import lombok.Data;
+import org.springframework.stereotype.Component;
 
-@Data
-public class Location {
+import java.util.List;
 
-    private final LocationID id;
-    private final String name;
-    private final String address;
-    private final Geo geo;
+@Component
+public class MockMeetupClient implements MeetupClient {
 
-    private String room;
-    private VenueID venueID;
+    @Override
+    public Event announceEvent(String group, AnnounceEvent announceEvent) {
+        return null;
+    }
+
+    @Override
+    public Event getEvent(String group, String eventId) {
+        return null;
+    }
+
+    @Override
+    public List<Attendee> getEventAttendance(String group, String eventId) {
+        return null;
+    }
 }

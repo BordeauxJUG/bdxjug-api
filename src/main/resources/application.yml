@@ -1,12 +1,15 @@
 spring:
   profiles:
-    active: google
+    active: google, meetup
 server:
   port: ${PORT:8080}
 
 bdxjug:
     google-sheet:
         key: ${GOOGLE_SHEET_API_KEY}
+    meetup:
+        key: ${MEETUP_API_KEY}
+
 
 
 

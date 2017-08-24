@@ -16,18 +16,34 @@
 package org.bdxjug.api.infrastructure.meetup;
 
 import org.bdxjug.api.domain.meetings.Meeting;
+import org.bdxjug.api.domain.meetings.MeetingInfo;
 import org.bdxjug.api.domain.meetings.MeetingPublisher;
 import org.bdxjug.api.domain.meetings.RegistrationID;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
 
 @Component
 public class MeetupPublisher implements MeetingPublisher {
 
+    private final MeetupClient client;
+    private final MeetingInfo meetingInfo;
+
+    @Autowired
+    public MeetupPublisher(MeetupClient client, MeetingInfo meetingInfo) {
+        this.client = client;
+        this.meetingInfo = meetingInfo;
+    }
+
     @Override
     public RegistrationID publish(Meeting meeting) {
-        return new RegistrationID(UUID.randomUUID().toString());
+        MeetupClient.AnnounceEvent announceEvent = new MeetupClient.AnnounceEvent();
+        announceEvent.name = meeting.getTitle();
+        announceEvent.announce = false;
+        announceEvent.description = meeting.getDescription();
+        announceEvent.time = meeting.getDate().toEpochDay();
+        announceEvent.venue_id = meetingInfo.locationOf(meeting).getVenueID().getValue();
+        MeetupClient.Event event = client.announceEvent("BordeauxJUG", announceEvent);
+        return new RegistrationID(event.id);
     }
 
     @Override

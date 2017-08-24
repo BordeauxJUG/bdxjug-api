@@ -18,13 +18,7 @@ package org.bdxjug.api.domain.meetings;
 import lombok.Data;
 
 @Data
-public class Location {
+public class VenueID {
 
-    private final LocationID id;
-    private final String name;
-    private final String address;
-    private final Geo geo;
-
-    private String room;
-    private VenueID venueID;
+    private final String value;
 }

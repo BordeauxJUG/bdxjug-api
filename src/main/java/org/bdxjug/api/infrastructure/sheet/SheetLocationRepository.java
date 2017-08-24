@@ -33,6 +33,7 @@ public class SheetLocationRepository implements LocationRepository {
     private static final int LAT = 3;
     private static final int LNG = 4;
     private static final int ROOM = 5;
+    private static final int VENUE_ID = 5;
 
     private final Sheet sheet;
 
@@ -55,6 +56,7 @@ public class SheetLocationRepository implements LocationRepository {
         Geo geo = new Geo(Double.parseDouble(value[LAT]), Double.parseDouble(value[LNG]));
         Location location = new Location(new LocationID(value[ID]), value[NAME], value[ADDRESS], geo);
         setValue(value, ROOM, location::setRoom);
+        setValue(value, VENUE_ID, s -> location.setVenueID(new VenueID(s)));
         return location;
     }
 

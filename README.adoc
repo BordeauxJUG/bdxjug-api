@@ -8,6 +8,8 @@ This project provides a REST API about Bordeaux JUG data.
 
 GOOGLE_SHEET_API_KEY:: the api key for https://docs.google.com/spreadsheets/
 
+MEETUP_API_KEY:: the api key for https://api.meetup.com
+
 == Google Sheet Backend
 
 https://docs.google.com/spreadsheets/d/1io9i7-HyejSJYVa8EaZL_uJd5XErvoKzYXkMHkD_VOc/edit#gid=0
