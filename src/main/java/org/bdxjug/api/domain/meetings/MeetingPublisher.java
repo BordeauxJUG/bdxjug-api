@@ -2,7 +2,7 @@ package org.bdxjug.api.domain.meetings;
 
 public interface MeetingPublisher {
 
-    RegistrationID publish(Meeting meeting);
+    RegistrationID publish(String accessToken, Meeting meeting);
 
     String registerLink(RegistrationID registrationID);
 }

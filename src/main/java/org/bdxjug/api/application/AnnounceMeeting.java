@@ -38,9 +38,9 @@ public class AnnounceMeeting {
         private final String registerLink;
     }
 
-    public Announcement execute(Meeting meeting) {
+    public Announcement execute(String authorizationCode, Meeting meeting) {
         if (!meeting.isPublished()) {
-            RegistrationID registrationID = this.publisher.publish(meeting);
+            RegistrationID registrationID = this.publisher.publish(authorizationCode, meeting);
             meeting.setRegistrationID(registrationID);
         }
         return new Announcement(meeting.getRegistrationID(), publisher.registerLink(meeting.getRegistrationID()));

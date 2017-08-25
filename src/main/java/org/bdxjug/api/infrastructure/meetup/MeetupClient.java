@@ -23,15 +23,19 @@ import java.util.List;
 
 interface MeetupClient {
 
-    @RequestLine("POST /{group}/events")
-    @Headers("Content-Type: application/json")
-    Event announceEvent(@Param("group") String group, AnnounceEvent announceEvent);
+    interface Admin {
+        @RequestLine("POST /{group}/events")
+        @Headers("Content-Type: application/json")
+        Event announceEvent(@Param("group") String group, AnnounceEvent announceEvent);
+    }
 
-    @RequestLine("GET /{group}/events/{id}")
-    Event getEvent(@Param("group") String group, @Param("id") String eventId);
+    interface  Reader {
+        @RequestLine("GET /{group}/events/{id}")
+        Event getEvent(@Param("group") String group, @Param("id") String eventId);
 
-    @RequestLine("GET /{group}/events/{id}/attendance")
-    List<Attendee> getEventAttendance(@Param("group") String group, @Param("id") String eventId);
+        @RequestLine("GET /{group}/events/{id}/attendance")
+        List<Attendee> getEventAttendance(@Param("group") String group, @Param("id") String eventId);
+    }
 
     class AnnounceEvent {
         public boolean announce;

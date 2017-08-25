@@ -25,24 +25,25 @@ import org.springframework.stereotype.Component;
 @Component
 public class MeetupPublisher implements MeetingPublisher {
 
-    private final MeetupClient client;
+    private final MeetupConfiguration meetupConfiguration;
     private final MeetingInfo meetingInfo;
 
     @Autowired
-    public MeetupPublisher(MeetupClient client, MeetingInfo meetingInfo) {
-        this.client = client;
+    public MeetupPublisher(MeetupConfiguration meetupConfiguration, MeetingInfo meetingInfo) {
+        this.meetupConfiguration = meetupConfiguration;
         this.meetingInfo = meetingInfo;
     }
 
     @Override
-    public RegistrationID publish(Meeting meeting) {
+    public RegistrationID publish(String authorizationCode, Meeting meeting) {
+        MeetupClient.Admin admin = meetupConfiguration.admin(authorizationCode);
         MeetupClient.AnnounceEvent announceEvent = new MeetupClient.AnnounceEvent();
         announceEvent.name = meeting.getTitle();
         announceEvent.announce = false;
         announceEvent.description = meeting.getDescription();
         announceEvent.time = meeting.getDate().toEpochDay();
         announceEvent.venue_id = meetingInfo.locationOf(meeting).getVenueID().getValue();
-        MeetupClient.Event event = client.announceEvent("BordeauxJUG", announceEvent);
+        MeetupClient.Event event = admin.announceEvent("BordeauxJUG", announceEvent);
         return new RegistrationID(event.id);
     }
 
