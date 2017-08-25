@@ -33,21 +33,38 @@ import org.springframework.context.annotation.Profile;
 public class MeetupFeignConfiguration implements MeetupConfiguration {
 
     @Value("${bdxjug.meetup.key}")
-    private String key;
+    private String apiKey;
+
+    @Value("${bdxjug.meetup.oauth2.consumer-key}")
+    private String consumerKey;
+
+    @Value("${bdxjug.meetup.oauth2.consumer-secret}")
+    private String consumerSecret;
+
+    @Value("${bdxjug.meetup.oauth2.redirect-uri}")
+    private String redirecturi;
+
+    @Override
+    public String authorizeUri() {
+        return "https://secure.meetup.com/oauth2/authorize" +
+                "?client_id=" + this.consumerKey +
+                "&response_type=code" +
+                "&redirect_uri=" + this.redirecturi;
+    }
 
     @Override
     public MeetupClient.Reader reader() {
-        return buildClient(MeetupClient.Reader.class, r -> r.query("key", this.key));
+        return buildClient(MeetupClient.Reader.class, r -> r.query("key", this.apiKey));
     }
 
     @Override
     public MeetupClient.Admin admin(String authorizationCode) {
         HttpRequest requestingAccessToken = HttpRequest.get(
                 "https://secure.meetup.com/oauth2/access", false,
-                "client_id", "YOUR_CONSUMER_KEY",
-                "client_secret", "YOUR_CONSUMER_SECRET",
+                "client_id", this.consumerKey,
+                "client_secret", this.consumerSecret,
                 "grant_type", "authorization_code",
-                "redirect_uri", "SAME_REDIRECT_URI_USED_FOR_PREVIOUS_STEP",
+                "redirect_uri", this.redirecturi,
                 "code", authorizationCode);
         if (requestingAccessToken.ok()) {
             JsonElement accessToken = new JsonParser().parse(requestingAccessToken.body()).getAsJsonObject().get("access_token");

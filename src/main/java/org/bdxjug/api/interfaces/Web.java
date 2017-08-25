@@ -20,10 +20,12 @@ import org.bdxjug.api.domain.meetings.MeetingRepository;
 import org.bdxjug.api.domain.meetings.SpeakerRepository;
 import org.bdxjug.api.domain.members.MemberRepository;
 import org.bdxjug.api.domain.sponsors.SponsorRepository;
+import org.bdxjug.api.infrastructure.meetup.MeetupConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class Web {
@@ -33,24 +35,34 @@ public class Web {
     private final MemberRepository memberRepository;
     private final SpeakerRepository speakerRepository;
     private final SponsorRepository sponsorRepository;
+    private final MeetupConfiguration meetupConfiguration;
 
     @Autowired
     public Web(MeetingInfo meetingInfo,
                MeetingRepository meetingRepository,
                MemberRepository memberRepository,
                SpeakerRepository speakerRepository,
-               SponsorRepository sponsorRepository) {
+               SponsorRepository sponsorRepository,
+               MeetupConfiguration meetupConfiguration) {
         this.meetingInfo = meetingInfo;
         this.meetingRepository = meetingRepository;
         this.memberRepository = memberRepository;
         this.speakerRepository = speakerRepository;
         this.sponsorRepository = sponsorRepository;
+        this.meetupConfiguration = meetupConfiguration;
     }
 
     @RequestMapping(value = "/")
     public String index(Model model) {
         model.addAttribute("sponsors", sponsorRepository.all());
         return "index";
+    }
+
+    @RequestMapping(value = "/admin")
+    public RedirectView admin() {
+        RedirectView redirectView = new RedirectView();
+        redirectView.setUrl(meetupConfiguration.authorizeUri());
+        return redirectView;
     }
 
     @RequestMapping(value = "/info")

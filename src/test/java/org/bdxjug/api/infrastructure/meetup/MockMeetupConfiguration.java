@@ -8,6 +8,11 @@ import org.springframework.stereotype.Component;
 public class MockMeetupConfiguration implements MeetupConfiguration {
 
     @Override
+    public String authorizeUri() {
+        return "http://localhost:8080/admin.html";
+    }
+
+    @Override
     public MeetupClient.Reader reader() {
         throw new UnsupportedOperationException();
     }

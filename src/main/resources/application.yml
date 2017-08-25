@@ -9,6 +9,10 @@ bdxjug:
         key: ${GOOGLE_SHEET_API_KEY}
     meetup:
         key: ${MEETUP_API_KEY}
+        oauth2:
+          consumer-key: ${MEETUP_CONSUMER_KEY}
+          consumer-secret: ${MEETUP_CONSUMER_SECRET}
+          redirect-uri: ${MEETUP_REDIRECT_URI}
 
 
 
