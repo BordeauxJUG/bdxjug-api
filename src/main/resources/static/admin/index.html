@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="adminApp">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -7,6 +7,9 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="admin.js"></script>
 </head>
 <body>
 <div class="jumbotron jumbotron-fluid">
@@ -14,46 +17,31 @@
         <h1 class="display-3">Bordeaux JUG Administration</h1>
     </div>
 </div>
-<div class="container-fluid">
-    <h2>Unpublished meetings</h2>
+<div class="container-fluid" ng-controller="AdminController">
+    <h2>Not Published meetings</h2>
     <div class="row">
         <table class="table">
             <thead>
             <tr>
-                <th>#</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Username</th>
+                <th>Date</th>
+                <th>Speaker</th>
+                <th>Title</th>
+                <th>Description</th>
                 <th><img width="75" src="https://secure.meetupstatic.com/s/img/5455565085016210254/logo/svg/logo--script.svg"/></th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td><button type="button" class="btn btn-danger">Announce</button></td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                <td><button type="button" class="btn btn-danger">Announce</button></td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
+            <tr ng-repeat="meeting in meetings">
+                <td>{{meeting.date.year}}/{{meeting.date.monthValue}}/{{meeting.date.dayOfMonth}}</td>
+                <td>{{meeting.speakerID.value}}</td>
+                <td>{{meeting.title}}</td>
+                <td><span ng-bind-html="trust(meeting.description)"></span></td>
                 <td><button type="button" class="btn btn-danger">Announce</button></td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
-
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

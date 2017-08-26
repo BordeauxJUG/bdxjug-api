@@ -31,6 +31,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.List;
 import java.util.Optional;
 import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import static java.util.Optional.ofNullable;
 
@@ -104,6 +106,15 @@ public class Api {
     @GetMapping("meetings")
     public ResponseEntity<SortedSet<Meeting>> meetings() {
         SortedSet<Meeting> allMeetings = meetingRepository.all();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(COUNT_HEADER, String.valueOf(allMeetings.size()));
+        return ResponseEntity.ok().headers(headers).body(allMeetings);
+    }
+
+    @ApiOperation("Retrieve not published meetings")
+    @GetMapping("meetings/not-published")
+    public ResponseEntity<SortedSet<Meeting>> notPublishedMeetings() {
+        SortedSet<Meeting> allMeetings = meetingRepository.all().stream().filter(m -> !m.isPublished()).collect(Collectors.toCollection(TreeSet::new));
         HttpHeaders headers = new HttpHeaders();
         headers.add(COUNT_HEADER, String.valueOf(allMeetings.size()));
         return ResponseEntity.ok().headers(headers).body(allMeetings);
