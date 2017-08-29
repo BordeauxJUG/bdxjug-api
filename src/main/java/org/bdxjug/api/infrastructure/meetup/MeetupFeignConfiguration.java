@@ -51,6 +51,7 @@ public class MeetupFeignConfiguration implements MeetupConfiguration {
         return "https://secure.meetup.com/oauth2/authorize" +
                 "?client_id=" + this.consumerKey +
                 "&response_type=code" +
+                "&scope=event_management" +
                 "&redirect_uri=" + this.redirecturi;
     }
 
