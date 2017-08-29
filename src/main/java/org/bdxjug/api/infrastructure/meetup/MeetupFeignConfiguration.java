@@ -72,8 +72,9 @@ public class MeetupFeignConfiguration implements MeetupConfiguration {
             JsonElement accessToken = new JsonParser().parse(requestingAccessToken.body()).getAsJsonObject().get("access_token");
             return buildClient(MeetupClient.Admin.class, r -> r.header("Authorization", "Bearer " + accessToken));
         } else {
-            LOGGER.error(toString(requestingAccessToken));
-            throw new IllegalStateException("Cannot retrieve access token for meetup api");
+            String message = toString(requestingAccessToken);
+            LOGGER.error(message);
+            throw new IllegalStateException("Cannot retrieve access token for meetup api : [" + message + "]");
         }
     }
 
