@@ -3,6 +3,12 @@ spring:
     active: google, meetup
 server:
   port: ${PORT:8080}
+logging:
+  level:
+    org.springframework.web: ERROR
+    org.bdxjug: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
 
 bdxjug:
     google-sheet:
