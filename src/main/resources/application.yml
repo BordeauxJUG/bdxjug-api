@@ -7,7 +7,6 @@ logging:
   level:
     org.springframework.web: ERROR
     org.bdxjug: DEBUG
-    feign: DEBUG
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
 

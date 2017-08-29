@@ -35,7 +35,7 @@ public class GoogleSheetConfiguration {
     @Bean
     public GoogleSheetClient googleSheetsClient() {
         return Feign.builder()
-                .logger(new Slf4jLogger())
+                .logger(new Slf4jLogger(this.getClass()))
                 .logLevel(Logger.Level.FULL)
                 .encoder(new GsonEncoder())
                 .decoder(new GsonDecoder())

@@ -87,7 +87,7 @@ public class MeetupFeignConfiguration implements MeetupConfiguration {
 
     private <T> T buildClient(Class<T> clientClazz, RequestInterceptor authenticationInterceptor) {
         return Feign.builder()
-                .logger(new Slf4jLogger())
+                .logger(new Slf4jLogger(this.getClass()))
                 .logLevel(Logger.Level.FULL)
                 .encoder(new GsonEncoder())
                 .decoder(new GsonDecoder())
