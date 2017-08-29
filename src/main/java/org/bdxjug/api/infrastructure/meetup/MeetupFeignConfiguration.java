@@ -32,6 +32,8 @@ import org.springframework.context.annotation.Profile;
 @Profile("meetup")
 public class MeetupFeignConfiguration implements MeetupConfiguration {
 
+    private final static org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(MeetupFeignConfiguration.class);
+
     @Value("${bdxjug.meetup.key}")
     private String apiKey;
 
@@ -70,8 +72,13 @@ public class MeetupFeignConfiguration implements MeetupConfiguration {
             JsonElement accessToken = new JsonParser().parse(requestingAccessToken.body()).getAsJsonObject().get("access_token");
             return buildClient(MeetupClient.Admin.class, r -> r.header("Authorization", "Bearer " + accessToken));
         } else {
+            LOGGER.error(toString(requestingAccessToken));
             throw new IllegalStateException("Cannot retrieve access token for meetup api");
         }
+    }
+
+    private static String toString(HttpRequest requestingAccessToken) {
+        return requestingAccessToken.toString() + ", code= " + requestingAccessToken.code() + ", body=" + requestingAccessToken.body();
     }
 
     private <T> T buildClient(Class<T> clientClazz, RequestInterceptor authenticationInterceptor) {
