@@ -61,7 +61,7 @@ public class MeetupFeignConfiguration implements MeetupConfiguration {
 
     @Override
     public MeetupClient.Admin admin(String authorizationCode) {
-        HttpRequest requestingAccessToken = HttpRequest.get(
+        HttpRequest requestingAccessToken = HttpRequest.post(
                 "https://secure.meetup.com/oauth2/access", false,
                 "client_id", this.consumerKey,
                 "client_secret", this.consumerSecret,
