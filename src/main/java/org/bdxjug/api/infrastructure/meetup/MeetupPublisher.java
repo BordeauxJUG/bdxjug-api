@@ -23,6 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.time.*;
+import java.util.Date;
+
 @Component
 public class MeetupPublisher implements MeetingPublisher {
 
@@ -44,9 +47,15 @@ public class MeetupPublisher implements MeetingPublisher {
          MeetupClient.Event event = admin.announceEvent(groupName,
                 meeting.getTitle(),
                 meeting.getDescription(),
-                meeting.getDate().toEpochDay(),
+                toTime(meeting.getDate()),
                 meetingInfo.locationOf(meeting).getVenueID().getValue());
         return new RegistrationID(event.id);
+    }
+
+    private long toTime(LocalDate date) {
+        Instant instant = Instant.from(LocalDateTime.of(date, LocalTime.of(19, 0)).atZone(ZoneId.systemDefault()));
+        return Date.from(instant).getTime();
+
     }
 
     @Override
