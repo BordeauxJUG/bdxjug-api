@@ -24,7 +24,7 @@ import java.util.List;
 interface MeetupClient {
 
     interface Admin {
-        @RequestLine("POST /{group}/events?name={name}&description={description}&time={time}&venue_id={venue_id}")
+        @RequestLine("POST /{group}/events?name={name}&time={time}&venue_id={venue_id}&description={description}")
         @Headers("Content-Type: application/json")
         Event announceEvent(@Param("group") String group,
                             @Param("name") String name,
