@@ -18,20 +18,19 @@ package org.bdxjug.api.infrastructure.meetup;
 import feign.Headers;
 import feign.Param;
 import feign.RequestLine;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 interface MeetupClient {
 
     interface Admin {
-        @RequestLine("POST /{group}/events")
+        @RequestLine("POST /{group}/events?name={name}&description={description}&time={time}&venue_id={venue_id}")
         @Headers("Content-Type: application/json")
         Event announceEvent(@Param("group") String group,
-                            @RequestParam("name") String name,
-                            @RequestParam("description") String description,
-                            @RequestParam("description") long time,
-                            @RequestParam("venue_id") String venue_id);
+                            @Param("name") String name,
+                            @Param("description") String description,
+                            @Param("time") long time,
+                            @Param("venue_id") String venue_id);
     }
 
     interface  Reader {

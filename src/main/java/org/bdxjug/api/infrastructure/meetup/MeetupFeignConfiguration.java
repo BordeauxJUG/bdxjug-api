@@ -72,7 +72,7 @@ public class MeetupFeignConfiguration implements MeetupConfiguration {
         if (requestingAccessToken.ok()) {
             JsonElement accessToken = new JsonParser().parse(requestingAccessToken.body()).getAsJsonObject().get("access_token");
             String accessTokenAsString = accessToken.getAsString();
-            LOGGER.debug("Retrieve access token : " + accessTokenAsString);
+            LOGGER.debug("Retrieved access token : " + accessTokenAsString);
             return buildClient(MeetupClient.Admin.class, r -> r.header("Authorization", "Bearer " + accessTokenAsString));
         } else {
             String message = toString(requestingAccessToken);

@@ -5,8 +5,7 @@ server:
   port: ${PORT:8080}
 logging:
   level:
-    org.springframework.web: ERROR
-    org.bdxjug: DEBUG
+    org.bdxjug: ${LOG_LEVEL:DEBUG}
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
 
