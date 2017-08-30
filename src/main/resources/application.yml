@@ -14,6 +14,7 @@ bdxjug:
     google-sheet:
         key: ${GOOGLE_SHEET_API_KEY}
     meetup:
+        group: "BordeauxJUG"
         key: ${MEETUP_API_KEY}
         oauth2:
           consumer-key: ${MEETUP_CONSUMER_KEY}

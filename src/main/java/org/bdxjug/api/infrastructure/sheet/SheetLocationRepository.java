@@ -33,7 +33,7 @@ public class SheetLocationRepository implements LocationRepository {
     private static final int LAT = 3;
     private static final int LNG = 4;
     private static final int ROOM = 5;
-    private static final int VENUE_ID = 5;
+    private static final int VENUE_ID = 6;
 
     private final Sheet sheet;
 

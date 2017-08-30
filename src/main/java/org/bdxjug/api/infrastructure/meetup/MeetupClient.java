@@ -18,6 +18,7 @@ package org.bdxjug.api.infrastructure.meetup;
 import feign.Headers;
 import feign.Param;
 import feign.RequestLine;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -26,7 +27,11 @@ interface MeetupClient {
     interface Admin {
         @RequestLine("POST /{group}/events")
         @Headers("Content-Type: application/json")
-        Event announceEvent(@Param("group") String group, AnnounceEvent announceEvent);
+        Event announceEvent(@Param("group") String group,
+                            @RequestParam("name") String name,
+                            @RequestParam("description") String description,
+                            @RequestParam("description") long time,
+                            @RequestParam("venue_id") String venue_id);
     }
 
     interface  Reader {
@@ -35,14 +40,6 @@ interface MeetupClient {
 
         @RequestLine("GET /{group}/events/{id}/attendance")
         List<Attendee> getEventAttendance(@Param("group") String group, @Param("id") String eventId);
-    }
-
-    class AnnounceEvent {
-        public boolean announce;
-        public String name;
-        public String description;
-        public long time;
-        public String venue_id;
     }
 
     class Event {

@@ -20,10 +20,14 @@ import org.bdxjug.api.domain.meetings.MeetingInfo;
 import org.bdxjug.api.domain.meetings.MeetingPublisher;
 import org.bdxjug.api.domain.meetings.RegistrationID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MeetupPublisher implements MeetingPublisher {
+
+    @Value("${bdxjug.meetup.group}")
+    private String groupName;
 
     private final MeetupConfiguration meetupConfiguration;
     private final MeetingInfo meetingInfo;
@@ -37,18 +41,16 @@ public class MeetupPublisher implements MeetingPublisher {
     @Override
     public RegistrationID publish(String authorizationCode, Meeting meeting) {
         MeetupClient.Admin admin = meetupConfiguration.admin(authorizationCode);
-        MeetupClient.AnnounceEvent announceEvent = new MeetupClient.AnnounceEvent();
-        announceEvent.name = meeting.getTitle();
-        announceEvent.announce = false;
-        announceEvent.description = meeting.getDescription();
-        announceEvent.time = meeting.getDate().toEpochDay();
-        announceEvent.venue_id = meetingInfo.locationOf(meeting).getVenueID().getValue();
-        MeetupClient.Event event = admin.announceEvent("BordeauxJUG", announceEvent);
+         MeetupClient.Event event = admin.announceEvent(groupName,
+                meeting.getTitle(),
+                meeting.getDescription(),
+                meeting.getDate().toEpochDay(),
+                meetingInfo.locationOf(meeting).getVenueID().getValue());
         return new RegistrationID(event.id);
     }
 
     @Override
     public String registerLink(RegistrationID registrationID) {
-        return "https://www.meetup.com/BordeauxJUG/events/" + registrationID.getValue();
+        return "https://www.meetup.com/" + groupName + "/events/" + registrationID.getValue();
     }
 }
