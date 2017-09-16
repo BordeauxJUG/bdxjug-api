@@ -2,28 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="layouts/layout">
-<head>
-    <title>Bordeaux JUG</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" href="css/bdxjug.css" type="text/css"/>
-</head>
 <body>
 
-<th:block layout:fragment="content">
-    <h2>A propos</h2>
-    <p>
-        L'objectif du BORDEAUX Java User Group est de permettre à des acteurs et utilisateurs du langage Java (professionnels, communautés open source, universitaires, étudiants) de se rencontrer et d'échanger autour des technologies Java.
-
-        Des rencontres sont organisées tous les mois, en général le deuxième jeudi du mois, sous forme de réunions gratuites, ouvertes à tous. Les réunions prennent la forme :
-
-        de présentations techniques
-        de démonstrations produit
-        de séances de travaux pratiques
-        de tables rondes sur l'architecture, l'évolution de Java, l'actualité...
-        de retour d'expérience
-        La soirée se poursuit généralement par une discussion autour d'un verre et d'un buffet.
-    </p>
-</th:block>
+    <th:block layout:fragment="content">
+        <div class="bj-jumbotron jumbotron jumbotron-fluid" >
+            <div class="container">
+                <h1>À propos</h1>
+                <p class="lead">
+                    L'objectif du BORDEAUX Java User Group est de permettre à des acteurs et utilisateurs du langage Java (professionnels, communautés open source, universitaires, étudiants) de se rencontrer et d'échanger autour des technologies Java.
+                </p>
+                <a class="btn bj-btn" href="./practicalInfos.html">En savoir +</a>
+            </div>
+        </div>
+    </th:block>
 
 </body>
 </html>

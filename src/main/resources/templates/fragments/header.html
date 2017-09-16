@@ -1,21 +1,76 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Getting Started: Serving Web Content</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-</head>
-<body>
+    <body>
 
-<div th:fragment="header">
-    <h1><a href="/">Bordeaux JUG</a></h1>
-    <ul>
-        <li><a href="/info">Infos pratiques</a></li>
-        <li><a href="/meetings">Rencontres</a></li>
-        <li><a href="/speakers">Speakers</a></li>
-        <li><a href="/members">Membres</a></li>
-        <li><a href="/association">Association</a></li>
-    </ul>
-</div>
+        <div th:fragment="header" class="header clearfix">
+            <nav class="bj-navbar navbar navbar-light navbar-expand-md navbar-fixed-top">
 
-</body>
+                <a class="navbar-brand" href="/"><img src="img/logo-color-border.png" height="51"/></a>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                    <ul class="navbar-nav mr-auto">
+                        <!--<li class="nav-item active"><a class="nav-link" href="#"> <span class="sr-only">(current)</span></a></li>-->
+                        <li class="nav-item"><a class="nav-link" href="/info">Infos pratiques</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="/meetings">Rencontres</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="/speakers">Speakers</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="/members">Membres</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="/association">Association</a></li>
+                    </ul>
+                    <button type="button" class="bj-btn-black btn btn-lg" data-toggle="modal" data-target="#memberModal">Devenir membre</button>
+                </div>
+            </nav>
+
+            <!-- devenir member modal-->
+            <div th:fragment="memberModal" class="modal fade" id="memberModal" tabindex="-1" role="dialog" aria-labelledby="memberModal" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Devenir membre</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <img src="img/illu-sign-members.png" width="128"/>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-8">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <span>Pour la modique somme de 5€/an soutenez l'asso et devenez membre officiel !</span>
+                                            </div>
+                                        </div>
+                                        <div class="row justify-content-center">
+                                            <div class="col-md-4">
+                                                <button type="button" class="bj-btn-primary btn">En savoir +</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer bj-footer">
+                            <div class="container">
+                                <div class="row justify-content-center">
+                                    <center> 
+                                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post"><input type="hidden" name="cmd" value="_s-xclick"/><input type="hidden" name="hosted_button_id" value="3UXNT29UPR2SY"/><input type="image" src="https://www.paypalobjects.com/fr_FR/FR/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - la solution de paiement en ligne la plus simple et la plus sécurisée !"/>
+                                            <img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1" />
+                                        </form>
+                                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post"><input type="hidden" name="cmd" value="_s-xclick"/><input type="hidden" name="hosted_button_id" value="F9AVEBM7PUMUL"/><input type="image" src="https://www.paypalobjects.com/fr_FR/FR/i/btn/btn_subscribeCC_LG.gif" border="0" name="submit" alt="PayPal - la solution de paiement en ligne la plus simple et la plus sécurisée !"/>
+                                            <img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1" />
+                                        </form>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
 </html>

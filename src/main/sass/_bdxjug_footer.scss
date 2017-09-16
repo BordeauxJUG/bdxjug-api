@@ -1,0 +1,20 @@
+@import 'bdxjug_colors';
+
+.bj-footer {
+    background-color: $bj-background-color;
+    padding: 40px 30px;
+
+    .bj-info {
+        color: $bj-primary-color;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 16px 24px;
+    }
+    .bj-newsgroup {
+
+    }
+    .bj-description {
+        font-size: 10px;
+        padding-top: 20px;
+    }
+}

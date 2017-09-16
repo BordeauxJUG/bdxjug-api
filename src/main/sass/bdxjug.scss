@@ -1,36 +1,37 @@
-// Fonts
-@import url('https://fonts.google.com/specimen/Source+Sans+Pro?selection.family=Source+Sans+Pro');
+@import 'bdxjug_body';
+@import 'bdxjug_colors';
+@import 'bdxjug_fonts';
+@import 'bdxjug_navbar';
+@import 'bdxjug_buttons';
+@import 'bdxjug_jumbotron';
+@import 'bdxjug_images';
 
-$default-font-family: 'Source Sans Pro', sans-serif;
-$default-font-color: #363535;
-$dark-font-color: #34383D;
-$invert-font-color: #FEFEFE;
+@import 'bdxjug_shift_panel';
 
-// Backgrounds 
-$primary-color: #E21F1F;
-$primary-color-gradient:  linear-gradient(270deg, #E90E0E 0%, #B72222 100%);
-$disabled-primary-color-gradient: linear-gradient(270deg, #E90E0E 0%, #B72222 100%);
-
-$secondary-color: #1A9FD7;
-$secondary-color-gradient: linear-gradient(331deg, #1896DE 0%, #1A9FD7 100%);
-$disabled-secondary-color-gradient: linear-gradient(331deg, #1896DE 0%, #1A9FD7 100%);
-
-$white: #FFFFFF;
-$very-light-grey: #F0F4F6;
-$light-grey: #CFCFCF;
-$grey: #596069;
-$dark-grey: #34383D;
-
-
-$black-gradient: linear-gradient(270deg, #4B5158 0%, #34383D 100%);
-$disabled-black-gradient: linear-gradient(270deg, #4B5158 0%, #34383D 100%);
-
+@import 'bdxjug_events';
+@import 'bdxjug_sponsors';
+@import 'bdxjug_footer';
 
 body {
-    font: 100% $default-font-family;
-    color: $default-font-color;
+    font: 100% $bj-default-font-family;
+    color: $bj-default-font-color;
     p {
-        font-size: 12px; 
+        font-size: 16px; 
+    }
+    li {
+        font-size: 16px; 
+        list-style: none;
+        &:before { 
+            color: $bj-primary-color;
+            content: '\2022';
+            display: block;
+            position: relative;
+            max-width: 0;
+            max-height: 0;
+            left: -10px;
+            top: 0;
+            font-size: 20px;
+        }
     }
     h1 {
         font-size: 34px;
@@ -38,13 +39,13 @@ body {
     h2 {
         font-size: 28px;
     }
+    h3 {
+        font-size: 24px;
+    }
+    h4 {
+        font-size: 20px;
+        color: $bj-primary-color
+    }
 }
 
 
-.btn {
-    height: 36px;
-    width: 158px;
-    background-color: $white;
-
-
-}

@@ -1,0 +1,11 @@
+@import 'bdxjug_colors';
+
+.bj-img-avatar {
+    border-radius: 50%;
+    box-sizing: border-box;
+    height: 94px;
+    width: 95px;
+    border: 1px solid $bj-primary-color;
+    color: $bj-primary-color;
+    background-color: $bj-primary-color;
+}

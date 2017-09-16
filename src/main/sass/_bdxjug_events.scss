@@ -1,0 +1,64 @@
+@import 'bdxjug_colors';
+@import 'bdxjug_images';
+
+.bj-event-container {
+    background-color: $bj-background-color;
+    padding-bottom: 30px;
+}
+
+.bj-event-header {
+}
+
+.bj-event-metadata {
+    height: 150px;
+    /*left:30px;*/
+    background: linear-gradient(166deg, #323232 0%, #000000 100%);
+    color: $bj-white;
+    padding-left: 50px;
+    
+    .bj-intro {
+        padding-top: 20px;
+    }
+    .bj-date {
+        padding-bottom: 20px;
+    }
+    .bj-inscrits {
+
+    }
+    .bj-sinscrire {
+        z-index: 1;
+    }
+}
+
+.bj-event-title {
+    position: relative;
+    z-index: 1;
+    top: -50px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: $bj-dark-grey;
+    color: $bj-white;
+    width: 67%;
+    font-weight: 500;
+
+    .bj-avatar {
+        padding-left: 30px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .bj-title {
+        font-size: 20px;
+        padding-top: 30px;
+        padding-bottom: 40px;
+    }
+
+    .bj-name {
+
+    }
+
+    .bj-location {
+
+    }
+}
+

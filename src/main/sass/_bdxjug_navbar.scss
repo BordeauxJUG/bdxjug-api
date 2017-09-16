@@ -1,0 +1,15 @@
+@import 'bdxjug_colors'; 
+
+.bj-navbar {
+    background-color: $bj-primary-color;
+    font: 100% $bj-default-font-family;
+    .navbar-brand, .navbar-text {
+        color: $bj-white;
+    }
+    .navbar-nav .nav-link {
+        color: $bj-white;
+    }
+    .nav-item.active .nav-link, .nav-item:hover .nav-link {
+        color: $bj-white;
+    }
+}

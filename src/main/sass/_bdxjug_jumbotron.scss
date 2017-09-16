@@ -1,0 +1,25 @@
+@import 'bdxjug_colors';
+
+.bj-jumbotron {
+    min-height: 500px;
+    background: $bj-primary-color;
+    color: $bj-white;
+    position: relative;
+    overflow: hidden;
+    &:before { // Handle transparency with background-image is not simple, I follow this snippet to make it works : https://codepen.io/ncerminara/pen/eFzJI
+        content: ' ';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height:100%;
+        z-index: 1;
+        opacity: 0.3;
+        background-image: url('../img/bg-home.png'), linear-gradient(to bottom, $bj-primary-color 0%, $bj-black 100%);;
+        background-repeat: no-repeat;
+        background-position: 100% 0;
+        background-size: cover;
+    }
+}
+ 
