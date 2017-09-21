@@ -15,6 +15,9 @@
  */
 package org.bdxjug.api.interfaces;
 
+import java.util.SortedSet;
+import org.bdxjug.api.domain.meetings.LocationRepository;
+import org.bdxjug.api.domain.meetings.Meeting;
 import org.bdxjug.api.domain.meetings.MeetingInfo;
 import org.bdxjug.api.domain.meetings.MeetingRepository;
 import org.bdxjug.api.domain.meetings.SpeakerRepository;
@@ -35,6 +38,7 @@ public class Web {
     private final MemberRepository memberRepository;
     private final SpeakerRepository speakerRepository;
     private final SponsorRepository sponsorRepository;
+    private final LocationRepository locationRepository;
     private final MeetupConfiguration meetupConfiguration;
 
     @Autowired
@@ -43,18 +47,24 @@ public class Web {
                MemberRepository memberRepository,
                SpeakerRepository speakerRepository,
                SponsorRepository sponsorRepository,
+               LocationRepository locationRepository,
                MeetupConfiguration meetupConfiguration) {
         this.meetingInfo = meetingInfo;
         this.meetingRepository = meetingRepository;
         this.memberRepository = memberRepository;
         this.speakerRepository = speakerRepository;
         this.sponsorRepository = sponsorRepository;
+        this.locationRepository = locationRepository;
         this.meetupConfiguration = meetupConfiguration;
     }
 
     @RequestMapping(value = "/")
     public String index(Model model) {
         model.addAttribute("sponsors", sponsorRepository.all());
+        final Meeting meeting = meetingRepository.upcomingMeetings().iterator().next(); // TODO : handle cardinality
+        model.addAttribute("meeting", meeting);
+        speakerRepository.by(meeting.getSpeakerID()).ifPresent(speaker -> model.addAttribute("speaker", speaker)); 
+        locationRepository.by(meeting.getLocationID()).ifPresent(location -> model.addAttribute("location", location));
         return "index";
     }
 
