@@ -2,8 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <body>
 
-        <div class="bj-shift-up" th:fragment="footer">
-            <div class="bj-sponsors container">
+        <!-- footer -->
+        <footer class="footer">
+            <div class="container bj-sponsors " th:fragment="footer">
                 <div class="row bj-title">
                     <div class="col-md-4"></div>
                     <div class="col-md-4">
@@ -15,31 +16,27 @@
                     <div class="col-md-2 bj-sponsor" th:each="sponsor : ${sponsors}"><img th:src="${sponsor.logoUrl}"/></div>
                 </div>    
             </div>
-
-            <!-- footer -->
             <div class="container bj-footer">
-                <footer class="footer ">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <img src="img/logo-color.png" height="75"/>
+                <div class="row">
+                    <div class="col-md-6">
+                        <img src="img/logo-color.png" height="75"/>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row bj-info">
+                            <span class="col-md-12 text-right">Se tenir informé et participer aux discussions</span>
                         </div>
-                        <div class="col-md-6">
-                            <div class="row bj-info">
-                                <span class="col-md-12 text-right">Se tenir informé et participer aux discussions</span>
-                            </div>
-                            <div class="row form-group">
-                                <input type="text" class="col-md-8 form-control" placeholder="Votre E-mail"/>
-                                <div class="col-md-1"></div>
-                                <button class="col-md-2 bj-btn-primary btn">OK </button>
-                            </div>
-                            <div class="row bj-description">
-                                <span class="col-md-12 text-right"><strong>Bordeaux JUG</strong> - Le club des utilisateurs de Java sur Bordeaux et sa région</span>
-                            </div>
+                        <div class="row form-group">
+                            <input type="text" class="col-md-8 form-control" placeholder="Votre E-mail"/>
+                            <div class="col-md-1"></div>
+                            <button class="col-md-2 bj-btn-primary btn">OK </button>
+                        </div>
+                        <div class="row bj-description">
+                            <span class="col-md-12 text-right"><strong>Bordeaux JUG</strong> - Le club des utilisateurs de Java sur Bordeaux et sa région</span>
                         </div>
                     </div>
-                </footer>
+                </div>
             </div>
-        </div>
+        </footer>
 
     </body>
 </html>
