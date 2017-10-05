@@ -1,10 +1,11 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="layouts/layout">
-<body>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head th:include="fragments/html_header :: html_header"/>
 
-    <th:block layout:fragment="content">
+    <body class="bj-body" >
+
+        <div th:replace="fragments/header :: header"></div>
+
         <div class="bj-jumbotron jumbotron jumbotron-fluid" >
             <div class="container">
                 <h1>À propos</h1>
@@ -14,8 +15,8 @@
                 <a class="btn bj-btn" href="./practicalInfos.html">En savoir +</a>
             </div>
         </div>
-        
-        
+
+
         <div class="bj-shift-up">
             <div class="bj-event-container container">
                 <!-- Talk Header -->
@@ -57,11 +58,14 @@
 
                 </div>
             </div> 
+                
+            <div th:replace="fragments/footer :: footer"></div>
         </div>
-        
-        
-    </th:block>
 
-</body>
+
+        <div th:include="fragments/html_js_declaration :: html_js_declaration"/> 
+    </body>
 </html>
+
+
 
