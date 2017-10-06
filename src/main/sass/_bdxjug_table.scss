@@ -1,0 +1,14 @@
+@import 'bdxjug_colors';
+
+
+.bj-table {
+
+    thead {
+        background-color: $bj-grey;
+        color: $bj-white;
+    }
+
+    td {
+        color: $bj-primary-color;
+    }
+}

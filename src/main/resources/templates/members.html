@@ -3,29 +3,31 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="layouts/layout">
 
-<body>
+    <body>
 
-<th:block layout:fragment="content">
-    <h2>Membres</h2>
-    <table>
-        <thead>
-        <th>
-            <td>Last Name</td>
-            <td>First Name</td>
-            <td>First Registration</td>
-            <td>End of validity</td>
-        </th>
-        </thead>
-        <tbody>
-        <tr th:each="member : ${members}">
-            <td th:text="${member.lastName}"></td>
-            <td th:text="${member.firstName}"></td>
-            <td th:text="${member.firstRegistration}"></td>
-            <td th:text="${member.endOfValidity}"></td>
-        </tr>
-        </tbody>
-    </table>
-</th:block>
+    <th:block layout:fragment="content">
+        <div class="bj-container">
+            <h2>Membres</h2>
+            <table class="bj-table table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Membre depuis</th>
+                        <th>Adhésion à renouveler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="member : ${members}">
+                        <td th:text="${member.lastName}"></td>
+                        <td th:text="${member.firstName}"></td>
+                        <td th:text="${#temporals.format(member.firstRegistration, 'd MMM yyyy')}"></td>
+                        <td th:text="${#temporals.format(member.endOfValidity, 'd MMM yyyy')}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </th:block>
 
 </body>
 </html>

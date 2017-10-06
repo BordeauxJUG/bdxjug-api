@@ -1,7 +1,9 @@
 @import 'bdxjug_body';
 @import 'bdxjug_colors';
 @import 'bdxjug_fonts';
+@import 'bdxjug_container';
 @import 'bdxjug_navbar';
+@import 'bdxjug_table';
 @import 'bdxjug_buttons';
 @import 'bdxjug_jumbotron';
 @import 'bdxjug_images';
@@ -32,19 +34,6 @@ body {
             top: 0;
             font-size: 20px;
         }
-    }
-    h1 {
-        font-size: 34px;
-    }
-    h2 {
-        font-size: 28px;
-    }
-    h3 {
-        font-size: 24px;
-    }
-    h4 {
-        font-size: 20px;
-        color: $bj-primary-color
     }
 }
 
