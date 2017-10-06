@@ -2,6 +2,7 @@
 @import 'bdxjug_images';
 
 .bj-event-container {
+    @extend .bj-container;
     background-color: $bj-background-color;
     padding-bottom: 30px;
 }
