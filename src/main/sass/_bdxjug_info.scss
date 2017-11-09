@@ -1,0 +1,31 @@
+@import 'bdxjug_colors';
+@import 'bdxjug_images';
+
+.bj-info-container {
+    @extend .bj-container;
+
+    .bj-info-item{
+        color: $bj-primary-color;
+        font-weight: bold;
+        padding-bottom: 10px;
+
+        img {
+            width: 120px;
+        }
+    }
+
+    .bj-warning {
+        color: $bj-primary-color;
+    }
+
+    p {
+        padding-top: 10px;
+        font-size: 22px;
+    }
+
+    em {
+        font-size: 20px;
+    }
+}
+
+

@@ -3,11 +3,77 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="layouts/layout">
 
-<body>
+    <body>
 
-<th:block layout:fragment="content">
-    <h2>Infos pratiques</h2>
-</th:block>
+    <th:block layout:fragment="content">
+        <div class="bj-info-container container">
+            <h2>Bienvenue</h2>
+
+            <p>
+                Des rencontres sont organisées <strong>tous les mois</strong>, en général le deuxième jeudi du mois, sous forme de 
+                <strong>réunions gratuites, ouvertes à tous</strong>. 
+            </p>
+            <p>
+                Les réunions prennent la forme de:
+            </p>
+            <div class="row bj-info-item">
+                <div class="col-md-1"></div>
+                <div class="col-md-2">Présentations techniques</div>
+                <div class="col-md-2">Démonstrations produit</div>
+                <div class="col-md-2">Séances de travaux pratiques</div>
+                <div class="col-md-2">Tables rondes sur l'architecture, l'évolution de Java, l'actualité...</div>
+                <div class="col-md-2">Retour d'expérience</div>
+            </div>
+            <div class="row bj-info-item">
+                <div class="col-md-1"></div>
+                <div class="col-md-2 "><img src="img/icon-technical-pres.png"/></div>
+                <div class="col-md-2 text-center"><img src="img/icon-demo.png"/></div>
+                <div class="col-md-2 text-center"><img src="img/icon-work.png"/></div>
+                <div class="col-md-2 text-center"><img src="img/icon-archi.png"/></div>
+                <div class="col-md-2 text-center"><img src="img/icon-experience.png"/></div>
+            </div>
+            <div class="text-center"><em>La soirée se poursuit généralement par une discussion autour d'un verre et d'un buffet.</em></div>
+
+            <h2>Où les rencontres se déroulent elles ?</h2>
+            <p> Les rencontres ont en général lieu à l'ENSEIRB-MATMECA .
+
+                L'adresse est la suivante :</p> 
+            <div class="text-center">ENSEIRB, 1 Avenue du Docteur Albert Schweitzer, 33400 Talence</div>
+
+            <p>Le plan ci-dessous récapitule l'accès et les endroits de stationnement autours de l'école :</p>
+
+            <div class="text-center"> <img src="img/Plan accès IPB ENSEIRB MATMECA.png"/> </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <span class="bj-warning icon icon-warning" >  </span>
+                    Durant le plan vigipirate, seule l'accès Est avec un badge est possible. Il vous faudra demander à un étudiant de vous ouvrir.
+                </div>
+            </div>
+            <br/>
+
+            <div class="row">
+                <div class="col-md-4">
+                    Si les rencontres sont la plupart du temps gratuites, il est demandé de s'inscrire au préalable (un lien est fourni sur l'annonce de chaque rencontre) afin que nous puissions ajuster le buffet en conséquence.
+                </div>
+                <div class="col-md-4">
+                    La communauté du JUG de bordeaux est avant tout une communauté de gens qui se retrouvent régulièrement aux réunions du JUG. Mais pour les discussions entre les réunions, des moyens d'interaction en ligne sont également présents :
+
+                    le google group
+                    ce site où vous pouvez poster des commentaires
+                    un groupe dans LinkedIn
+                </div>
+                <div class="col-md-4">
+                    Nous mettons à jour un compte picasaweb avec les photos des rencontres et images utilisées :
+                    http://picasaweb.google.com/bordeauxjug33
+
+                    Se tenir informé
+                    Google group
+                    Pour vous tenir au courant de l'actualité du JUG, le mieux est de s'inscrire sur le groupe google du JUG :
+                </div>
+            </div>
+        </div>
+    </th:block>
 
 </body>
 </html>
