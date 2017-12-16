@@ -2,32 +2,43 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="layouts/layout">
-<body>
+    <body>
 
-<th:block layout:fragment="content">
-    <h2>Speakers</h2>
-    <table>
-        <thead>
-        <th>
-            <td></td>
-            <td>Last Name</td>
-            <td>First Name</td>
-            <td>Twitter</td>
-            <td>Bio</td>
-            <td>Description</td>
-        </th>
-        </thead>
-        <tbody>
-        <tr th:each="speaker : ${speakers}">
-            <td><img th:src="${speaker.urlAvatar}"/></td>
-            <td th:text="${speaker.lastName}"></td>
-            <td th:text="${speaker.firstName}"></td>
-            <td th:text="${speaker.twitter}"></td>
-            <td th:utext="${speaker.bio}"></td>
-        </tr>
-        </tbody>
-    </table>
-</th:block>
+    <th:block layout:fragment="content">
+        <div class="bj-info-container container">
+
+            <h2>Speakers</h2>
+            <p>Voici la liste des intervenants lors de nos différentes sessions : </p>
+
+            <hr/>
+
+            <div th:each="speaker,row : ${speakers}">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="bj-speaker row">
+                            <div class="col-md-3">
+                                <img class="bj-img-avatar-big img-thumbnail img-fluid" th:src="${speaker.urlAvatar}"/>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="row">
+                                    <div class="col-md-6"><strong th:text="${speaker.firstName+' '+speaker.lastName}"/></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6"><a th:href="${speaker.twitter}" th:text="${speaker.twitter}"></a></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-1"> </div>
+                                    <div class="col-md-11"> <span th:utext="${speaker.bio}"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </th:block>
 
 </body>
 </html>

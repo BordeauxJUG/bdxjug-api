@@ -3,9 +3,17 @@
 .bj-img-avatar {
     border-radius: 50%;
     box-sizing: border-box;
-    height: 94px;
+    height: 95px;
     width: 95px;
-    border: 1px solid $bj-primary-color;
+    border: $bj-primary-color;
     color: $bj-primary-color;
     background-color: $bj-primary-color;
+}
+
+.bj-img-avatar-big {
+    border-radius: 50%;
+    box-sizing: border-box;
+    height: 120px;
+    width: 120px;
+    background-color: $bj-white;
 }

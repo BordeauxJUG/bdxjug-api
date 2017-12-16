@@ -13,6 +13,7 @@
 
 @import 'bdxjug_events';
 @import 'bdxjug_info';
+@import 'bdxjug_speakers';
 @import 'bdxjug_sponsors';
 @import 'bdxjug_footer';
 
@@ -35,6 +36,12 @@ body {
             left: -10px;
             top: 0;
             font-size: 20px;
+        }
+    }
+    a {
+        color: $bj-primary-color;
+        :hover {
+            color: $bj-primary-color;
         }
     }
 }
