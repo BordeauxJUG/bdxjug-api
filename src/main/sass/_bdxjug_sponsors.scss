@@ -30,8 +30,10 @@
 
 .bj-sponsor {
     padding-top : 20px;
+    padding-bottom : 20px;
     img {
-        width: 120px;
+        max-width: 120px;
+        max-height: 50px; 
     }
     /*mix-blend-mode: multiply;*/
     //https://stackoverflow.com/questions/12945763/how-to-convert-the-background-to-transparent for transparency

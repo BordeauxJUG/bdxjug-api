@@ -5,3 +5,14 @@ $bj-default-font-color: #363535;
 $bj-dark-font-color: #34383D;
 $bj-invert-font-color: #FEFEFE;
 
+$bj-normal-font: 20px;
+$bj-big-font: 26px;
+
+.bj-normal-font {
+    font-size: $bj-normal-font;
+}
+
+.bj-big-font {
+    font-size: $bj-big-font;
+}
+

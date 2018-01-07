@@ -1,10 +1,14 @@
 @import 'bdxjug_colors';
+@import 'bdxjug_fonts';
 
 
 .bj-container {
     background-color: $bj-background-color;
     padding-bottom: 20px;
-
+    padding-left: 40px;
+    padding-right: 40px;
+    font-size: $bj-normal-font;
+    
     h1 {
         font-size: 34px;
     }
@@ -21,5 +25,15 @@
         font-size: 20px;
         color: $bj-primary-color
     }
+    
+    p {
+        padding-top: 10px;
+    }
 
+    em {
+    }
+    
+    hr {
+        padding-bottom: 20px;
+    }
 }

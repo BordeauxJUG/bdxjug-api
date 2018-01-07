@@ -15,16 +15,18 @@
 @import 'bdxjug_info';
 @import 'bdxjug_speakers';
 @import 'bdxjug_sponsors';
+@import 'bdxjug_teammates';
 @import 'bdxjug_footer';
 
 body {
     font: 100% $bj-default-font-family;
     color: $bj-default-font-color;
+    
     p {
-        font-size: 16px; 
+        font-size: $bj-normal-font; 
     }
     li {
-        font-size: 16px; 
+        font-size: $bj-normal-font; 
         list-style: none;
         &:before { 
             color: $bj-primary-color;
@@ -41,7 +43,7 @@ body {
     a {
         color: $bj-primary-color;
         :hover {
-            color: $bj-primary-color;
+            color: $bj-primary-color !important;
         }
     }
 }

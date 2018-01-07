@@ -23,6 +23,7 @@ import org.bdxjug.api.domain.meetings.MeetingRepository;
 import org.bdxjug.api.domain.meetings.SpeakerRepository;
 import org.bdxjug.api.domain.members.MemberRepository;
 import org.bdxjug.api.domain.sponsors.SponsorRepository;
+import org.bdxjug.api.domain.team.TeamMateRepository;
 import org.bdxjug.api.infrastructure.meetup.MeetupConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,6 +40,7 @@ public class Web {
     private final SpeakerRepository speakerRepository;
     private final SponsorRepository sponsorRepository;
     private final LocationRepository locationRepository;
+    private final TeamMateRepository teamMateRepository;
     private final MeetupConfiguration meetupConfiguration;
 
     @Autowired
@@ -48,7 +50,8 @@ public class Web {
                SpeakerRepository speakerRepository,
                SponsorRepository sponsorRepository,
                LocationRepository locationRepository,
-               MeetupConfiguration meetupConfiguration) {
+               MeetupConfiguration meetupConfiguration,
+               TeamMateRepository teamMateRepository) {
         this.meetingInfo = meetingInfo;
         this.meetingRepository = meetingRepository;
         this.memberRepository = memberRepository;
@@ -56,6 +59,7 @@ public class Web {
         this.sponsorRepository = sponsorRepository;
         this.locationRepository = locationRepository;
         this.meetupConfiguration = meetupConfiguration;
+        this.teamMateRepository = teamMateRepository;
     }
 
     @RequestMapping(value = "/")
@@ -106,6 +110,7 @@ public class Web {
     @RequestMapping(value = "/association")
     public String association(Model model) {
         model.addAttribute("sponsors", sponsorRepository.all());
+        model.addAttribute("teamMates", teamMateRepository.all());
         return "association";
     }
 }
