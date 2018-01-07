@@ -21,8 +21,8 @@
                     <tr th:each="member : ${members}">
                         <td th:text="${member.lastName}"></td>
                         <td th:text="${member.firstName}"></td>
-                        <td th:text="${#temporals.format(member.firstRegistration, 'd MMM yyyy')}"></td>
-                        <td th:text="${#temporals.format(member.endOfValidity, 'd MMM yyyy')}"></td>
+                        <td th:text="${#temporals.format(member.firstRegistration, 'd MMM yyyy')}" class="bj-grey"></td>
+                        <td th:text="${#temporals.format(member.endOfValidity, 'd MMM yyyy')}" class="bj-grey"></td>
                     </tr>
                 </tbody>
             </table>
