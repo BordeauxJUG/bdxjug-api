@@ -15,12 +15,14 @@
  */
 package org.bdxjug.api.infrastructure.sheet;
 
+import java.time.LocalDate;
 import org.bdxjug.api.domain.sponsors.Sponsor;
 import org.bdxjug.api.domain.sponsors.SponsorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.bdxjug.api.infrastructure.sheet.Sheet.parseDate;
 import static org.bdxjug.api.infrastructure.sheet.Sheet.setValue;
@@ -42,7 +44,9 @@ public class SheetSponsorRepository implements SponsorRepository {
 
     @Override
     public List<Sponsor> all() {
-        return sheet.readLines(this::toSponsor, "Sponsors");
+        return sheet.readLines(this::toSponsor, "Sponsors").stream()
+                .filter(s -> s.getEndOfValidity().isAfter(LocalDate.now()))
+                .collect(Collectors.toList());
     }
 
     private Sponsor toSponsor(String[] values) {
