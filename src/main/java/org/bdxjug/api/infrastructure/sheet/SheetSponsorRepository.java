@@ -45,7 +45,7 @@ public class SheetSponsorRepository implements SponsorRepository {
     @Override
     public List<Sponsor> all() {
         return sheet.readLines(this::toSponsor, "Sponsors").stream()
-                .filter(s -> s.getEndOfValidity().isAfter(LocalDate.now()))
+                .filter(s -> s.getEndOfValidity() != null && s.getEndOfValidity().isAfter(LocalDate.now()))
                 .collect(Collectors.toList());
     }
 
