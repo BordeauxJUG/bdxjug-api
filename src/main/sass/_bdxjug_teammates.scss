@@ -5,12 +5,13 @@ $bj-teamMate-content-size: 216px;
     padding-bottom: 10px; 
     padding-top: 10px;
     padding-left: 20px;
-    padding-right: 20px
+    padding-right: 20px;
 }
 
 .bj-teamMate-content {
     width: $bj-teamMate-content-size;
     background-color: $bj-white;
+    box-shadow: 0px 0px 1px 1px $bj-light-grey;
 
     img {
         width: 100%;
