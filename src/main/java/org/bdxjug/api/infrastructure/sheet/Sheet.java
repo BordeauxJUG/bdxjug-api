@@ -29,4 +29,7 @@ public interface Sheet {
         }
     }
 
+    static Boolean parseBoolean(String bool) {
+        return "true".equalsIgnoreCase(bool);
+    }
 }

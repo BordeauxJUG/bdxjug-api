@@ -30,7 +30,7 @@
                             <img src="img/calendar.png" style="filter:invert(1)"/>
                             <span th:text="${#temporals.format(meeting.date, 'dd MMMM yyyy')}"/>
                         </div>
-                        <div class="bj-inscrits col-md-1"><strong>TODO NB inscrits</strong></div>
+<!--                        <div class="bj-inscrits col-md-1"><strong>TODO NB inscrits</strong></div>-->
                         <div class="bj-sinscrire col-md-2">
                             <button class='bj-btn-secondary btn btn-secondary float-right'>S'inscrire</button>
                         </div>
@@ -52,11 +52,13 @@
                 </div>
 
                 <div class="bj-event-description row">
-                    <div class="col-md-8">
+                    <div class="col-md-9">
                         <h4>Description du Talk</h4>
                         <div th:utext="${meeting.description}"/>
                     </div>
-
+                        <div class="col-md-3 text-center">
+                              <a th:if="${banner}" th:href="${banner.targetUrl}"><img th:src="${banner.imageUrl}"/></a>
+                        </div>
                 </div>
             </div> 
                 

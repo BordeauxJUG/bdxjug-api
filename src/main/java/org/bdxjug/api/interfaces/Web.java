@@ -16,6 +16,7 @@
 package org.bdxjug.api.interfaces;
 
 import java.util.SortedSet;
+import org.bdxjug.api.domain.banner.BannerRepository;
 import org.bdxjug.api.domain.meetings.LocationRepository;
 import org.bdxjug.api.domain.meetings.Meeting;
 import org.bdxjug.api.domain.meetings.MeetingInfo;
@@ -41,6 +42,7 @@ public class Web {
     private final SponsorRepository sponsorRepository;
     private final LocationRepository locationRepository;
     private final TeamMateRepository teamMateRepository;
+    private final BannerRepository bannerRepository;
     private final MeetupConfiguration meetupConfiguration;
 
     @Autowired
@@ -51,7 +53,8 @@ public class Web {
                SponsorRepository sponsorRepository,
                LocationRepository locationRepository,
                MeetupConfiguration meetupConfiguration,
-               TeamMateRepository teamMateRepository) {
+               TeamMateRepository teamMateRepository, 
+               BannerRepository bannerRepository) {
         this.meetingInfo = meetingInfo;
         this.meetingRepository = meetingRepository;
         this.memberRepository = memberRepository;
@@ -60,6 +63,7 @@ public class Web {
         this.locationRepository = locationRepository;
         this.meetupConfiguration = meetupConfiguration;
         this.teamMateRepository = teamMateRepository;
+        this.bannerRepository = bannerRepository;
     }
 
     @RequestMapping(value = "/")
@@ -69,6 +73,7 @@ public class Web {
         model.addAttribute("meeting", meeting);
         speakerRepository.by(meeting.getSpeakerID()).ifPresent(speaker -> model.addAttribute("speaker", speaker)); 
         locationRepository.by(meeting.getLocationID()).ifPresent(location -> model.addAttribute("location", location));
+        bannerRepository.get().ifPresent(banner -> model.addAttribute("banner", banner));
         return "index";
     }
 
