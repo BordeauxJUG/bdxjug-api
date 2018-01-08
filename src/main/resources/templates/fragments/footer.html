@@ -13,7 +13,9 @@
                     <div class="col-md-4"></div>
                 </div>
                 <div class="row" >
-                    <div class="col-md-2 bj-sponsor" th:each="sponsor : ${sponsors}"><img th:src="${sponsor.logoUrl}"/></div>
+                    <div class="col-md-2 bj-sponsor" th:each="sponsor : ${sponsors}">
+                        <a th:href="${sponsor.targetUrl}"><img th:src="${sponsor.logoUrl}"/></a>
+                    </div>
                 </div>    
             </div>
             <div class="container bj-footer">
@@ -24,7 +26,7 @@
                     <div class="col-md-9">
                         <div class="row bj-info">
                             <span class="col-md-12 text-right">Se tenir informé et participer aux discussions :  
-                                <a class="bj-btn-primary btn " href="http://groups.google.com/group/bordeauxjug/boxsubscribe">Souscrire au Google Group</a>
+                                <a class="bj-btn-primary btn " href="http://groups.google.com/group/bordeauxjug/boxsubscribe">S'inscrire au Google Group</a>
                             </span>
                         </div>
                         <div class="row bj-description">

@@ -24,7 +24,7 @@ public class Sponsor {
 
     private final String name;
     private final String logoUrl;
+    private final String targetUrl;
 
     private LocalDate endOfValidity;
-    private String description;
 }

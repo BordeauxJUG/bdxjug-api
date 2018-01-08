@@ -26,6 +26,5 @@ public class SheetSponsorRepositoryTest {
 
         assertThat(devcoop.isPresent()).isTrue();
         assertThat(devcoop.get().getLogoUrl()).isEqualTo("http://www.devcoop.fr/img/logo.png");
-        assertThat(devcoop.get().getDescription()).isNull();
     }
 }

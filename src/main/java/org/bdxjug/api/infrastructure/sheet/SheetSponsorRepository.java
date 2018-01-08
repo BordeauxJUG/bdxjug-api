@@ -24,16 +24,15 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.bdxjug.api.infrastructure.sheet.Sheet.parseDate;
-import static org.bdxjug.api.infrastructure.sheet.Sheet.setValue;
+import static org.bdxjug.api.infrastructure.sheet.Sheet.*;
 
 @Component
 public class SheetSponsorRepository implements SponsorRepository {
 
     private static final int NAME = 1;
     private static final int LOGO_URL = 2;
-    private static final int END_OF_VALIDITY = 3;
-    private static final int DESCRIPTION = 4;
+    private static final int TARGET_URL = 3;
+    private static final int END_OF_VALIDITY = 4;
 
     private final Sheet sheet;
 
@@ -50,9 +49,8 @@ public class SheetSponsorRepository implements SponsorRepository {
     }
 
     private Sponsor toSponsor(String[] values) {
-        Sponsor sponsor = new Sponsor(values[NAME], values[LOGO_URL]);
+        Sponsor sponsor = new Sponsor(values[NAME], values[LOGO_URL], values[TARGET_URL]);
         setValue(values, END_OF_VALIDITY, value -> sponsor.setEndOfValidity(parseDate(value)));
-        setValue(values, DESCRIPTION, sponsor::setDescription);
         return sponsor;
     }
 }
