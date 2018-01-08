@@ -20,7 +20,8 @@
                     <div class="col-md-3 bj-teamMate">
                         <div class="bj-teamMate-content text-center">
                             <div class="">
-                                <img  th:src="${teamMate.urlAvatar}"/>
+                                <img th:if="${not #strings.isEmpty(teamMate.urlAvatar)}" th:src="${teamMate.urlAvatar}"/>
+                                <img th:if="${#strings.isEmpty(teamMate.urlAvatar)}" src="img/noavatardark.png"/>
                             </div>
                             <div class="bj-teamMate-name">
                                 <strong th:text="${teamMate.firstName+' '+teamMate.lastName}"/> 
@@ -37,11 +38,11 @@
             
             <hr/>
             
-            <div class="row justify-content-center">
-                <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-4 justify-content-center align-self-center">
                     <img src="img/illu-working.png" width="80%"/>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-8 justify-content-center align-self-center">
                     <h2>Le bureau ...</h2>
                     <p class="text-justify">A la charge d'organiser la vie de l'association, et notamment les réunions du groupe (trouver les speakers, organiser le buffet s'il y a lieu, réserver la salle, faire les annonces, affiche, ...).</p>
                     <div class="text-right">
@@ -49,8 +50,8 @@
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-center">
-                <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-8 justify-content-center align-self-center">
                     <h2>Les membres</h2>
                     <p class="text-justify">Le statut de membre de l'association est avant tout une forme de soutien à l'association, puisque la cotisation (5€ / an) permet de financer en partie les activités du JUG comme le buffet offert à l'issue de la plupart des séances.</p>
                     <p class="text-justify">Il donne également droit au vote pour l'élection du bureau (une fois par an, en décembre), ainsi qu'un accès prioritaire à certaines activités sur lesquelles le nombre est limité. Il permet aussi de bénéficier éventuellement de certains "goodies" offerts par les sponsors, et d'arborer le très convoité "membre officiel du BordeauxJUG" sur sa signature :-)</p>
@@ -59,7 +60,7 @@
                         <button type="button" class="bj-btn-primary btn btn-lg" data-toggle="modal" data-target="#memberModal">Devenir membre</button>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 justify-content-center align-self-center">
                     <img src="img/illu-sign-members.png" width="80%"/>
                 </div>
             </div>
