@@ -15,7 +15,11 @@
  */
 package org.bdxjug.api.interfaces;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.SortedSet;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.bdxjug.api.domain.banner.BannerRepository;
 import org.bdxjug.api.domain.meetings.LocationRepository;
 import org.bdxjug.api.domain.meetings.Meeting;
@@ -23,13 +27,19 @@ import org.bdxjug.api.domain.meetings.MeetingInfo;
 import org.bdxjug.api.domain.meetings.MeetingRepository;
 import org.bdxjug.api.domain.meetings.SpeakerRepository;
 import org.bdxjug.api.domain.members.MemberRepository;
+import org.bdxjug.api.domain.sponsors.Sponsor;
 import org.bdxjug.api.domain.sponsors.SponsorRepository;
+import org.bdxjug.api.domain.team.TeamMate;
 import org.bdxjug.api.domain.team.TeamMateRepository;
 import org.bdxjug.api.infrastructure.meetup.MeetupConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
@@ -105,17 +115,70 @@ public class Web {
         return "members";
     }
 
-    @RequestMapping(value = "/speakers")
+    @GetMapping(value = "/speakers")
     public String speakers(Model model) {
         model.addAttribute("sponsors", sponsorRepository.all());
         model.addAttribute("speakers", speakerRepository.all());
         return "speakers";
     }
 
-    @RequestMapping(value = "/association")
-    public String association(Model model) {
+    @RequestMapping(value = "/association", method = {RequestMethod.GET, RequestMethod.POST})
+    public String association(@ModelAttribute AssociationModel association, Model model) {
+        
         model.addAttribute("sponsors", sponsorRepository.all());
-        model.addAttribute("teamMates", teamMateRepository.all());
+        final int currentYear = LocalDate.now().getYear();
+        association.setCurrentYear(currentYear);
+        int year = association.getYear();
+        association.setTeamMates(teamMateRepository.byYear(year));
+        association.setYears(IntStream
+                .rangeClosed(FIRST_TEAM_YEAR, currentYear)
+                .map(i -> FIRST_TEAM_YEAR - i + currentYear)
+                .boxed()
+                .collect(Collectors.toList()));
+                
         return "association";
+    }
+    private static final int FIRST_TEAM_YEAR = 2010;
+    
+    public static class AssociationModel {
+        private int year;
+        private int currentYear;
+        private List<Integer> years;
+        private SortedSet<TeamMate> teamMates;
+
+        public int getYear() {
+            return year == 0 ? currentYear : year;
+        }
+
+        public void setYear(int year) {
+            this.year = year;
+        }
+
+        public int getCurrentYear() {
+            return currentYear;
+        }
+
+        public void setCurrentYear(int currentYear) {
+            this.currentYear = currentYear;
+        }
+
+        public List<Integer> getYears() {
+            return years;
+        }
+
+        public void setYears(List<Integer> years) {
+            this.years = years;
+        }
+
+     
+
+        public SortedSet<TeamMate> getTeamMates() {
+            return teamMates;
+        }
+
+        public void setTeamMates(SortedSet<TeamMate> teamMates) {
+            this.teamMates = teamMates;
+        }
+        
     }
 }

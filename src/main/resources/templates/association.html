@@ -14,9 +14,15 @@
 
             <hr/>
 
-            <p class="bj-normal-font bj-primary-color">Les membres actuels du bureau sont : </p>
+            <form th:action="@{/association}" th:object="${associationModel}" method="post">
+                <p class="bj-normal-font bj-primary-color">Les membres du bureau sont : 
+                    <select th:field="*{year}" onchange="submit()">
+                        <option th:each="year : ${associationModel.years}" th:value="${year}" th:text="${year}"></option>
+                    </select>
+                </p>
+            </form>
             <div class="row">
-                <div th:each="teamMate,row : ${teamMates}">
+                <div th:each="teamMate,row : ${associationModel.teamMates}">
                     <div class="col-md-3 bj-teamMate">
                         <div class="bj-teamMate-content text-center">
                             <div class="">

@@ -17,6 +17,7 @@ package org.bdxjug.api.infrastructure.sheet;
 
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 import org.bdxjug.api.domain.team.TeamMate;
 import org.bdxjug.api.domain.team.TeamMateID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,11 @@ public class SheetTeamMateRepository implements TeamMateRepository {
     @Override
     public SortedSet<TeamMate> all() {
         return new TreeSet<>(sheet.readLines(this::toTeamMate, "TeamMates"));
+    }
+    
+    @Override
+    public SortedSet<TeamMate> byYear(final Integer year) {
+        return new TreeSet<>(sheet.readLines(this::toTeamMate, "TeamMates").stream().filter(tm -> tm.getYear() == year).collect(Collectors.toList()));
     }
 
     private TeamMate toTeamMate(String[] value) {
