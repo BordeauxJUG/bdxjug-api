@@ -176,7 +176,7 @@ public class Api {
         bannerRepository.clearCache();
         locationRepository.clearCache();
         meetingRepository.clearCache();
-        //memberRepository.clearCache(); // TODO
+        memberRepository.clearCache(); 
         speakerRepository.clearCache();
         sponsorRepository.clearCache();
     }
