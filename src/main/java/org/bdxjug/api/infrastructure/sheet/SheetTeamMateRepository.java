@@ -44,12 +44,6 @@ public class SheetTeamMateRepository implements TeamMateRepository {
         this.sheet = sheet;
     }
 
-
-    @Override
-    public SortedSet<TeamMate> all() {
-        return new TreeSet<>(sheet.readLines(this::toTeamMate, "TeamMates"));
-    }
-    
     @Override
     public SortedSet<TeamMate> byYear(final Integer year) {
         return new TreeSet<>(sheet.readLines(this::toTeamMate, "TeamMates").stream().filter(tm -> tm.getYear() == year).collect(Collectors.toList()));

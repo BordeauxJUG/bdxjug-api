@@ -35,6 +35,7 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import static java.util.Optional.ofNullable;
+import org.bdxjug.api.domain.banner.BannerRepository;
 
 @EnableSwagger2
 @CrossOrigin(origins = "*", exposedHeaders = "origin, accept, content-type, X-Count, X-AverageAttendees")
@@ -49,6 +50,7 @@ public class Api {
     private final MemberRepository memberRepository;
     private final MeetingRepository meetingRepository;
     private final LocationRepository locationRepository;
+    private final BannerRepository bannerRepository;
     private final AnnounceMeeting announceMeeting;
 
     @Autowired
@@ -57,12 +59,14 @@ public class Api {
                MemberRepository memberRepository,
                MeetingRepository meetingRepository,
                LocationRepository locationRepository,
+               BannerRepository bannerRepository,
                AnnounceMeeting announceMeeting) {
         this.sponsorRepository = sponsorRepository;
         this.speakerRepository = speakerRepository;
         this.memberRepository = memberRepository;
         this.meetingRepository = meetingRepository;
         this.locationRepository = locationRepository;
+        this.bannerRepository = bannerRepository;
         this.announceMeeting = announceMeeting;
     }
 
@@ -166,4 +170,15 @@ public class Api {
         return ResponseEntity.ok().headers(headers).body(allMeetings);
     }
 
+    @ApiOperation("clear all cache used")
+    @GetMapping("cache/clear")
+    public void clearCache() {
+        bannerRepository.clearCache();
+        locationRepository.clearCache();
+        meetingRepository.clearCache();
+        //memberRepository.clearCache(); // TODO
+        speakerRepository.clearCache();
+        sponsorRepository.clearCache();
+    }
+    
 }
