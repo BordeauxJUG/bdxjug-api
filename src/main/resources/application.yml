@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: google, meetup
+    active: google, meetup, cache
 server:
   port: ${PORT:8080}
 logging:

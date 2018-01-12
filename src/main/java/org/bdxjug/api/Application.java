@@ -31,7 +31,6 @@ public class Application {
 
     public static void main(String[] args) {
         final SpringApplicationBuilder builder = new SpringApplicationBuilder(Application.class);
-        builder.application().setAdditionalProfiles("WithCache");;
         builder.run(args);
     }
 
