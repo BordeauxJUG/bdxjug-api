@@ -15,9 +15,8 @@
  */
 package org.bdxjug.api;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -28,11 +27,12 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
 @SpringBootApplication
-@EnableCaching
 public class Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        final SpringApplicationBuilder builder = new SpringApplicationBuilder(Application.class);
+        builder.application().setAdditionalProfiles("WithCache");;
+        builder.run(args);
     }
 
     @Component
