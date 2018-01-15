@@ -18,7 +18,8 @@
                     <div class="col-md-12">
                         <div class="bj-speaker row">
                             <div class="col-md-3">
-                                <img class="bj-img-avatar-big img-thumbnail img-fluid" th:src="${speaker.urlAvatar}"/>
+                                <img th:if="${#strings.isEmpty(speaker.urlAvatar)}"  class="bj-img-avatar-big img-thumbnail img-fluid" src="img/noavatardark.png"/>
+                                <img th:if="${not #strings.isEmpty(speaker.urlAvatar)}" class="bj-img-avatar-big img-thumbnail img-fluid" th:src="${speaker.urlAvatar}"/>
                             </div>
                             <div class="col-md-9">
                                 <div class="row">
