@@ -79,7 +79,9 @@ public class Web {
     @RequestMapping(value = "/")
     public String index(Model model) {
         model.addAttribute("sponsors", sponsorRepository.all());
-        final Meeting meeting = meetingRepository.upcomingMeetings().iterator().next(); // TODO : handle cardinality
+        final SortedSet<Meeting> upcomings = meetingRepository.upcomingMeetings();
+        // TODO : handle cardinality
+        final Meeting meeting = upcomings.isEmpty() ? meetingRepository.pastMeetings().first() : upcomings.iterator().next();
         model.addAttribute("meeting", meeting);
         speakerRepository.by(meeting.getSpeakerID()).ifPresent(speaker -> model.addAttribute("speaker", speaker)); 
         locationRepository.by(meeting.getLocationID()).ifPresent(location -> model.addAttribute("location", location));
