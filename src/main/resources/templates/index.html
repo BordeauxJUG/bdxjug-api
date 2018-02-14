@@ -57,8 +57,15 @@
                         <h4>Description du Talk</h4>
                         <div th:utext="${meeting.description}"/>
                     </div>
-                        <div class="col-md-3 text-center">
+                    <div class="col-md-1"></div>
+                        <div class="col-md-2 text-center">
+                        	<div class="row">
+                        	  <a href="http://www.eclipsecon.org/france2018"><img src="https://www.eclipsecon.org/france2018/sites/default/files/ECF%20friends%20130x100_%202018.png" alt="EclipseCon France 2018" border="0" height="100" width="130"/></a>
+                        	</div>
+                        	<div class="row"><p></p></div>
+                        	<div class="row">
                               <a th:if="${banner}" th:href="${banner.targetUrl}" target="_blank"><img th:src="${banner.imageUrl}"/></a>
+                            </div>
                         </div>
                 </div>
             </div> 
