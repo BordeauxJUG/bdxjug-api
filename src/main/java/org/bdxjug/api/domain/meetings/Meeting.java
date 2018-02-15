@@ -37,7 +37,7 @@ public class Meeting implements Comparable<Meeting> {
     }
 
     public boolean isUpcoming() {
-        return date.isAfter(LocalDate.now());
+        return date.isAfter(LocalDate.now().minusDays(1l));
     }
 
     public boolean isPublished() {
