@@ -28,7 +28,8 @@
                         </div>
                         <div class="bj-date col-md-9 ">
                             <img src="img/calendar.png" style="filter:invert(1)"/>
-                            <span th:text="${#temporals.format(meeting.date, 'dd MMMM yyyy')}"/>
+                            <span th:text="${formattedDate}"/>
+                            <!--<span th:text="${#temporals.format(meeting.date, 'dd MMMM yyyy', locale_fr)}"/> Waiting for Thymeleaf 3-->
                         </div>
 <!--                        <div class="bj-inscrits col-md-1"><strong>TODO NB inscrits</strong></div>-->
                         <div class="bj-sinscrire col-md-2">

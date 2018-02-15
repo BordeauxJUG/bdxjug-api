@@ -16,7 +16,9 @@
 package org.bdxjug.api.interfaces;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.SortedSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -27,7 +29,6 @@ import org.bdxjug.api.domain.meetings.MeetingInfo;
 import org.bdxjug.api.domain.meetings.MeetingRepository;
 import org.bdxjug.api.domain.meetings.SpeakerRepository;
 import org.bdxjug.api.domain.members.MemberRepository;
-import org.bdxjug.api.domain.sponsors.Sponsor;
 import org.bdxjug.api.domain.sponsors.SponsorRepository;
 import org.bdxjug.api.domain.team.TeamMate;
 import org.bdxjug.api.domain.team.TeamMateRepository;
@@ -35,7 +36,6 @@ import org.bdxjug.api.infrastructure.meetup.MeetupConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -83,6 +83,8 @@ public class Web {
         // TODO : handle cardinality
         final Meeting meeting = upcomings.isEmpty() ? meetingRepository.pastMeetings().first() : upcomings.iterator().next();
         model.addAttribute("meeting", meeting);
+        String formattedDate = meeting.getDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.FRENCH));
+        model.addAttribute("formattedDate", formattedDate);
         speakerRepository.by(meeting.getSpeakerID()).ifPresent(speaker -> model.addAttribute("speaker", speaker)); 
         locationRepository.by(meeting.getLocationID()).ifPresent(location -> model.addAttribute("location", location));
         bannerRepository.get().ifPresent(banner -> model.addAttribute("banner", banner));
