@@ -11,26 +11,37 @@
             <p>Voici la liste des intervenants lors de nos différentes sessions : </p>
 
             <hr/>
-
-            <div th:each="speaker,row : ${speakers}">
-                <div class="row">
-
-                    <div class="col-md-12">
-                        <div class="bj-speaker row">
-                            <div class="col-md-3">
-                                <img th:if="${#strings.isEmpty(speaker.urlAvatar)}"  class="bj-img-avatar-big img-thumbnail img-fluid" src="img/noavatardark.png"/>
-                                <img th:if="${not #strings.isEmpty(speaker.urlAvatar)}" class="bj-img-avatar-big img-thumbnail img-fluid" th:src="${speaker.urlAvatar}"/>
+            <div class="row">
+                <div class="col-md-6" style="padding-left: 5px; padding-right: 5px" th:each="speaker,row : ${speakers}">
+                    <div class="row bj-speaker">
+                        <div class="col-md-4">
+                            <img th:if="${#strings.isEmpty(speaker.urlAvatar)}"  class="bj-img-avatar-big img-thumbnail img-fluid" src="img/noavatardark.png"/>
+                            <img th:if="${not #strings.isEmpty(speaker.urlAvatar)}" class="bj-img-avatar-big img-thumbnail img-fluid" th:src="${speaker.urlAvatar}"/>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="row">
+                                <div class="col-md-6"><strong th:text="${speaker.firstName+' '+speaker.lastName}"/></div>
                             </div>
-                            <div class="col-md-9">
-                                <div class="row">
-                                    <div class="col-md-6"><strong th:text="${speaker.firstName+' '+speaker.lastName}"/></div>
+                            <div class="row">
+                                <div class="col-md-6"><a th:href="${speaker.twitter}" th:text="${speaker.twitter}" target="_blank"></a>&nbsp;</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1"> </div>
+                                <div class="col-md-11"> <span th:utext=" ${#strings.abbreviate(speaker.bio,80)}"></span></div>
+                            </div>
+                            <div class="row">
+                                <span class="col-md-12 text-right"><a class="bj-btn-primary btn" data-toggle="modal" th:href="'.speaker-bio-modal' + ${row.index}" ><strong>+</strong></a></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:class="'modal fade speaker-bio-modal' + ${row.index}"  tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <strong th:text="${speaker.firstName+' '+speaker.lastName}"/>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6"><a th:href="${speaker.twitter}" th:text="${speaker.twitter}" target="_blank"></a></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-1"> </div>
-                                    <div class="col-md-11"> <span th:utext="${speaker.bio}"></span></div>
+                                <div class="modal-body">
+                                    <div th:utext="${speaker.bio}"></div>
                                 </div>
                             </div>
                         </div>
