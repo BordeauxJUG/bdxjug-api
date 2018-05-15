@@ -9,4 +9,5 @@ public class Banner {
     private final String imageUrl;
     private final String targetUrl;
     private LocalDate endOfValidity;
+    private final String taille;
 }

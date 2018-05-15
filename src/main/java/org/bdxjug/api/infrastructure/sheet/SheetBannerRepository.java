@@ -16,6 +16,7 @@ public class SheetBannerRepository implements BannerRepository {
     private static final int IMAGE_URL = 1;
     private static final int TARGET_URL = 2;
     private static final int END_OF_VALIDITY = 3;
+    private static final int TAILLE = 4;
 
     private final Sheet sheet;
 
@@ -25,14 +26,22 @@ public class SheetBannerRepository implements BannerRepository {
     }
 
     @Override
-    public Optional<Banner> get() {
+    public Optional<Banner> getPetite() {
         return sheet.readLines(this::toBanner, "Banner").stream()
+                .filter(s -> s.getTaille().equals(BannerRepository.TAILLE_PETITE))
+                .filter(s -> s.getEndOfValidity() != null && s.getEndOfValidity().isAfter(LocalDate.now()))
+                .findFirst();
+    }
+
+    public Optional<Banner> getGrande() {
+        return sheet.readLines(this::toBanner, "Banner").stream()
+                .filter(s -> s.getTaille().equals(BannerRepository.TAILLE_GRANDE))
                 .filter(s -> s.getEndOfValidity() != null && s.getEndOfValidity().isAfter(LocalDate.now()))
                 .findFirst();
     }
 
     private Banner toBanner(String[] values) {
-        Banner banner = new Banner(values[ID], values[IMAGE_URL], values[TARGET_URL]);
+        Banner banner = new Banner(values[ID], values[IMAGE_URL], values[TARGET_URL], values[TAILLE]);
         setValue(values, END_OF_VALIDITY, value -> banner.setEndOfValidity(parseDate(value)));
         return banner;
     }

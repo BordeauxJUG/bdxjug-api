@@ -10,10 +10,16 @@ import org.springframework.cache.annotation.Cacheable;
  */
 public interface BannerRepository {
 
-    @Cacheable(CACHE_NAME)
-    Optional<Banner> get();
+	public static final String TAILLE_GRANDE="GRANDE";
+	public static final String TAILLE_PETITE="PETITE";
+	
+    @Cacheable("pt" + CACHE_NAME)
+    Optional<Banner> getPetite();
     
-    @CacheEvict(CACHE_NAME)
+    @Cacheable("gd_" + CACHE_NAME)
+    Optional<Banner> getGrande();
+    
+    @CacheEvict("gd" + CACHE_NAME)
     default void clearCache(){
     }
     

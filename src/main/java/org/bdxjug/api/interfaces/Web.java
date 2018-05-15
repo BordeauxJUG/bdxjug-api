@@ -87,7 +87,8 @@ public class Web {
         model.addAttribute("formattedDate", formattedDate);
         speakerRepository.by(meeting.getSpeakerID()).ifPresent(speaker -> model.addAttribute("speaker", speaker)); 
         locationRepository.by(meeting.getLocationID()).ifPresent(location -> model.addAttribute("location", location));
-        bannerRepository.get().ifPresent(banner -> model.addAttribute("banner", banner));
+        bannerRepository.getGrande().ifPresent(gdBanner -> model.addAttribute("gdBanner", gdBanner));
+        bannerRepository.getPetite().ifPresent(ptBanner -> model.addAttribute("ptBanner", ptBanner));
         return "index";
     }
 
