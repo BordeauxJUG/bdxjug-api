@@ -19,7 +19,7 @@ public interface BannerRepository {
     @Cacheable("gd_" + CACHE_NAME)
     Optional<Banner> getGrande();
     
-    @CacheEvict("gd" + CACHE_NAME)
+    @CacheEvict({"gd_" + CACHE_NAME, "pt_" + CACHE_NAME})
     default void clearCache(){
     }
     
