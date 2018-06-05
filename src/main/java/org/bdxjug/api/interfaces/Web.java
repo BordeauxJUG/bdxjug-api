@@ -127,6 +127,12 @@ public class Web {
         return "speakers";
     }
 
+    @GetMapping(value = "/events/2018/eclipsecon_france")
+    public String events(Model model) {
+        model.addAttribute("sponsors", sponsorRepository.all());
+        return "events/eclipsecon_france_2018";
+    }
+
     @RequestMapping(value = "/association", method = {RequestMethod.GET, RequestMethod.POST})
     public String association(@ModelAttribute AssociationModel association, Model model) {
         
