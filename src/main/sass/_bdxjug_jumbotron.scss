@@ -1,7 +1,7 @@
 @import 'bdxjug_colors';
 
 .bj-jumbotron {
-    min-height: 420px;
+    min-height: 210px;
     background: $bj-primary-color;
     color: $bj-white;
     position: relative;
@@ -16,7 +16,7 @@
         height:100%;
         z-index: 1;
         opacity: 0.3;
-        background-image: url('../img/bg-home.png'), linear-gradient(to bottom, $bj-primary-color 0%, $bj-black 100%);;
+        background-image: url('/img/bg-home.png'), linear-gradient(to bottom, $bj-primary-color 0%, $bj-black 100%);;
         background-repeat: no-repeat;
         background-position: 100%;
         background-size: cover;
