@@ -33,10 +33,12 @@ public class SheetMeetingRepository implements MeetingRepository {
     private static final int ID = 0;
     private static final int DATE = 1;
     private static final int SPEAKER_ID = 2;
-    private static final int LOCATION_ID = 3;
-    private static final int SUMMARY = 5;
-    private static final int DESCRIPTION = 6;
-    private static final int REGISTRATION_ID = 7;
+    private static final int COSPEAKER_ID = 3;
+    private static final int LOCATION_ID = 4;
+    private static final int TITLE = 5;
+    private static final int SUMMARY = 6;
+    private static final int DESCRIPTION = 7;
+    private static final int REGISTRATION_ID = 8;
 
     private final Sheet sheet;
 
@@ -60,8 +62,9 @@ public class SheetMeetingRepository implements MeetingRepository {
                 new MeetingID(values[ID]),
                 parseDate(values[DATE]),
                 new SpeakerID(values[SPEAKER_ID]),
+                new SpeakerID(values[COSPEAKER_ID]),
                 new LocationID(values[LOCATION_ID]),
-                values[4]);
+                values[TITLE]);
         setValue(values, SUMMARY, meeting::setSummary);
         setValue(values, DESCRIPTION, meeting::setDescription);
         setValue(values, REGISTRATION_ID, s -> meeting.setRegistrationID(new RegistrationID(s)));

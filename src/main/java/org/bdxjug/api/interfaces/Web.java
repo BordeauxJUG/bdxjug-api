@@ -86,6 +86,7 @@ public class Web {
         String formattedDate = meeting.getDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.FRENCH));
         model.addAttribute("formattedDate", formattedDate);
         speakerRepository.by(meeting.getSpeakerID()).ifPresent(speaker -> model.addAttribute("speaker", speaker)); 
+        speakerRepository.by(meeting.getCoSpeakerID()).ifPresent(speaker -> model.addAttribute("cospeaker", speaker)); 
         locationRepository.by(meeting.getLocationID()).ifPresent(location -> model.addAttribute("location", location));
         bannerRepository.getGrande().ifPresent(gdBanner -> model.addAttribute("gdBanner", gdBanner));
         bannerRepository.getPetite().ifPresent(ptBanner -> model.addAttribute("ptBanner", ptBanner));

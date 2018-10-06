@@ -38,16 +38,18 @@
                         </div>
                     </div>
                     <div class="bj-event-title row">
-                        <div class="bj-avatar col-md-3">
-                            <img class="bj-img-avatar img-thumbnail img-fluid" th:src="${speaker.urlAvatar}"/>
+                        <div class="bj-avatar col-md-4">
+                            <img class="bj-img-avatar img-thumbnail " th:src="${speaker.urlAvatar}"/>
+                            <img class="bj-img-avatar img-thumbnail " th:src="${cospeaker.urlAvatar}"/>
                         </div>
-                        <div class="col-md-9">
+                        <div class="col-md-8">
                             <div class="bj-title row ">
                                 <div class="col-md-12" th:text="${meeting.title}"></div>
                             </div>
                             <div class="row">
-                                <div class="bj-name col-md-6"><strong th:text="${speaker.firstName+' '+speaker.lastName}"/></div>
-                                <div class="bj-location col-md-6"><strong th:text="${location.name}"/></div>
+                                <div class="bj-name col-md-9"><strong th:text="${speaker.firstName+' '+speaker.lastName}"/>
+                                <strong th:text="*{cospeaker}?${' et '+cospeaker.firstName+' '+cospeaker.lastName}"/></div>
+                                <div class="bj-location col-md-3"><strong th:text="${location.name}"/></div>
                             </div>
                         </div>
                     </div>

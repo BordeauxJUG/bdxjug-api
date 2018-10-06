@@ -25,6 +25,7 @@ public class Meeting implements Comparable<Meeting> {
     private final MeetingID id;
     private final LocalDate date;
     private final SpeakerID speakerID;
+    private final SpeakerID coSpeakerID;
     private final LocationID locationID;
     private final String title;
 
