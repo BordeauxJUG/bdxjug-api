@@ -31,6 +31,7 @@ public class SheetMeetingRepositoryTest {
         assertThat(jhipster.isPresent()).isTrue();
         assertThat(jhipster.get().getLocationID()).isEqualTo(new LocationID("ENSEIRB_A"));
         assertThat(jhipster.get().getSpeakerID()).isEqualTo(new SpeakerID("juliendubois"));
+        assertThat(jhipster.get().getCoSpeakerID()).isEqualTo(new SpeakerID("lilianbenoit"));
         assertThat(jhipster.get().getTitle()).isEqualTo("Soirée JHipster");
         assertThat(jhipster.get().getDate()).isEqualTo(LocalDate.of(2014, 12,4));
         assertThat(jhipster.get().getDescription()).startsWith("JHipster");
