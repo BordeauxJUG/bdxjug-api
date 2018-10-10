@@ -16,3 +16,5 @@ https://docs.google.com/spreadsheets/d/1io9i7-HyejSJYVa8EaZL_uJd5XErvoKzYXkMHkD_
 
 
 == Deployment use webhook to clevercloud
+
+Change the payload type
