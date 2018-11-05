@@ -40,7 +40,7 @@
                     <div class="bj-event-title row">
                         <div class="bj-avatar col-md-4">
                             <img class="bj-img-avatar img-thumbnail " th:src="${speaker.urlAvatar}"/>
-                            <img class="bj-img-avatar img-thumbnail " th:src="${cospeaker.urlAvatar}"/>
+                            <img class="bj-img-avatar img-thumbnail " th:if="${cospeaker}" th:src="${cospeaker.urlAvatar}"/>
                         </div>
                         <div class="col-md-8">
                             <div class="bj-title row ">
