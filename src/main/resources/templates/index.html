@@ -33,8 +33,10 @@
                         </div>
 <!--                        <div class="bj-inscrits col-md-1"><strong>TODO NB inscrits</strong></div>-->
                         <div class="bj-sinscrire col-md-2">
-                            <a class='bj-btn-secondary btn btn-secondary float-right' 
+                            <a class='bj-btn-secondary btn btn-secondary float-right'  th:if="${meeting.registrationID}"
                                th:href="${'https://www.meetup.com/fr-FR/BordeauxJUG/events/' + meeting.registrationID.value}" target="_blank">S'inscrire</a>
+                            <a class='bj-btn-secondary btn btn-secondary float-right' th:unless="${meeting.registrationID}"
+                               target="_blank">Inscription non ouverte</a>
                         </div>
                     </div>
                     <div class="bj-event-title row">
