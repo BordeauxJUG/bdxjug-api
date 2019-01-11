@@ -36,6 +36,7 @@ import java.util.stream.Collectors;
 
 import static java.util.Optional.ofNullable;
 import org.bdxjug.api.domain.banner.BannerRepository;
+import org.bdxjug.api.domain.team.TeamMateRepository;
 
 @EnableSwagger2
 @CrossOrigin(origins = "*", exposedHeaders = "origin, accept, content-type, X-Count, X-AverageAttendees")
@@ -52,6 +53,7 @@ public class Api {
     private final LocationRepository locationRepository;
     private final BannerRepository bannerRepository;
     private final AnnounceMeeting announceMeeting;
+    private final TeamMateRepository teamMateRepository;
 
     @Autowired
     public Api(SponsorRepository sponsorRepository,
@@ -60,7 +62,8 @@ public class Api {
                MeetingRepository meetingRepository,
                LocationRepository locationRepository,
                BannerRepository bannerRepository,
-               AnnounceMeeting announceMeeting) {
+               AnnounceMeeting announceMeeting,
+               TeamMateRepository teamMateRepository) {
         this.sponsorRepository = sponsorRepository;
         this.speakerRepository = speakerRepository;
         this.memberRepository = memberRepository;
@@ -68,6 +71,7 @@ public class Api {
         this.locationRepository = locationRepository;
         this.bannerRepository = bannerRepository;
         this.announceMeeting = announceMeeting;
+        this.teamMateRepository = teamMateRepository;
     }
 
     @ApiOperation("Retrieve all locations")
@@ -179,6 +183,7 @@ public class Api {
         memberRepository.clearCache(); 
         speakerRepository.clearCache();
         sponsorRepository.clearCache();
+        teamMateRepository.clearCache();
     }
     
 }
