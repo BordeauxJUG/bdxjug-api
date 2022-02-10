@@ -38,6 +38,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.view.RedirectView;
@@ -128,10 +129,10 @@ public class Web {
         return "speakers";
     }
 
-    @GetMapping(value = "/events/2018/eclipsecon_france")
-    public String events(Model model) {
+    @GetMapping(value = "/events/{annee}/{conf}")
+    public String events(@PathVariable("annee") int annee, @PathVariable("conf") String conf, Model model) {
         model.addAttribute("sponsors", sponsorRepository.all());
-        return "events/eclipsecon_france_2018";
+        return "events/" + conf + "_" + String.valueOf(annee);
     }
 
     @RequestMapping(value = "/association", method = {RequestMethod.GET, RequestMethod.POST})
