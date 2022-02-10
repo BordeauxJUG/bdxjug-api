@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:include="fragments/html_header :: html_header" />
+
+<body class="bj-body">
+
+	<div th:replace="fragments/header :: header"></div>
+
+
+	<div class="bj-jumbotron jumbotron jumbotron-fluid">
+		<div class="container">
+			<p class="">Votre JUG est partenaire de l'événement</p>
+			<div>
+				<a href="http://www.eclipsecon.org/france2018"><img border="0"
+					src="https://www.eclipsecon.org/france2018/sites/default/files/ECF%20friends%20728x90_%202018.png"
+					height="90" width="728" alt="EclipseCon France 2018" /></a>
+			</div>
+		</div>
+	</div>
+
+	<div class="bj-shift-up">
+		<div class="bj-event-container container">
+			<!-- Talk Header -->
+			<div class="bj-event-header">
+				<div class="bj-event-metadata row">
+					<div class="bj-intro col-md-12">
+						<strong></strong>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="bj-event-description row">
+				<div class="col-md-9">
+					<br />
+					<h4>Description de l'évènement</h4>
+					<div>
+						<p>
+							<b>Devoxx 2022</b> sera la dixième édition de la
+							conférence.
+						</p>
+
+						<br />
+            <img src="https://www.devoxx.fr/wp-content/uploads/2022/01/banniere-devoxx-fr-2022-mailchimp.png" />
+						<br />
+						<p>
+							<b>Liens utiles:</b>
+						</p>
+						<ul>
+							<li>Devoxx France <a href="https://www.devoxx.FR">Site
+									Web de l'évènement</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-1"></div>
+			</div>
+		</div>
+
+		<div th:replace="fragments/footer :: footer"></div>
+	</div>
+
+
+	<div th:include="fragments/html_js_declaration :: html_js_declaration" />
+</body>
+</html>
+
+
+
