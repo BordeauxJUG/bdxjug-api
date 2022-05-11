@@ -30,6 +30,6 @@ public class Speaker implements Comparable<Speaker> {
 
     @Override
     public int compareTo(Speaker o) {
-        return this.lastName.compareTo(o.lastName);
+        return this.id.getValue().compareTo(o.id.getValue());
     }
 }
