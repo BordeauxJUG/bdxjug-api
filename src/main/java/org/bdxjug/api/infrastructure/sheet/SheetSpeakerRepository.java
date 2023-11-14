@@ -56,6 +56,9 @@ public class SheetSpeakerRepository implements SpeakerRepository {
     }
 
     private Speaker toSpeaker(String[] value) {
+    	if (value == null || value.length == 0) {
+    		return null;
+    	}
         Speaker speaker = new Speaker(new SpeakerID(value[ID]), value[FIRST_NAME], value[LAST_NAME]);
         setValue(value, TWITTER, speaker::setTwitter);
         setValue(value, URL_AVATAR, speaker::setUrlAvatar);
