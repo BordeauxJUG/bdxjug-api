@@ -15,13 +15,6 @@
  */
 package org.bdxjug.api.interfaces;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Locale;
-import java.util.SortedSet;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import org.bdxjug.api.domain.banner.BannerRepository;
 import org.bdxjug.api.domain.meetings.LocationRepository;
 import org.bdxjug.api.domain.meetings.Meeting;
@@ -42,6 +35,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.view.RedirectView;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Locale;
+import java.util.SortedSet;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 public class Web {
@@ -64,7 +65,7 @@ public class Web {
                SponsorRepository sponsorRepository,
                LocationRepository locationRepository,
                MeetupConfiguration meetupConfiguration,
-               TeamMateRepository teamMateRepository, 
+               TeamMateRepository teamMateRepository,
                BannerRepository bannerRepository) {
         this.meetingInfo = meetingInfo;
         this.meetingRepository = meetingRepository;
@@ -86,8 +87,8 @@ public class Web {
         model.addAttribute("meeting", meeting);
         String formattedDate = meeting.getDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.FRENCH));
         model.addAttribute("formattedDate", formattedDate);
-        speakerRepository.by(meeting.getSpeakerID()).ifPresent(speaker -> model.addAttribute("speaker", speaker)); 
-        speakerRepository.by(meeting.getCoSpeakerID()).ifPresent(speaker -> model.addAttribute("cospeaker", speaker)); 
+        speakerRepository.by(meeting.getSpeakerID()).ifPresent(speaker -> model.addAttribute("speaker", speaker));
+        speakerRepository.by(meeting.getCoSpeakerID()).ifPresent(speaker -> model.addAttribute("cospeaker", speaker));
         locationRepository.by(meeting.getLocationID()).ifPresent(location -> model.addAttribute("location", location));
         bannerRepository.getGrande().ifPresent(gdBanner -> model.addAttribute("gdBanner", gdBanner));
         bannerRepository.getPetite().ifPresent(ptBanner -> model.addAttribute("ptBanner", ptBanner));
@@ -137,7 +138,7 @@ public class Web {
 
     @RequestMapping(value = "/association", method = {RequestMethod.GET, RequestMethod.POST})
     public String association(@ModelAttribute AssociationModel association, Model model) {
-        
+
         model.addAttribute("sponsors", sponsorRepository.all());
         final int currentYear = LocalDate.now().getYear();
         association.setCurrentYear(currentYear);
@@ -148,11 +149,12 @@ public class Web {
                 .map(i -> FIRST_TEAM_YEAR - i + currentYear)
                 .boxed()
                 .collect(Collectors.toList()));
-                
+
         return "association";
     }
+
     private static final int FIRST_TEAM_YEAR = 2010;
-    
+
     public static class AssociationModel {
         private int year;
         private int currentYear;
@@ -183,7 +185,6 @@ public class Web {
             this.years = years;
         }
 
-     
 
         public SortedSet<TeamMate> getTeamMates() {
             return teamMates;
@@ -192,6 +193,6 @@ public class Web {
         public void setTeamMates(SortedSet<TeamMate> teamMates) {
             this.teamMates = teamMates;
         }
-        
+
     }
 }
