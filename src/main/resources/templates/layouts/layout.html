@@ -1,16 +1,16 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-    <head th:include="fragments/html_header :: html_header"/>
-    
-    <body class="bj-body" >
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/html_header :: html_header}"/>
 
-        <div th:replace="fragments/header :: header"></div>
+<body class="bj-body">
 
-        <div layout:fragment="content"></div>
+<div th:replace="~{fragments/header :: header}"></div>
 
-        <div th:replace="fragments/footer :: footer"></div>
+<div layout:fragment="content"></div>
 
-        <div th:include="fragments/html_js_declaration :: html_js_declaration"/> 
-    </body>
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<div th:insert="~{fragments/html_js_declaration :: html_js_declaration}"/>
+</body>
 </html>
 

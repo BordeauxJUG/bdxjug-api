@@ -17,14 +17,9 @@ package org.bdxjug.api;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 public class Application {
@@ -35,7 +30,7 @@ public class Application {
     }
 
     @Component
-    public class WebConfig extends WebMvcConfigurerAdapter {
+    public class WebConfig implements WebMvcConfigurer {
 
         @Override
         public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -45,15 +40,5 @@ public class Application {
                     .addResourceLocations("classpath:/META-INF/resources/webjars/");
         }
     }
-
-    @Bean
-    public Docket docketApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.regex("/api.*"))
-                .build();
-    }
-
-
+    
 }

@@ -1,78 +1,91 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="layouts/layout">
+      layout:decorate="~{layouts/layout}">
 
-    <body>
+<body>
 
-    <th:block layout:fragment="content">
-        <div class="bj-info-container container">
-            <h2>Bienvenue</h2>
+<th:block layout:fragment="content">
+    <div class="bj-info-container container">
+        <h2>Bienvenue</h2>
 
-            <p>
-                Des rencontres sont organisées <strong>tous les mois</strong>, en général le deuxième jeudi du mois, sous forme de 
-                <strong>réunions gratuites, ouvertes à tous</strong>. 
-            </p>
-            <p>
-                Les réunions prennent la forme de:
-            </p>
-            <div class="row bj-info-item">
-                <div class="col-md-3 text-center">
-                    <div class="justify-content-center align-self-center" ><img src="img/icon-technical-pres.png"/></div>
-                    <div class="justify-content-center align-self-center" style="padding-top: 10px">Présentations techniques</div>
-                </div>
-                <div class="col-md-3 text-center">
-                    <div class="justify-content-center align-self-center"><img src="img/icon-demo.png"/></div>
-                    <div class="justify-content-center align-self-center" style="padding-top: 10px">Démonstrations produit</div>
-                </div>
-                <div class="col-md-3 text-center">
-                    <div class="justify-content-center align-self-center"><img src="img/icon-work.png"/></div>
-                    <div class="justify-content-center align-self-center" style="padding-top: 10px">Séances de travaux pratiques</div>
-                </div>
-                <div class="col-md-3 text-center">
-                    <div class="justify-content-center align-self-center"><img src="img/icon-experience.png"/></div>
-                    <div class="justify-content-center align-self-center" style="padding-top: 10px">Retour d'expérience</div>
+        <p>
+            Des rencontres sont organisées <strong>tous les mois</strong>, en général le deuxième jeudi du mois, sous
+            forme de
+            <strong>réunions gratuites, ouvertes à tous</strong>.
+        </p>
+        <p>
+            Les réunions prennent la forme de:
+        </p>
+        <div class="row bj-info-item">
+            <div class="col-md-3 text-center">
+                <div class="justify-content-center align-self-center"><img src="img/icon-technical-pres.png"/></div>
+                <div class="justify-content-center align-self-center" style="padding-top: 10px">Présentations
+                    techniques
                 </div>
             </div>
-            <br/>
-            <p>La soirée se poursuit généralement par une discussion autour d'un verre et d'un buffet.</p>
-
-            <h2>Où les rencontres se déroulent elles ?</h2>
-            <p> Les rencontres ont en général lieu à l'ENSEIRB-MATMECA .
-
-                L'adresse est la suivante :</p> 
-
-            <p><strong>ENSEIRB, 1 Avenue du Docteur Albert Schweitzer, 33400 Talence</strong></p>
-
-            <p>Le plan ci-dessous récapitule l'accès et les endroits de stationnement autours de l'école :</p>
-
-            <div class="text-center" style="padding-top: 20px; padding-bottom: 20px"> <img src="img/Plan accès IPB ENSEIRB MATMECA.png" width="100%"/> </div>
-            <br/>
-            <div class="row">
-                <span class="bj-warning icon icon-warning col-md-2 row justify-content-center align-self-center" >  </span>
-                <p class="col-md-10 row justify-content-center align-self-center">Durant le plan vigipirate, seule l'accès Est avec un badge est possible. Il vous faudra demander à un étudiant de vous ouvrir.</p>
+            <div class="col-md-3 text-center">
+                <div class="justify-content-center align-self-center"><img src="img/icon-demo.png"/></div>
+                <div class="justify-content-center align-self-center" style="padding-top: 10px">Démonstrations produit
+                </div>
             </div>
-            <br/>
-            <hr/>
-            <br/>
-
-            <div class="row " style="padding-bottom: 30px">
-                <div class="col-md-4" style="padding-left: 30px; padding-right: 20px">
-                    <p class="text-justify">Si les rencontres sont la plupart du temps gratuites, il est demandé de s'inscrire au préalable (un lien est fourni sur l'annonce de chaque rencontre) 
-                        afin que nous puissions ajuster le buffet en conséquence.</p>
+            <div class="col-md-3 text-center">
+                <div class="justify-content-center align-self-center"><img src="img/icon-work.png"/></div>
+                <div class="justify-content-center align-self-center" style="padding-top: 10px">Séances de travaux
+                    pratiques
                 </div>
-                <div class="col-md-4" style="padding-left: 30px; padding-right: 20px">
-                    <p class="text-justify">La communauté du JUG de bordeaux est avant tout une communauté de gens qui se retrouvent régulièrement aux réunions du JUG. 
-                        Mais pour les discussions entre les réunions, des moyens d'interaction en ligne sont également présents. </p>
-                </div>
-                <div class="col-md-4 justify-content-center align-self-center" >
-                    <p><a href="https://groups.google.com/forum/#!forum/bordeauxjug" target="_blank">Le Google group</a></p>
-                    <p><a href="https://www.meetup.com/fr-FR/BordeauxJUG/" target="_blank">Le Meetup</a></p>
-                    <p><a href="https://www.youtube.com/channel/UCLUR8z_Y_7tWlHhF-THMbbA" target="_blank">La chaîne YouTube</a></p>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="justify-content-center align-self-center"><img src="img/icon-experience.png"/></div>
+                <div class="justify-content-center align-self-center" style="padding-top: 10px">Retour d'expérience
                 </div>
             </div>
         </div>
-    </th:block>
+        <br/>
+        <p>La soirée se poursuit généralement par une discussion autour d'un verre et d'un buffet.</p>
+
+        <h2>Où les rencontres se déroulent elles ?</h2>
+        <p> Les rencontres ont en général lieu à l'ENSEIRB-MATMECA .
+
+            L'adresse est la suivante :</p>
+
+        <p><strong>ENSEIRB, 1 Avenue du Docteur Albert Schweitzer, 33400 Talence</strong></p>
+
+        <p>Le plan ci-dessous récapitule l'accès et les endroits de stationnement autours de l'école :</p>
+
+        <div class="text-center" style="padding-top: 20px; padding-bottom: 20px"><img
+                src="img/Plan accès IPB ENSEIRB MATMECA.png" width="100%"/></div>
+        <br/>
+        <div class="row">
+            <span class="bj-warning icon icon-warning col-md-2 row justify-content-center align-self-center">  </span>
+            <p class="col-md-10 row justify-content-center align-self-center">Durant le plan vigipirate, seule l'accès
+                Est avec un badge est possible. Il vous faudra demander à un étudiant de vous ouvrir.</p>
+        </div>
+        <br/>
+        <hr/>
+        <br/>
+
+        <div class="row " style="padding-bottom: 30px">
+            <div class="col-md-4" style="padding-left: 30px; padding-right: 20px">
+                <p class="text-justify">Si les rencontres sont la plupart du temps gratuites, il est demandé de
+                    s'inscrire au préalable (un lien est fourni sur l'annonce de chaque rencontre)
+                    afin que nous puissions ajuster le buffet en conséquence.</p>
+            </div>
+            <div class="col-md-4" style="padding-left: 30px; padding-right: 20px">
+                <p class="text-justify">La communauté du JUG de bordeaux est avant tout une communauté de gens qui se
+                    retrouvent régulièrement aux réunions du JUG.
+                    Mais pour les discussions entre les réunions, des moyens d'interaction en ligne sont également
+                    présents. </p>
+            </div>
+            <div class="col-md-4 justify-content-center align-self-center">
+                <p><a href="https://groups.google.com/forum/#!forum/bordeauxjug" target="_blank">Le Google group</a></p>
+                <p><a href="https://www.meetup.com/fr-FR/BordeauxJUG/" target="_blank">Le Meetup</a></p>
+                <p><a href="https://www.youtube.com/channel/UCLUR8z_Y_7tWlHhF-THMbbA" target="_blank">La chaîne
+                    YouTube</a></p>
+            </div>
+        </div>
+    </div>
+</th:block>
 
 </body>
 </html>

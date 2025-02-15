@@ -1,44 +1,44 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="layouts/layout">
+      layout:decorate="~{layouts/layout}">
 
-    <body>
+<body>
 
-    <th:block layout:fragment="content">
-        <div class="bj-container container">
+<th:block layout:fragment="content">
+    <div class="bj-container container">
 
-            <h2>Rencontres passées</h2>
-            <p class="bj-big-font text-justify">Bientôt, une reprise de l'historique sera reprise ici. Veuillez patienter.
-            </p>
-            
-            <table class="bj-table table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Titre</th>
-                        <th>Speaker</th>
-                        <th>Résumé</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                
-                <tbody>
-                    <tr th:each="meeting : ${meetings}"
-                        th:with="speaker = ${info.speakerOf(meeting)}">
-                        <td th:text="${meeting.date}"></td>
-                        <td th:text="${meeting.title}"></td>
-                        <td th:text="${speaker.firstName} + ' ' + ${speaker.lastName}"></td>
-                        <td th:utext="${meeting.summary}"></td>
-                        <td th:utext="${meeting.description}"></td>
-                    </tr>
-                </tbody>
-            </table>
+        <h2>Rencontres passées</h2>
+        <p class="bj-big-font text-justify">Bientôt, une reprise de l'historique sera reprise ici. Veuillez patienter.
+        </p>
+
+        <table class="bj-table table">
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Titre</th>
+                <th>Speaker</th>
+                <th>Résumé</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="meeting : ${meetings}"
+                th:with="speaker = ${info.speakerOf(meeting)}">
+                <td th:text="${meeting.date}"></td>
+                <td th:text="${meeting.title}"></td>
+                <td th:text="${speaker.firstName} + ' ' + ${speaker.lastName}"></td>
+                <td th:utext="${meeting.summary}"></td>
+                <td th:utext="${meeting.description}"></td>
+            </tr>
+            </tbody>
+        </table>
         <br/>
         <br/>
         <br/>
-        </div>
-    </th:block>
+    </div>
+</th:block>
 
 </body>
 </html>

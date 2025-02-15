@@ -15,8 +15,8 @@
  */
 package org.bdxjug.api.infrastructure.sheet.xlsx;
 
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -42,9 +42,9 @@ public class XlsxSheet implements Sheet {
     private final Workbook workbook;
 
     public XlsxSheet() {
-        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("database-site.xlsx");) {
+        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("database-site.xlsx")) {
             this.workbook = WorkbookFactory.create(inputStream);
-        } catch (IOException | InvalidFormatException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
@@ -55,7 +55,7 @@ public class XlsxSheet implements Sheet {
         List<T> results = new ArrayList<>();
         org.apache.poi.ss.usermodel.Sheet worksheet = sheetByName(sheetName).orElseThrow(IllegalStateException::new);
         int nbRows = worksheet.getPhysicalNumberOfRows();
-        for (int i=1; i<nbRows; i++) {
+        for (int i = 1; i < nbRows; i++) {
             Row row = worksheet.getRow(i);
             if (!isRowEmpty(row)) {
                 int nbCells = row.getPhysicalNumberOfCells();
@@ -83,15 +83,15 @@ public class XlsxSheet implements Sheet {
     }
 
     private boolean isNumeric(Cell cell) {
-        return cell.getCellType() == Cell.CELL_TYPE_NUMERIC;
+        return cell.getCellType() == CellType.NUMERIC;
     }
 
     private boolean isFormula(Cell cell) {
-        return cell.getCellType() == Cell.CELL_TYPE_FORMULA;
+        return cell.getCellType() == CellType.FORMULA;
     }
 
     private boolean isEmpty(Cell cell) {
-        return cell == null || cell.getCellType() == Cell.CELL_TYPE_BLANK;
+        return cell == null || cell.getCellType() == CellType.BLANK;
     }
 
     private static String getDateValue(Cell cell) {
@@ -101,14 +101,14 @@ public class XlsxSheet implements Sheet {
     }
 
     private static boolean isDate(Cell cell) {
-        return (cell.getCellType() == Cell.CELL_TYPE_NUMERIC && cell.toString().contains("-"))
-            || (cell.getCellType() == Cell.CELL_TYPE_FORMULA && cell.toString().contains("DATE"));
+        return (cell.getCellType() == CellType.NUMERIC && cell.toString().contains("-"))
+                || (cell.getCellType() == CellType.FORMULA && cell.toString().contains("DATE"));
     }
 
     private static boolean isRowEmpty(Row row) {
         for (int c = row.getFirstCellNum(); c < row.getLastCellNum(); c++) {
             Cell cell = row.getCell(c);
-            if (cell != null && cell.getCellType() != Cell.CELL_TYPE_BLANK)
+            if (cell != null && cell.getCellType() != CellType.BLANK)
                 return false;
         }
         return true;

@@ -26,7 +26,7 @@ public class SheetMemberRepositoryTest {
         Optional<Member> laurent = repository.all().stream().filter(m -> m.getFirstName().equals("Laurent") && m.getLastName().equals("Forêt")).findFirst();
 
         assertThat(laurent.isPresent()).isTrue();
-        assertThat(laurent.get().getFirstRegistration()).isEqualByComparingTo(LocalDate.of(2011,11,2));
-        assertThat(laurent.get().getEndOfValidity()).isEqualByComparingTo(LocalDate.of(2051,10,30));
+        assertThat(laurent.get().getFirstRegistration()).isEqualTo(LocalDate.of(2011,11,2));
+        assertThat(laurent.get().getEndOfValidity()).isEqualTo(LocalDate.of(2051,10,30));
     }
 }

@@ -15,7 +15,6 @@
  */
 package org.bdxjug.api.infrastructure.meetup;
 
-import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import feign.Feign;
@@ -27,6 +26,13 @@ import feign.slf4j.Slf4jLogger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpResponse;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Configuration
 @Profile("meetup")
@@ -62,27 +68,42 @@ public class MeetupFeignConfiguration implements MeetupConfiguration {
 
     @Override
     public MeetupClient.Admin admin(String authorizationCode) {
-        HttpRequest requestingAccessToken = HttpRequest.post(
-                "https://secure.meetup.com/oauth2/access", false,
-                "client_id", this.consumerKey,
-                "client_secret", this.consumerSecret,
-                "grant_type", "authorization_code",
-                "redirect_uri", this.redirecturi,
-                "code", authorizationCode);
-        if (requestingAccessToken.ok()) {
-            JsonElement accessToken = new JsonParser().parse(requestingAccessToken.body()).getAsJsonObject().get("access_token");
-            String accessTokenAsString = accessToken.getAsString();
-            LOGGER.debug("Retrieved access token : " + accessTokenAsString);
-            return buildClient(MeetupClient.Admin.class, r -> r.header("Authorization", "Bearer " + accessTokenAsString));
-        } else {
-            String message = toString(requestingAccessToken);
-            LOGGER.error(message);
-            throw new IllegalStateException("Cannot retrieve access token for meetup api : [" + message + "]");
+        HttpClient client = HttpClient.newHttpClient();
+        String form = Map.of(
+                        "client_id", this.consumerKey,
+                        "client_secret", this.consumerSecret,
+                        "grant_type", "authorization_code",
+                        "redirect_uri", this.redirecturi,
+                        "code", authorizationCode
+                ).entrySet().stream()
+                .map(entry -> entry.getKey() + "=" + entry.getValue())
+                .collect(Collectors.joining("&"));
+
+        java.net.http.HttpRequest request = java.net.http.HttpRequest.newBuilder()
+                .uri(URI.create("https://secure.meetup.com/oauth2/access"))
+                .header("Content-Type", "application/x-www-form-urlencoded")
+                .POST(java.net.http.HttpRequest.BodyPublishers.ofString(form))
+                .build();
+
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == HttpURLConnection.HTTP_OK) {
+                JsonElement accessToken = JsonParser.parseString(response.body()).getAsJsonObject().get("access_token");
+                String accessTokenAsString = accessToken.getAsString();
+                LOGGER.debug("Retrieved access token : " + accessTokenAsString);
+                return buildClient(MeetupClient.Admin.class, r -> r.header("Authorization", "Bearer " + accessTokenAsString));
+            } else {
+                String message = toString(response);
+                LOGGER.error(message);
+                throw new IllegalStateException("Cannot retrieve access token for meetup api : [" + message + "]");
+            }
+        } catch (Exception e) {
+            throw new IllegalStateException("Error during HTTP request", e);
         }
     }
 
-    private static String toString(HttpRequest requestingAccessToken) {
-        return requestingAccessToken.toString() + ", code= " + requestingAccessToken.code() + ", body=" + requestingAccessToken.body();
+    private static String toString(HttpResponse<String> response) {
+        return response.toString() + ", code= " + response.statusCode() + ", body=" + response.body();
     }
 
     private <T> T buildClient(Class<T> clientClazz, RequestInterceptor authenticationInterceptor) {
