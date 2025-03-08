@@ -124,6 +124,9 @@ public class Web {
     public String meeting(Model model, @PathVariable("id") String id) {
         model.addAttribute("sponsors", sponsorRepository.all());
         Optional<Meeting> optionalMeeting = meetingRepository.by(new MeetingID(id));
+        if (optionalMeeting.isEmpty()) {
+            throw new IllegalArgumentException("Meeting not found");
+        }
         Meeting meeting = optionalMeeting.get();
         model.addAttribute("meeting", meeting);
         String formattedDate = meeting.getDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.FRENCH));
