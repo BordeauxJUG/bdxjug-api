@@ -18,6 +18,7 @@ package org.bdxjug.api.interfaces;
 import org.bdxjug.api.domain.banner.BannerRepository;
 import org.bdxjug.api.domain.meetings.LocationRepository;
 import org.bdxjug.api.domain.meetings.Meeting;
+import org.bdxjug.api.domain.meetings.MeetingID;
 import org.bdxjug.api.domain.meetings.MeetingInfo;
 import org.bdxjug.api.domain.meetings.MeetingRepository;
 import org.bdxjug.api.domain.meetings.SpeakerRepository;
@@ -40,6 +41,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.SortedSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -83,10 +85,11 @@ public class Web {
         model.addAttribute("sponsors", sponsorRepository.all());
         final SortedSet<Meeting> upcomings = meetingRepository.upcomingMeetings();
         // TODO : handle cardinality
-        final Meeting meeting = upcomings.isEmpty() ? meetingRepository.pastMeetings().first() : upcomings.iterator().next();
+        final Meeting meeting = upcomings.isEmpty() ? meetingRepository.pastMeetings().first() : upcomings.last();
         model.addAttribute("meeting", meeting);
         String formattedDate = meeting.getDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.FRENCH));
         model.addAttribute("formattedDate", formattedDate);
+        model.addAttribute("withAdvertisement", true);
         speakerRepository.by(meeting.getSpeakerID()).ifPresent(speaker -> model.addAttribute("speaker", speaker));
         speakerRepository.by(meeting.getCoSpeakerID()).ifPresent(speaker -> model.addAttribute("cospeaker", speaker));
         locationRepository.by(meeting.getLocationID()).ifPresent(location -> model.addAttribute("location", location));
@@ -112,8 +115,27 @@ public class Web {
     public String meetings(Model model) {
         model.addAttribute("sponsors", sponsorRepository.all());
         model.addAttribute("info", meetingInfo);
-        model.addAttribute("meetings", meetingRepository.pastMeetings());
+        model.addAttribute("pastMeetings", meetingRepository.pastMeetings());
+        model.addAttribute("upcomingMeetings", meetingRepository.upcomingMeetings());
         return "meetings";
+    }
+
+    @RequestMapping(value = "/meetings/{id}")
+    public String meeting(Model model, @PathVariable("id") String id) {
+        model.addAttribute("sponsors", sponsorRepository.all());
+        Optional<Meeting> optionalMeeting = meetingRepository.by(new MeetingID(id));
+        if (optionalMeeting.isEmpty()) {
+            throw new IllegalArgumentException("Meeting not found");
+        }
+        Meeting meeting = optionalMeeting.get();
+        model.addAttribute("meeting", meeting);
+        String formattedDate = meeting.getDate().format(DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.FRENCH));
+        model.addAttribute("formattedDate", formattedDate);
+        model.addAttribute("withAdvertisement", false);
+        speakerRepository.by(meeting.getSpeakerID()).ifPresent(speaker -> model.addAttribute("speaker", speaker));
+        speakerRepository.by(meeting.getCoSpeakerID()).ifPresent(speaker -> model.addAttribute("cospeaker", speaker));
+        locationRepository.by(meeting.getLocationID()).ifPresent(location -> model.addAttribute("location", location));
+        return "meeting";
     }
 
     @RequestMapping(value = "/members")

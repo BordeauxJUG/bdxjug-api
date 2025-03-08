@@ -2,65 +2,69 @@
 @import 'bdxjug_images';
 
 .bj-event-container {
-    @extend .bj-container;
-    background-color: $bj-background-color;
-    padding-bottom: 30px;
+  @extend .bj-container;
+  background-color: $bj-background-color;
+  padding-bottom: 30px;
 }
 
 .bj-event-header {
 }
 
 .bj-event-metadata {
-    height: 150px;
-    /*left:30px;*/
-    background: linear-gradient(166deg, #323232 0%, #000000 100%);
-    color: $bj-white;
-    padding-left: 50px;
-    
-    .bj-intro {
-        padding-top: 20px;
-    }
-    .bj-date {
-        font-size: 28px;
-        padding-bottom: 50px;
-    }
-    .bj-inscrits {
+  height: 150px;
+  /*left:30px;*/
 
-    }
-    .bj-sinscrire {
-        z-index: 1;
-    }
+  //background-color: #F0F4F6;
+  //color: $bj-white;
+  padding-left: 50px;
+
+  .bj-intro {
+    padding-top: 20px;
+  }
+
+  .bj-date {
+    font-size: 28px;
+    padding-bottom: 50px;
+  }
+
+  .bj-inscrits {
+
+  }
+
+  .bj-sinscrire {
+    z-index: 1;
+  }
 }
 
 .bj-event-title {
-    position: relative;
-    z-index: 1;
-    top: -50px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    background-color: $bj-dark-grey;
-    color: $bj-white;
-    width: 80%;
-    font-weight: 500;
+  position: relative;
+  z-index: 1;
+  top: -50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: $bj-dark-grey;
+  color: $bj-white;
+  width: 80%;
+  font-weight: 500;
 
-    .bj-avatar {
-        padding-left: 30px;
-        padding-top: 20px;
-        padding-bottom: 20px;
-    }
+  .bj-avatar {
+    padding-left: 30px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
 
-    .bj-title {
-        font-size: 20px;
-        padding-top: 30px;
-        padding-bottom: 40px;
-    }
+  .bj-title {
+    font-size: 20px;
+    padding-top: 30px;
+    padding-bottom: 40px;
+  }
 
-    .bj-name {
+  .bj-name {
 
-    }
+  }
 
-    .bj-location {
+  .bj-location {
 
-    }
+  }
 }
 
