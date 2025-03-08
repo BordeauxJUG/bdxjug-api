@@ -28,7 +28,7 @@
                 <td style="vertical-align: middle;" th:text="${speaker.firstName} + ' ' + ${speaker.lastName}"></td>
                 <td>
                     <a class="bj-btn-primary btn" style="vertical-align: middle;"
-                       th:href="@{/meetings/{id}(id=${meeting.id.value})}">Détail</a>
+                       th:href="@{/meetings/{id}(id=${meeting.formattedUrl()})}">Détail</a>
                 </td>
             </tr>
             <tr th:each="meeting : ${pastMeetings}"
@@ -38,7 +38,7 @@
                 <td style="vertical-align: middle;" th:text="${speaker.firstName} + ' ' + ${speaker.lastName}"></td>
                 <td>
                     <a class="bj-btn-primary btn" style="vertical-align: middle;"
-                       th:href="@{/meetings/{id}(id=${meeting.id.value})}">Détail</a>
+                       th:href="@{/meetings/{id}(id=${meeting.formattedUrl()})}">Détail</a>
                 </td>
             </tr>
             </tbody>

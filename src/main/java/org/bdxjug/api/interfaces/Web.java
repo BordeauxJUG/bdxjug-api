@@ -120,8 +120,9 @@ public class Web {
         return "meetings";
     }
 
-    @RequestMapping(value = "/meetings/{id}")
-    public String meeting(Model model, @PathVariable("id") String id) {
+    @RequestMapping(value = "/meetings/{fullName}")
+    public String meeting(Model model, @PathVariable("fullName") String fullName) {
+        String id = fullName.substring(0, fullName.indexOf("-"));
         model.addAttribute("sponsors", sponsorRepository.all());
         Optional<Meeting> optionalMeeting = meetingRepository.by(new MeetingID(id));
         if (optionalMeeting.isEmpty()) {

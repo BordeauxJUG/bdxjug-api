@@ -17,6 +17,7 @@ package org.bdxjug.api.domain.meetings;
 
 import lombok.Data;
 
+import java.text.Normalizer;
 import java.time.LocalDate;
 
 @Data
@@ -43,6 +44,17 @@ public class Meeting implements Comparable<Meeting> {
 
     public boolean isPublished() {
         return registrationID != null;
+    }
+
+    public String formattedUrl() {
+        String normalizedTitle = Normalizer.normalize(title, Normalizer.Form.NFD);
+        String accentRemovedTitle = normalizedTitle.replaceAll("\\p{M}", "");
+        String url = id.getValue() + "-" + accentRemovedTitle.toLowerCase()
+                .replace(" ", "_")
+                .replace("|", "_")
+                .replace("/", "_")
+                .replace("\\", "_");
+        return url;
     }
 
     @Override
