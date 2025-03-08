@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="meeting_detail" class="bj-meeting-container">
+    <div class="bj-jumbotron jumbotron jumbotron-fluid" th:if="${withAdvertisement}">
+        <div class="container">
+            <p class="bj-big-font lead">
+                L'objectif du BORDEAUX Java User Group est de permettre à des acteurs et utilisateurs du langage Java
+                (professionnels, communautés open source, universitaires, étudiants) de se rencontrer et d'échanger
+                autour
+                des technologies Java.
+            </p>
+            <br/><br/>
+
+            <!--<a class="btn bj-btn" href="./info">En savoir +</a>-->
+        </div>
+    </div>
+
+    <div class="bj-meeting-event">
+        <div class="bj-event-container container">
+            <!-- Talk Header -->
+            <div class="bj-event-header">
+                <div class="bj-event-metadata row">
+                    <div class="bj-intro col-md-12">
+                        <strong></strong>
+                    </div>
+                    <div class="bj-date col-md-9 ">
+                        <img src="/img/calendar.png"/>
+                        <span th:text="${formattedDate}"/>
+                        <!--<span th:text="${#temporals.format(meeting.date, 'dd MMMM yyyy', locale_fr)}"/> Waiting for Thymeleaf 3-->
+                    </div>
+                    <!--                        <div class="bj-inscrits col-md-1"><strong>TODO NB inscrits</strong></div>-->
+                    <div class="bj-sinscrire col-md-2">
+                        <a class='bj-btn-secondary btn btn-secondary float-right'
+                           target="_blank"
+                           th:href="${'https://www.meetup.com/fr-FR/BordeauxJUG/events/' + meeting.registrationID.value}"
+                           th:if="${meeting.registrationID!=null && meeting.isUpcoming()}">S'inscrire</a>
+                        <a class='bj-btn-secondary btn btn-secondary float-right'
+                           target="_blank"
+                           th:href="${'https://www.meetup.com/fr-FR/BordeauxJUG/events/' + meeting.registrationID.value}"
+                           th:if="${meeting.registrationID!=null && meeting.isPast()}">Inscription terminée</a>
+                        <a class='bj-btn-secondary btn btn-secondary float-right' target="_blank"
+                           th:unless="${meeting.registrationID}">Inscription non ouverte</a>
+                    </div>
+                </div>
+                <div class="bj-event-title row">
+                    <div class="bj-avatar col-md-4">
+                        <img class="bj-img-avatar img-thumbnail " th:src="${speaker.urlAvatar}"/>
+                        <img class="bj-img-avatar img-thumbnail " th:if="${cospeaker}" th:src="${cospeaker.urlAvatar}"/>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="bj-title row ">
+                            <div class="col-md-12" th:text="${meeting.title}"></div>
+                        </div>
+                        <div class="row">
+                            <div class="bj-name col-md-9"><strong th:text="${speaker.firstName+' '+speaker.lastName}"/>
+                                <strong th:text="*{cospeaker}?${' et '+cospeaker.firstName+' '+cospeaker.lastName}"/>
+                            </div>
+                            <div class="bj-location col-md-3"><strong th:text="${location.name}"/></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bj-event-description row">
+                <div class="col-md-9">
+                    <h4>Description du Talk</h4>
+                    <div th:utext="${meeting.description}"/>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-2 text-center">
+                    <div class="row">
+                        <a target="_blank" th:href="${ptBanner.targetUrl}" th:if="${ptBanner}"><img
+                                th:src="${ptBanner.imageUrl}"/></a>
+                    </div>
+                    <div class="row"><p></p></div>
+                    <div class="row">
+                        <a target="_blank" th:href="${gdBanner.targetUrl}" th:if="${gdBanner}"><img
+                                th:src="${gdBanner.imageUrl}"/></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

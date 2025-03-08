@@ -6,6 +6,7 @@
 @import 'bdxjug_table';
 @import 'bdxjug_buttons';
 @import 'bdxjug_jumbotron';
+@import 'bdxjug_meeting_detail';
 @import 'bdxjug_images';
 @import 'bdxjug_icons';
 
@@ -19,33 +20,37 @@
 @import 'bdxjug_footer';
 
 body {
-    font: 100% $bj-default-font-family;
-    color: $bj-default-font-color;
-    
-    p {
-        font-size: $bj-normal-font; 
+  font: 100% $bj-default-font-family;
+  color: $bj-default-font-color;
+
+  p {
+    font-size: $bj-normal-font;
+  }
+
+  li {
+    font-size: $bj-normal-font;
+    list-style: none;
+
+    &:before {
+      color: $bj-primary-color;
+      content: '\2022';
+      display: block;
+      position: relative;
+      max-width: 0;
+      max-height: 0;
+      left: -10px;
+      top: 0;
+      font-size: 20px;
     }
-    li {
-        font-size: $bj-normal-font; 
-        list-style: none;
-        &:before { 
-            color: $bj-primary-color;
-            content: '\2022';
-            display: block;
-            position: relative;
-            max-width: 0;
-            max-height: 0;
-            left: -10px;
-            top: 0;
-            font-size: 20px;
-        }
+  }
+
+  a {
+    color: $bj-primary-color;
+
+    :hover {
+      color:   $bj-primary-color !important;
     }
-    a {
-        color: $bj-primary-color;
-        :hover {
-            color: $bj-primary-color !important;
-        }
-    }
+  }
 }
 
 

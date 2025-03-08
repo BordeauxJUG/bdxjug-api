@@ -1,0 +1,34 @@
+@import 'bdxjug_colors';
+@import 'bdxjug_images';
+
+.bj-meeting-container {
+  .bj-meeting-event {
+    &:not(:first-child) {
+      @extend .bj-shift-up;
+
+      .bj-event-metadata {
+        background-color: $bj-very-light-grey;
+        color: $bj-white;
+      }
+
+      .bj-date {
+        img {
+          filter: invert(1)
+        }
+      }
+    }
+
+    &:first-child {
+      .bj-event-metadata {
+        background-color: $bj-very-light-grey;
+        color: $bj-black;
+      }
+
+      .bj-date {
+        img {
+
+        }
+      }
+    }
+  }
+}

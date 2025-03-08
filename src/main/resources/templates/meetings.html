@@ -1,16 +1,14 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org"
+<html layout:decorate="~{layouts/layout}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/layout}">
+      xmlns:th="http://www.thymeleaf.org">
 
 <body>
 
 <th:block layout:fragment="content">
     <div class="bj-container container">
 
-        <h2>Rencontres passées</h2>
-        <p class="bj-big-font text-justify">Bientôt, une reprise de l'historique sera reprise ici. Veuillez patienter.
-        </p>
+        <h2>Liste des conférences</h2>
 
         <table class="bj-table table">
             <thead>
@@ -18,19 +16,30 @@
                 <th>Date</th>
                 <th>Titre</th>
                 <th>Speaker</th>
-                <th>Résumé</th>
-                <th>Description</th>
+                <th>Détail</th>
             </tr>
             </thead>
 
             <tbody>
-            <tr th:each="meeting : ${meetings}"
+            <tr th:each="meeting : ${upcomingMeetings}"
                 th:with="speaker = ${info.speakerOf(meeting)}">
-                <td th:text="${meeting.date}"></td>
-                <td th:text="${meeting.title}"></td>
-                <td th:text="${speaker.firstName} + ' ' + ${speaker.lastName}"></td>
-                <td th:utext="${meeting.summary}"></td>
-                <td th:utext="${meeting.description}"></td>
+                <td style="white-space: nowrap;vertical-align: middle;" th:text="${meeting.date}"></td>
+                <td style="vertical-align: middle;" th:text="${meeting.title}"></td>
+                <td style="vertical-align: middle;" th:text="${speaker.firstName} + ' ' + ${speaker.lastName}"></td>
+                <td>
+                    <a class="bj-btn-primary btn" style="vertical-align: middle;"
+                       th:href="@{/meetings/{id}(id=${meeting.id.value})}">Détail</a>
+                </td>
+            </tr>
+            <tr th:each="meeting : ${pastMeetings}"
+                th:with="speaker = ${info.speakerOf(meeting)}">
+                <td style="white-space: nowrap;vertical-align: middle;" th:text="${meeting.date}"></td>
+                <td style="vertical-align: middle;" th:text="${meeting.title}"></td>
+                <td style="vertical-align: middle;" th:text="${speaker.firstName} + ' ' + ${speaker.lastName}"></td>
+                <td>
+                    <a class="bj-btn-primary btn" style="vertical-align: middle;"
+                       th:href="@{/meetings/{id}(id=${meeting.id.value})}">Détail</a>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -39,6 +48,5 @@
         <br/>
     </div>
 </th:block>
-
 </body>
 </html>
