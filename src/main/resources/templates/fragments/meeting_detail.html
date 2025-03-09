@@ -24,13 +24,19 @@
                     <div class="bj-intro col-md-12">
                         <strong></strong>
                     </div>
-                    <div class="bj-date col-md-9 ">
+                    <div class="bj-date col-md-3">
                         <img src="/img/calendar.png"/>
                         <span th:text="${formattedDate}"/>
                         <!--<span th:text="${#temporals.format(meeting.date, 'dd MMMM yyyy', locale_fr)}"/> Waiting for Thymeleaf 3-->
                     </div>
+                    <div class="col-md-3">
+                        <a class="bj-btn-primary btn btn-primary float-right" target="_blank"
+                           th:href="${meeting.videoLink}"
+                           th:if="${meeting.videoLink}">Revoir la
+                            vidéo</a>
+                    </div>
                     <!--                        <div class="bj-inscrits col-md-1"><strong>TODO NB inscrits</strong></div>-->
-                    <div class="bj-sinscrire col-md-2">
+                    <div class="bj-sinscrire col-md-3">
                         <a class='bj-btn-secondary btn btn-secondary float-right'
                            target="_blank"
                            th:href="${'https://www.meetup.com/fr-FR/BordeauxJUG/events/' + meeting.registrationID.value}"

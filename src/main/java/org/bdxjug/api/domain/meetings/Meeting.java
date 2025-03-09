@@ -29,10 +29,10 @@ public class Meeting implements Comparable<Meeting> {
     private final SpeakerID coSpeakerID;
     private final LocationID locationID;
     private final String title;
-
     private String summary;
     private String description;
     private RegistrationID registrationID;
+    private String videoLink;
 
     public boolean isPast() {
         return date.isBefore(LocalDate.now());
