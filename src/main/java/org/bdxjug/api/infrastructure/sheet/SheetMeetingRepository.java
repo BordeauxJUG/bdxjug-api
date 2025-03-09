@@ -15,7 +15,12 @@
  */
 package org.bdxjug.api.infrastructure.sheet;
 
-import org.bdxjug.api.domain.meetings.*;
+import org.bdxjug.api.domain.meetings.LocationID;
+import org.bdxjug.api.domain.meetings.Meeting;
+import org.bdxjug.api.domain.meetings.MeetingID;
+import org.bdxjug.api.domain.meetings.MeetingRepository;
+import org.bdxjug.api.domain.meetings.RegistrationID;
+import org.bdxjug.api.domain.meetings.SpeakerID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +44,7 @@ public class SheetMeetingRepository implements MeetingRepository {
     private static final int SUMMARY = 6;
     private static final int DESCRIPTION = 7;
     private static final int REGISTRATION_ID = 8;
+    private static final int VIDEO_LINK = 9;
 
     private final Sheet sheet;
 
@@ -68,6 +74,7 @@ public class SheetMeetingRepository implements MeetingRepository {
         setValue(values, SUMMARY, meeting::setSummary);
         setValue(values, DESCRIPTION, meeting::setDescription);
         setValue(values, REGISTRATION_ID, s -> meeting.setRegistrationID(new RegistrationID(s)));
+        setValue(values, VIDEO_LINK, meeting::setVideoLink);
         return meeting;
     }
 
