@@ -2,40 +2,43 @@
 
 
 .bj-sponsors {
-    background-color: $bj-dark-grey;
-    padding-bottom: 30px;
-    border-top-color: $bj-primary-color;
-    border-top-style: solid;
-    border-top-width: 3px;
-    
-    .bj-title {
-        position: relative;
-        top: -12px;
-        text-align: center;
-        width: 100%;
-        span {
-            background-color: $bj-background-color;
-            padding: 10px 20px;
-            border-color: $bj-primary-color;
-            border-bottom-style: solid;
-            border-bottom-width: 3px; 
-            border-radius: 0 0 24px 24px;
-            font-size: 18px;
-            font-weight: bold;
-            color: $bj-primary-color;
-        }
+  background-color: $bj-dark-grey;
+  padding-bottom: 30px;
+  border-top-color: $bj-primary-color;
+  border-top-style: solid;
+  border-top-width: 3px;
+
+  .bj-title {
+    position: relative;
+    top: -12px;
+    text-align: center;
+    width: 100%;
+
+    span {
+      background-color: $bj-background-color;
+      padding: 10px 20px;
+      border-color: $bj-primary-color;
+      border-bottom-style: solid;
+      border-bottom-width: 3px;
+      border-radius: 0 0 24px 24px;
+      font-size: 18px;
+      font-weight: bold;
+      color: $bj-primary-color;
     }
+  }
 
 }
 
 .bj-sponsor {
-    padding-top : 20px;
-    padding-bottom : 20px;
-    img {
-        max-width: 200px;
-        max-height: 50px; 
-    }
-    /*mix-blend-mode: multiply;*/
-    //https://stackoverflow.com/questions/12945763/how-to-convert-the-background-to-transparent for transparency
-    filter: brightness(0) invert(1);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  max-width: none;
+
+  img {
+    max-width: 200px;
+    max-height: 50px;
+  }
+  
+  //https://stackoverflow.com/questions/12945763/how-to-convert-the-background-to-transparent for transparency
+  filter: brightness(0) invert(1);
 }
