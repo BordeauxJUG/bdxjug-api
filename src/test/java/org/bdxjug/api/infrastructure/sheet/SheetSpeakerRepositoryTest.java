@@ -23,13 +23,10 @@ public class SheetSpeakerRepositoryTest {
     private SpeakerRepository speakerRepository;
 
     @Test
-    public void should_find_by_id() {
-        assertThat(speakerRepository.by(new SpeakerID("juliendubois")).isPresent()).isTrue();
-    }
-
-    @Test
     public void should_return_juliendubois() {
-        Optional<Speaker> juliendubois = speakerRepository.all().stream().filter(s -> s.getId().equals(new SpeakerID("juliendubois"))).findFirst();
+        Optional<Speaker> juliendubois =
+                speakerRepository.all().stream().filter(s -> s.getId().equals(new SpeakerID("juliendubois")))
+                        .findFirst();
 
         assertThat(juliendubois.isPresent()).isTrue();
         assertThat(juliendubois.get().getFirstName()).isEqualTo("Julien");

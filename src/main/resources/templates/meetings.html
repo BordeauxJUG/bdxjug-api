@@ -22,30 +22,38 @@
 
             <tbody>
             <tr th:each="meeting : ${upcomingMeetings}"
-                th:with="speaker = ${info.speakerOf(meeting)}">
+                th:with="speaker = ${info.speakerInfo(meeting.getSpeaker())}, coSpeaker = ${meeting.getCoSpeakerID() != null ? info.speakerInfo(meeting.getCoSpeakerID()) : null}">
                 <td style="white-space: nowrap;vertical-align: middle;" th:text="${meeting.date}"></td>
                 <td style="vertical-align: middle;" th:text="${meeting.title}"></td>
-                <td style="vertical-align: middle;" th:text="${speaker.firstName} + ' ' + ${speaker.lastName}"></td>
-                <td>
-                    <a class="bj-btn-primary btn" style="vertical-align: middle;"
-                       th:href="@{/meetings/{id}(id=${meeting.formattedUrl()})}">Détail</a>
-                </td>
-            </tr>
-            <tr th:each="meeting : ${pastMeetings}"
-                th:with="speaker = ${info.speakerOf(meeting)}">
-                <td style="white-space: nowrap;vertical-align: middle;" th:text="${meeting.date}"></td>
-                <td style="vertical-align: middle;" th:text="${meeting.title}"></td>
-                <td style="vertical-align: middle;" th:text="${speaker.firstName} + ' ' + ${speaker.lastName}"></td>
-                <td>
-                    <a class="bj-btn-primary btn" style="vertical-align: middle;"
-                       th:href="@{/meetings/{id}(id=${meeting.formattedUrl()})}">Détail</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <br/>
-        <br/>
-        <br/>
+                <td style="vertical-align: middle;">
+                    <div th:text="${speaker.firstName} + ' ' + ${speaker.lastName}"></div>
+                    <div th:if="${coSpeaker != null}" th:text="${coSpeaker.firstName} + ' ' + ${coSpeaker.lastName}"
+    </div>
+    </td>
+    <td>
+        <a class="bj-btn-primary btn" style="vertical-align: middle;"
+           th:href="@{/meetings/{id}(id=${meeting.formattedUrl()})}">Détail</a>
+    </td>
+    </tr>
+    <tr th:each="meeting : ${pastMeetings}"
+        th:with="speaker = ${info.speakerInfo(meeting.getSpeakerID())}, coSpeaker = ${meeting.getCoSpeakerID() != null ? info.speakerInfo(meeting.getCoSpeakerID()) : null}">
+        <td style="white-space: nowrap;vertical-align: middle;" th:text="${meeting.date}"></td>
+        <td style="vertical-align: middle;" th:text="${meeting.title}"></td>
+        <td style="vertical-align: middle;">
+            <div th:text="${speaker.firstName} + ' ' + ${speaker.lastName}"></div>
+            <div th:if="${coSpeaker != null}"
+                 th:text="${coSpeaker.firstName} + ' ' + ${coSpeaker.lastName}"></div>
+        </td>
+        <td>
+            <a class="bj-btn-primary btn" style="vertical-align: middle;"
+               th:href="@{/meetings/{id}(id=${meeting.formattedUrl()})}">Détail</a>
+        </td>
+    </tr>
+    </tbody>
+    </table>
+    <br/>
+    <br/>
+    <br/>
     </div>
 </th:block>
 </body>
