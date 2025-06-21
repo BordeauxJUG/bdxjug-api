@@ -92,7 +92,7 @@ public class Web {
         model.addAttribute("withAdvertisement", true);
         model.addAttribute("speaker", meetingInfo.speakerInfo(meeting.getSpeakerID()));
         model.addAttribute("cospeaker", meetingInfo.speakerInfo(meeting.getCoSpeakerID()));
-        locationRepository.by(meeting.getLocationID()).ifPresent(location -> model.addAttribute("location", location));
+        model.addAttribute("location", meetingInfo.locationOf(meeting));
         bannerRepository.getGrande().ifPresent(gdBanner -> model.addAttribute("gdBanner", gdBanner));
         bannerRepository.getPetite().ifPresent(ptBanner -> model.addAttribute("ptBanner", ptBanner));
         return "index";
@@ -135,7 +135,7 @@ public class Web {
         model.addAttribute("withAdvertisement", false);
         model.addAttribute("speaker", meetingInfo.speakerInfo(meeting.getSpeakerID()));
         model.addAttribute("cospeaker", meetingInfo.speakerInfo(meeting.getCoSpeakerID()));
-        locationRepository.by(meeting.getLocationID()).ifPresent(location -> model.addAttribute("location", location));
+        model.addAttribute("location", meetingInfo.locationOf(meeting));
         return "meeting";
     }
 
