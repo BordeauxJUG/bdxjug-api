@@ -48,18 +48,23 @@ public class SheetMemberRepository implements MemberRepository {
     }
 
     private Member toMember(String[] value) {
-        final String firstName = value[FIRST_NAME];
-        final String lastName = value[LAST_NAME];
-        final String firstRegistration = value[FIRST_REGISTRATION];
-        final String endOfValidity = value[END_OF_VALIDITY];
-        final String active = value[ACTIVE];
-        if (active.startsWith(IS_ACTIVE)) {
-            Member member = new Member(firstName, lastName);
-            member.setFirstRegistration(parseDate(firstRegistration));
-            member.setEndOfValidity(parseDate(endOfValidity));
-            return member;
+        try {
+            final String firstName = value[FIRST_NAME];
+            final String lastName = value[LAST_NAME];
+            final String firstRegistration = value[FIRST_REGISTRATION];
+            final String endOfValidity = value[END_OF_VALIDITY];
+            final String active = value[ACTIVE];
+            if (active.startsWith(IS_ACTIVE)) {
+                Member member = new Member(firstName, lastName);
+                member.setFirstRegistration(parseDate(firstRegistration));
+                member.setEndOfValidity(parseDate(endOfValidity));
+                return member;
+            }
+            return null;
+        } catch (
+                ArrayIndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Invalid member data: " + String.join(",", value));
         }
-        return null;
     }
 
 

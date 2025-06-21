@@ -21,8 +21,6 @@ import org.bdxjug.api.domain.meetings.SpeakerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -46,19 +44,14 @@ public class SheetSpeakerRepository implements SpeakerRepository {
     }
 
     @Override
-    public Optional<Speaker> by(SpeakerID speakerID) {
-        return all().stream().filter(s -> s.getId().equals(speakerID)).findFirst();
-    }
-
-    @Override
     public SortedSet<Speaker> all() {
         return new TreeSet<>(sheet.readLines(this::toSpeaker, "Speakers"));
     }
 
     private Speaker toSpeaker(String[] value) {
-    	if (value == null || value.length == 0) {
-    		return null;
-    	}
+        if (value == null || value.length == 0) {
+            return null;
+        }
         Speaker speaker = new Speaker(new SpeakerID(value[ID]), value[FIRST_NAME], value[LAST_NAME]);
         setValue(value, TWITTER, speaker::setTwitter);
         setValue(value, URL_AVATAR, speaker::setUrlAvatar);

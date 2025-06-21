@@ -15,15 +15,16 @@
  */
 package org.bdxjug.api.infrastructure.sheet;
 
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
 import org.bdxjug.api.domain.team.TeamMate;
 import org.bdxjug.api.domain.team.TeamMateID;
+import org.bdxjug.api.domain.team.TeamMateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.bdxjug.api.domain.team.TeamMateRepository;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
+
 import static org.bdxjug.api.infrastructure.sheet.Sheet.setValue;
 
 
@@ -46,11 +47,13 @@ public class SheetTeamMateRepository implements TeamMateRepository {
 
     @Override
     public SortedSet<TeamMate> byYear(final Integer year) {
-        return new TreeSet<>(sheet.readLines(this::toTeamMate, "TeamMates").stream().filter(tm -> tm.getYear() == year).collect(Collectors.toList()));
+        return new TreeSet<>(sheet.readLines(this::toTeamMate, "TeamMates").stream().filter(tm -> tm.getYear() == year)
+                .collect(Collectors.toList()));
     }
 
     private TeamMate toTeamMate(String[] value) {
-        TeamMate teamMate = new TeamMate(new TeamMateID(value[ID]), value[FIRST_NAME], value[LAST_NAME], Integer.valueOf(value[YEAR]));
+        TeamMate teamMate = new TeamMate(new TeamMateID(value[ID]), value[FIRST_NAME], value[LAST_NAME],
+                Integer.valueOf(value[YEAR]));
         setValue(value, ROLE, teamMate::setRole);
         setValue(value, URL_AVATAR, teamMate::setUrlAvatar);
         return teamMate;

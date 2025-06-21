@@ -30,11 +30,14 @@ public class MeetingInfo {
         this.speakerRepository = speakerRepository;
     }
 
-    public Speaker speakerOf(Meeting meeting) {
-        return speakerRepository.by(meeting.getSpeakerID()).orElseThrow(() -> new IllegalStateException("No speaker for " + meeting));
+    public Speaker speakerInfo(SpeakerID speakerID) {
+        if (speakerID == null || speakerID.getValue() == null || speakerID.getValue().isEmpty()) return null;
+        return speakerRepository.all().stream().filter(s -> s.getId().equals(speakerID)).findFirst().
+                orElseThrow(() -> new IllegalStateException("No speaker for id" + speakerID));
     }
 
     public Location locationOf(Meeting meeting) {
-        return locationRepository.by(meeting.getLocationID()).orElseThrow(() -> new IllegalStateException("No location for " + meeting));
+        return locationRepository.all().stream().filter(s -> s.getId().equals(meeting.getLocationID())).findFirst().
+                orElseThrow(() -> new IllegalStateException("No location for " + meeting));
     }
 }

@@ -15,12 +15,15 @@
  */
 package org.bdxjug.api.infrastructure.sheet;
 
-import org.bdxjug.api.domain.meetings.*;
+import org.bdxjug.api.domain.meetings.Geo;
+import org.bdxjug.api.domain.meetings.Location;
+import org.bdxjug.api.domain.meetings.LocationID;
+import org.bdxjug.api.domain.meetings.LocationRepository;
+import org.bdxjug.api.domain.meetings.VenueID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.bdxjug.api.infrastructure.sheet.Sheet.setValue;
 
@@ -40,11 +43,6 @@ public class SheetLocationRepository implements LocationRepository {
     @Autowired
     public SheetLocationRepository(Sheet sheet) {
         this.sheet = sheet;
-    }
-
-    @Override
-    public Optional<Location> by(LocationID locationID) {
-        return all().stream().filter(l -> l.getId().equals(locationID)).findFirst();
     }
 
     @Override
