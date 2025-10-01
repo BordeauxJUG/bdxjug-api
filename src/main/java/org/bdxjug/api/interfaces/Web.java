@@ -116,7 +116,7 @@ public class Web {
         model.addAttribute("sponsors", sponsorRepository.all());
         model.addAttribute("info", meetingInfo);
         model.addAttribute("pastMeetings", meetingRepository.pastMeetings());
-        //model.addAttribute("upcomingMeetings", meetingRepository.upcomingMeetings());
+        model.addAttribute("upcomingMeetings", meetingRepository.upcomingMeetings());
         return "meetings";
     }
 
