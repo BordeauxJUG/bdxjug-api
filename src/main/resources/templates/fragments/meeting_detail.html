@@ -32,7 +32,7 @@
                     <div class="col-md-3">
                         <a class="bj-btn-primary btn btn-primary float-right" target="_blank"
                            th:href="${meeting.videoLink}"
-                           th:if="${meeting.videoLink}">Revoir la
+                           th:if="${meeting.videoLink != null and meeting.videoLink != ''}">Revoir la
                             vidéo</a>
                     </div>
                     <!--                        <div class="bj-inscrits col-md-1"><strong>TODO NB inscrits</strong></div>-->

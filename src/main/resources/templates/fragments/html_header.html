@@ -1,15 +1,65 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-    
-    <head th:fragment="html_header">
-        <title>Bordeaux JUG</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+<html xmlns:th="http://www.thymeleaf.org" prefix="og: http://ogp.me/ns#">
 
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+<!-- Fragment sans paramètres (version par défaut) -->
+<th:block th:fragment="html_header">
+    <title>Bordeaux JUG</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
-        <!--<link rel="stylesheet" href="./css/bootstrap.css"/>-->
-        <link rel="stylesheet" href="/css/bdxjug.css"/>
-    </head>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+
+    <!--<link rel="stylesheet" href="./css/bootstrap.css"/>-->
+    <link rel="stylesheet" href="/css/bdxjug.css"/>
+
+    <meta property="og:site_name" content="BordeauxJUG">
+    <meta property="og:type" content="article">
+    <meta name="title" property="og:title" content="Bordeaux JUG">
+    <meta name="description" property="og:description"
+          content="Le club des utilisateurs de Java sur Bordeaux et sa région">
+    <meta name="image" property="og:image" content="https://bordeauxjug.org/img/logo-color-border.png">
+    <meta name="author" property="og:author" content="BordeauxJUG">
+
+    <!-- Twitter Card meta tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Bordeaux JUG">
+    <meta name="twitter:description" content="Le club des utilisateurs de Java sur Bordeaux et sa région">
+    <meta name="twitter:image" content="https://bordeauxjug.org/img/logo-color-border.png">
+</th:block>
+
+<!-- Fragment avec paramètres (pour les pages spécifiques) -->
+<th:block th:fragment="html_header_with_params(titre, description, image, date, location)">
+    <title th:text="${titre != null ? titre : 'Bordeaux JUG'} + ${date != null ? ' | ' + date : ''} + ${location != null ? ' | ' + location : ''}">
+        Bordeaux JUG</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+
+    <!--<link rel="stylesheet" href="./css/bootstrap.css"/>-->
+    <link rel="stylesheet" href="/css/bdxjug.css"/>
+
+    <meta property="og:site_name" content="BordeauxJUG">
+    <meta property="og:type" content="article">
+    <meta name="title" property="og:title"
+          th:content="${titre != null ? titre : 'Bordeaux JUG'} + ${date != null ? ' | ' + date : ''} + ${location != null ? ' | ' + location : ''}">
+    <meta name="description" property="og:description"
+          th:content="${description != null ? description : 'Le club des utilisateurs de Java sur Bordeaux et sa région'}">
+    <meta name="image" property="og:image"
+          th:content="${image != null ? image : 'https://bordeauxjug.org/img/logo-color-border.png'}">
+    <meta name="author" property="og:author" content="BordeauxJUG">
+
+    <!-- Twitter Card meta tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title"
+          th:content="${titre != null ? titre : 'Bordeaux JUG'} + ${date != null ? ' | ' + date : ''} + ${location != null ? ' | ' + location : ''}">
+    <meta name="twitter:description"
+          th:content="${description != null ? description : 'Le club des utilisateurs de Java sur Bordeaux et sa région'}">
+    <meta name="twitter:image"
+          th:content="${image != null ? image : 'https://bordeauxjug.org/img/logo-color-border.png'}">
+</th:block>
 </html>

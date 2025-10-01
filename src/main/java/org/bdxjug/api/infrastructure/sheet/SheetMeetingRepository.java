@@ -45,6 +45,7 @@ public class SheetMeetingRepository implements MeetingRepository {
     private static final int DESCRIPTION = 7;
     private static final int REGISTRATION_ID = 8;
     private static final int VIDEO_LINK = 9;
+    private static final int POSTER_LINK = 12;
 
     private final Sheet sheet;
 
@@ -75,6 +76,7 @@ public class SheetMeetingRepository implements MeetingRepository {
         setValue(values, DESCRIPTION, meeting::setDescription);
         setValue(values, REGISTRATION_ID, s -> meeting.setRegistrationID(new RegistrationID(s)));
         setValue(values, VIDEO_LINK, meeting::setVideoLink);
+        setValue(values, POSTER_LINK, meeting::setPosterLink);
         return meeting;
     }
 

@@ -33,6 +33,7 @@ public class Meeting implements Comparable<Meeting> {
     private String description;
     private RegistrationID registrationID;
     private String videoLink;
+    private String posterLink;
 
     public boolean isPast() {
         return date.isBefore(LocalDate.now());
