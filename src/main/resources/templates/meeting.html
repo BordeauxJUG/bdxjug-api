@@ -1,16 +1,20 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="~{fragments/html_header :: html_header}"></head>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" prefix="og: http://ogp.me/ns#">
+<head>
+    <!-- Insertion du fragment HTML header avec les données du meeting -->
+    <th:block th:insert="~{fragments/html_header :: html_header_with_params(
+        titre=${meeting.title},
+        description=${meeting.summary},
+        image=${meeting.posterLink},
+        date=${formattedDate},
+        location=${location.name}
+    )}"></th:block>
+</head>
 
 <body class="bj-body">
-
 <div th:replace="~{fragments/header :: header}"></div>
-
 <div th:replace="~{fragments/meeting_detail :: meeting_detail}"></div>
-
 <div th:replace="~{fragments/footer :: footer}"></div>
-
-
-<div th:insert="~{fragments/html_js_declaration :: html_js_declaration}"/>
+<div th:insert="~{fragments/html_js_declaration :: html_js_declaration}"></div>
 </body>
 </html>
