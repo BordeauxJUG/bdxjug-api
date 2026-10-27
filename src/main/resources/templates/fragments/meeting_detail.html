@@ -39,11 +39,11 @@
                     <div class="bj-sinscrire col-md-3">
                         <a class='bj-btn-secondary btn btn-secondary float-right'
                            target="_blank"
-                           th:href="${'https://www.meetup.com/fr-FR/BordeauxJUG/events/' + meeting.registrationID.value}"
+                           th:href="${meeting.urlRegister}"
                            th:if="${meeting.registrationID!=null && meeting.isUpcoming()}">S'inscrire</a>
                         <a class='bj-btn-secondary btn btn-secondary float-right'
                            target="_blank"
-                           th:href="${'https://www.meetup.com/fr-FR/BordeauxJUG/events/' + meeting.registrationID.value}"
+                           th:href="${meeting.urlRegister}"
                            th:if="${meeting.registrationID!=null && meeting.isPast()}">Inscription terminée</a>
                         <a class='bj-btn-secondary btn btn-secondary float-right' target="_blank"
                            th:unless="${meeting.registrationID}">Inscription non ouverte</a>
@@ -71,6 +71,8 @@
             <div class="bj-event-description row">
                 <div class="col-md-9">
                     <h4>Description du Talk</h4>
+                    <div><img th:if="${meeting.posterLink!=null}" th:src="${meeting.posterLink}" width="100%"/>
+                    </div>
                     <div th:utext="${meeting.description}"/>
                 </div>
                 <div class="col-md-1"></div>

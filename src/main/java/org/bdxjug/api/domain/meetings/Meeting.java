@@ -35,6 +35,8 @@ public class Meeting implements Comparable<Meeting> {
     private String videoLink;
     private String posterLink;
 
+    public static String URL_MEETUP_EVENT = "https://www.meetup.com/fr-FR/BordeauxJUG/events/";
+    
     public boolean isPast() {
         return date.isBefore(LocalDate.now());
     }
@@ -45,6 +47,14 @@ public class Meeting implements Comparable<Meeting> {
 
     public boolean isPublished() {
         return registrationID != null;
+    }
+
+    public String urlRegister() {
+    	if (registrationID.getValue().startsWith("https://")) {
+    		return registrationID.getValue();
+    	}
+        
+        return URL_MEETUP_EVENT + registrationID.getValue();
     }
 
     public String formattedUrl() {
@@ -58,7 +68,7 @@ public class Meeting implements Comparable<Meeting> {
         return url;
     }
 
-    @Override
+     @Override
     public int compareTo(Meeting o) {
         return o.date.compareTo(this.date);
     }
